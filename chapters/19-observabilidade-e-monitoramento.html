@@ -1,0 +1,274 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Capítulo 19 — Observabilidade e monitoramento — openclaw-book</title><meta name="description" content="Aprenda a monitorar agentes de IA com logs estruturados, métricas operacionais, rastreabilidade de ações e dashboards práticos para operadores."><meta name="theme-color" content="#0f1115"><meta name="author" content="Prime"><meta name="application-name" content="OpenClaw Book"><meta name="apple-mobile-web-app-title" content="OpenClaw Book"><meta name="robots" content="index,follow"><link rel="canonical" href="https://prime-bee.github.io/openclaw-book/chapters/19-observabilidade-e-monitoramento.html"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Capítulo 19 — Observabilidade e monitoramento — openclaw-book"><meta property="og:description" content="Aprenda a monitorar agentes de IA com logs estruturados, métricas operacionais, rastreabilidade de ações e dashboards práticos para operadores."><meta property="og:type" content="website"><meta property="og:url" content="https://prime-bee.github.io/openclaw-book/chapters/19-observabilidade-e-monitoramento.html"><meta property="og:site_name" content="openclaw-book"><meta property="og:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Capítulo 19 — Observabilidade e monitoramento — openclaw-book"><meta name="twitter:description" content="Aprenda a monitorar agentes de IA com logs estruturados, métricas operacionais, rastreabilidade de ações e dashboards práticos para operadores."><meta name="twitter:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><link rel="manifest" href="../site.webmanifest"><link rel="stylesheet" href="../styles.css"><script defer src="../app.js"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Capítulo 19 — Observabilidade e monitoramento — openclaw-book","name":"Capítulo 19 — Observabilidade e monitoramento — openclaw-book","description":"Aprenda a monitorar agentes de IA com logs estruturados, métricas operacionais, rastreabilidade de ações e dashboards práticos para operadores.","inLanguage":"pt-BR","url":"https://prime-bee.github.io/openclaw-book/chapters/19-observabilidade-e-monitoramento.html","author":{"@type":"Person","name":"Prime"},"publisher":{"@type":"Organization","name":"Prime Bee","url":"https://github.com/prime-bee/openclaw-book"},"isPartOf":{"@type":"Book","name":"OpenClaw Book","url":"https://prime-bee.github.io/openclaw-book/"}}</script></head><body><a class="skip-link" href="#conteudo">Pular para o conteúdo</a><div class="layout"><aside class="sidebar"><div class="brand"><img src="../assets/openclaw-logo-text.png" alt="OpenClaw logo"><h1>Capítulo 19</h1><p>Observabilidade e monitoramento</p></div><nav class="nav"><a href="../index.html">← Início</a><a href="01-visao-geral.html">1. Visão geral</a><a href="02-arquitetura.html">2. Arquitetura</a><a href="03-gateway.html">3. Gateway</a><a href="04-cli.html">4. CLI</a><a href="05-memoria-e-workspace.html">5. Memória e workspace</a><a href="06-canais-e-rotina.html">6. Canais e operação</a><a href="07-modelos-e-provedores.html">7. Modelos e provedores</a><a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento</a><a href="09-automacoes-cron-e-heartbeat.html">9. Automação</a><a href="10-sandbox-e-seguranca-pratica.html">10. Sandbox e segurança</a><a href="11-browser-e-controle-remoto.html">11. Browser e controle remoto</a><a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo</a><a href="13-troubleshooting-e-diagnostico.html">13. Troubleshooting</a><a href="14-referencias-oficiais.html">14. Referências oficiais</a><a href="15-roadmap-e-proximos-passos.html">15. Roadmap</a><a href="16-agentes-ia-fluxos-e-delegacao.html">16. Agentes IA e fluxos</a><a href="17-missoes-e-desafios.html">17. Missões e desafios</a><a href="18-engenharia-de-prompts.html">18. Engenharia de prompts</a><a class="active" href="19-observabilidade-e-monitoramento.html">19. Observabilidade</a></nav></aside><main id="conteudo" class="content chapter"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../index.html">Início</a><span aria-hidden="true">/</span><a href="../index.html#sumario-livro">Capítulos</a><span aria-hidden="true">/</span><a href="19-observabilidade-e-monitoramento.html" aria-current="page">Capítulo 19: Observabilidade e monitoramento</a></nav><div class="chapter-intro"><p class="lede">Aprenda a monitorar agentes de IA com logs estruturados, métricas operacionais, rastreabilidade de ações e dashboards práticos para operadores.</p><div class="kpi-row"><span class="kpi">Capítulo 19 de 19</span><span class="kpi">Avançado</span><span class="kpi">Logs · Métricas · Traces · Dashboards</span></div></div>
+
+<h1>Observabilidade: ver o que seus agentes estão fazendo</h1>
+
+<p>Um agente de IA não é um script determinístico que sempre executa os mesmos passos na mesma ordem. Ele é um sistema não-determinístico que toma decisões baseadas em contexto, estado e instruções. Isso significa que sem observabilidade adequada, você está operando às cegas.</p>
+
+<div class="callout"><strong>Definição prática:</strong> observabilidade em sistemas de agentes é a capacidade de responder, a partir dos dados emitidos pelo sistema, às perguntas: O que o agente fez? Por quê? Quanto tempo levou? Deu certo? Quanto custou?</div>
+
+<h2>Por que observabilidade importa em sistemas de agentes</h2>
+
+<p>Em sistemas tradicionais de software, um bug produz um stack trace. Você sabe exatamente onde falhou. Em sistemas de agentes, a falha pode ser:</p>
+
+<ul>
+  <li>Uma resposta tecnicamente correta mas operacionalmente errada (hallucination)</li>
+  <li>Uma sequência de ações que individualmente parece certa mas coletivamente produz efeito indesejado</li>
+  <li>Um comportamento correto 99% das vezes mas falho em edge cases específicos</li>
+  <li>Degradação gradual de qualidade ao longo do tempo sem nenhum erro explícito</li>
+</ul>
+
+<p>Sem observabilidade, você só descobre esses problemas quando o usuário reclama — ou pior, quando as consequências já se acumularam.</p>
+
+<h3>Os quatro pilares: logs, métricas, traces, alertas</h3>
+
+<div class="grid">
+  <div class="card">
+    <h3>Logs</h3>
+    <p>Registro sequencial de eventos. O que o agente fez, quando, com que input e com que resultado. Base para auditoria e depuração post-mortem.</p>
+  </div>
+  <div class="card">
+    <h3>Métricas</h3>
+    <p>Agregações numéricas ao longo do tempo. Latência P50/P95, taxa de erro, consumo de tokens, taxa de escalada. Base para tendências e alertas.</p>
+  </div>
+  <div class="card">
+    <h3>Traces</h3>
+    <p>Rastreamento do fluxo de uma operação de ponta a ponta — desde a mensagem do usuário até cada tool call e resposta final. Base para entender correlações causais.</p>
+  </div>
+  <div class="card">
+    <h3>Alertas</h3>
+    <p>Notificações automáticas quando métricas ultrapassam limiares. A ponte entre observação passiva e resposta ativa a incidentes.</p>
+  </div>
+</div>
+
+<h3>O que observar vs o que armazenar</h3>
+
+<p>Observar tudo é tecnicamente possível, mas armazenar tudo é caro e cria problemas de privacidade. Guie-se por estas regras:</p>
+
+<ul>
+  <li><strong>Sempre observe:</strong> ação do agente, ferramenta chamada, status (sucesso/falha), duração, tokens consumidos</li>
+  <li><strong>Observe com cuidado:</strong> conteúdo de mensagens (pode conter PII), parâmetros de ferramentas (podem conter segredos)</li>
+  <li><strong>Armazene resumos, não conteúdo bruto:</strong> em vez do texto completo da resposta, armazene um hash para correlação e uma categoria/resumo para análise</li>
+  <li><strong>Defina retenção:</strong> logs operacionais por 30 dias, logs de auditoria de segurança por 1 ano, métricas agregadas indefinidamente</li>
+</ul>
+
+<h2>Logs estruturados para agentes</h2>
+
+<p>Logs de texto livre são ilegíveis por máquinas e difíceis de agregar. Logs estruturados (JSON ou similar) permitem filtragem, agregação e alertas automáticos.</p>
+
+<h3>Formato de log para ações de agente</h3>
+
+<pre><code>{
+  "timestamp": "2026-03-19T14:23:45.123Z",
+  "trace_id": "trace_7f3a9b2c",
+  "session_id": "sess_abc123",
+  "agent": "agente-principal",
+  "level": "INFO",
+  "action": "tool_call",
+  "tool": "read_file",
+  "input_hash": "sha256:a1b2c3...",
+  "output_summary": "Arquivo lido com sucesso: 2.3KB, 87 linhas",
+  "duration_ms": 145,
+  "tokens_input": 892,
+  "tokens_output": 0,
+  "status": "success"
+}</code></pre>
+
+<p><strong>Campos obrigatórios:</strong></p>
+<ul>
+  <li><code>timestamp</code>: ISO 8601 em UTC — nunca use timestamps locais em logs</li>
+  <li><code>trace_id</code>: identificador da operação de ponta a ponta (correlaciona todos os eventos de uma sessão)</li>
+  <li><code>session_id</code>: identificador da sessão de conversa</li>
+  <li><code>agent</code>: nome do agente (essencial em sistemas multi-agent)</li>
+  <li><code>level</code>: nível de severidade (ver abaixo)</li>
+  <li><code>action</code>: o que aconteceu (tool_call, response_generated, session_start, session_end, etc.)</li>
+  <li><code>status</code>: resultado (success, failure, timeout, rate_limited)</li>
+  <li><code>duration_ms</code>: duração em milissegundos</li>
+</ul>
+
+<h3>Níveis de log e quando usar cada um</h3>
+
+<div class="tableish">
+  <div><strong>Nível</strong></div><div><strong>Quando usar</strong></div><div><strong>Exemplos</strong></div>
+  <div>INFO</div><div>Operação normal — registro de atividade</div><div>Sessão iniciada, ferramenta chamada com sucesso, resposta gerada</div>
+  <div>WARN</div><div>Situação anormal mas recuperável</div><div>Retry após timeout, fallback de modelo ativado, resposta lenta (acima do P95)</div>
+  <div>ERROR</div><div>Falha que impede a conclusão da tarefa</div><div>Tool call falhou após todos os retries, sessão terminada por erro, rate limit esgotado</div>
+  <div>AUDIT</div><div>Eventos relevantes para segurança e conformidade</div><div>Acesso a arquivo sensível, ação com escopo elevated, mensagem bloqueada por política, escalada para humano</div>
+</div>
+
+<div class="callout"><strong>Sobre o nível AUDIT:</strong> logs de auditoria devem ser imutáveis e armazenados separadamente dos logs operacionais. São a evidência para responder "o que exatamente o agente fez?" em uma investigação de incidente ou conformidade.</div>
+
+<h3>Rotação e retenção de logs</h3>
+
+<ul>
+  <li><strong>Rotação:</strong> crie novos arquivos de log diariamente (<code>agent-YYYY-MM-DD.log</code>). Nunca deixe um único arquivo crescer indefinidamente — dificulta leitura e backup.</li>
+  <li><strong>Compressão:</strong> comprima logs com mais de 7 dias com gzip. Logs de texto comprimem muito bem (70-90% de redução).</li>
+  <li><strong>Retenção:</strong> logs operacionais: 30 dias. Logs de auditoria: 12 meses mínimo. Métricas agregadas: indefinido.</li>
+  <li><strong>Backup:</strong> logs de auditoria devem ter backup off-site. Uma operação maliciosa que deleta logs locais não pode também destruir o histórico de auditoria.</li>
+</ul>
+
+<h2>Métricas operacionais essenciais</h2>
+
+<p>Métricas são o resumo quantitativo da saúde do sistema. As métricas certas permitem detectar degradação antes que vire incidente.</p>
+
+<h3>Tabela de métricas essenciais</h3>
+
+<div class="tableish">
+  <div><strong>Métrica</strong></div><div><strong>O que mede</strong></div><div><strong>Threshold de atenção</strong></div><div><strong>Threshold crítico</strong></div>
+  <div>Duração da sessão (P50)</div><div>Tempo típico de uma sessão completa</div><div>&gt; 2× baseline histórico</div><div>&gt; 5× baseline</div>
+  <div>Duração da sessão (P95)</div><div>Sessões lentas — outliers</div><div>&gt; 30s para chat simples</div><div>&gt; 120s</div>
+  <div>Taxa de erro de ferramentas</div><div>% de tool calls que falharam</div><div>&gt; 5%</div><div>&gt; 20%</div>
+  <div>Latência de resposta P50</div><div>Experiência típica do usuário</div><div>&gt; 3s</div><div>&gt; 10s</div>
+  <div>Latência de resposta P95</div><div>Experiência no pior caso</div><div>&gt; 8s</div><div>&gt; 30s</div>
+  <div>Utilização de contexto</div><div>% do context window usada por sessão</div><div>&gt; 70%</div><div>&gt; 90%</div>
+  <div>Taxa de escalada para humano</div><div>% de sessões que requerem HITL</div><div>&gt; 15%</div><div>&gt; 40%</div>
+  <div>Tokens por sessão</div><div>Custo médio por interação</div><div>&gt; 2× baseline</div><div>&gt; 5× baseline</div>
+  <div>Taxa de retry</div><div>% de chamadas que precisaram de retry</div><div>&gt; 10%</div><div>&gt; 30%</div>
+</div>
+
+<h3>Alertas: quando notificar vs quando apenas registrar</h3>
+
+<p><strong>Notificação imediata (pager/Telegram) quando:</strong></p>
+<ul>
+  <li>Taxa de erro de ferramentas acima do threshold crítico por mais de 5 minutos</li>
+  <li>Gateway inativo ou inacessível</li>
+  <li>Consumo de tokens acima de 80% do limite diário contratado</li>
+  <li>Evento de segurança (AUDIT): acesso negado repetido, prompt injection detectado</li>
+</ul>
+
+<p><strong>Log sem notificação imediata quando:</strong></p>
+<ul>
+  <li>Um único retry isolado</li>
+  <li>Sessão levemente acima do P95 mas abaixo do crítico</li>
+  <li>Fallback de modelo ativado com sucesso</li>
+  <li>Escalada individual para humano (comportamento esperado)</li>
+</ul>
+
+<p><strong>Revisão periódica (relatório diário) para:</strong></p>
+<ul>
+  <li>Tendências de latência ao longo do dia</li>
+  <li>Distribuição de tokens por agente e tipo de tarefa</li>
+  <li>Número de escaladas e sua categorização</li>
+  <li>Ferramentas com maior taxa de erro</li>
+</ul>
+
+<h2>Rastreabilidade de conversas e ações</h2>
+
+<p>Rastreabilidade é a capacidade de reconstruir o que aconteceu em uma operação específica — da mensagem inicial do usuário até a resposta final, passando por todas as tool calls e decisões intermediárias.</p>
+
+<h3>Trace IDs: correlacionando eventos</h3>
+
+<p>Um trace ID é um identificador único gerado no início de cada operação e propagado através de todos os eventos relacionados. Com ele, você pode filtrar todos os logs de uma conversa específica:</p>
+
+<pre><code># Gerar trace_id no início da sessão
+const traceId = `trace_${Date.now()}_${Math.random().toString(36).slice(2,8)}`;
+
+# Todo log desta operação usa o mesmo trace_id
+log({ trace_id: traceId, event: "session_start", ... });
+log({ trace_id: traceId, event: "tool_call", tool: "read_file", ... });
+log({ trace_id: traceId, event: "response_generated", ... });
+log({ trace_id: traceId, event: "session_end", ... });
+
+# Para reconstruir a operação completa:
+grep "trace_7f3a9b2c" logs/agent-2026-03-19.log</code></pre>
+
+<h3>OpenTelemetry para workloads de IA: conceitos básicos</h3>
+
+<p>OpenTelemetry (OTel) é um framework open-source para observabilidade que padroniza como logs, métricas e traces são coletados e exportados. Para agentes de IA, os conceitos mais relevantes são:</p>
+
+<ul>
+  <li><strong>Span:</strong> uma unidade de trabalho com início, fim e atributos. Cada tool call pode ser um span. A sessão inteira pode ser um span raiz que contém spans filhos.</li>
+  <li><strong>Trace:</strong> árvore de spans que representa uma operação completa. O trace de uma conversa contém spans para: receber mensagem, invocar modelo, cada tool call, gerar resposta.</li>
+  <li><strong>Attributes:</strong> metadados associados a um span. Para agentes: nome do modelo, número de tokens, nome da ferramenta, status.</li>
+  <li><strong>Exporters:</strong> plugins que enviam os dados para backends de observabilidade (Jaeger, Zipkin, Prometheus, Grafana, Datadog, etc.).</li>
+</ul>
+
+<p>Para operações pessoais ou de pequena escala, não é necessário implantar a stack completa de OTel. Logs estruturados em JSON com trace IDs manuais são suficientes e muito mais simples de manter.</p>
+
+<h3>Armazenando traces no workspace para auditoria</h3>
+
+<p>Uma abordagem leve e sem infraestrutura adicional: armazene traces como arquivos JSON no workspace.</p>
+
+<pre><code># Estrutura de armazenamento de traces
+workspace/
+  traces/
+    2026-03-19/
+      trace_7f3a9b2c.json    # Trace completo da sessão
+      trace_8d4e1a7b.json
+    2026-03-18/
+      ...
+  audit/
+    2026-03-19.jsonl          # Log de auditoria do dia (append-only)</code></pre>
+
+<p>Cada trace contém a sequência completa de eventos da operação — mensagem recebida, tool calls com parâmetros (hasheados se sensíveis), respostas do modelo, e resultado final. Isso permite reconstruir o que aconteceu meses depois sem depender de sistemas externos.</p>
+
+<h2>Dashboard mínimo para operadores</h2>
+
+<p>Um dashboard de monitoramento não precisa ser uma ferramenta sofisticada de BI. Para operadores de agentes pessoais ou de pequenas equipes, um relatório textual diário é suficiente e muito mais sustentável.</p>
+
+<h3>O que um dashboard de agente deve mostrar</h3>
+
+<ul>
+  <li><strong>Saúde geral:</strong> gateway ativo? canais conectados? último heartbeat OK?</li>
+  <li><strong>Volume de atividade:</strong> número de sessões, mensagens processadas, tool calls realizados nas últimas 24h</li>
+  <li><strong>Performance:</strong> latência P50/P95 das últimas 24h vs baseline histórico</li>
+  <li><strong>Custo:</strong> tokens consumidos vs orçamento diário, distribuição por agente e modelo</li>
+  <li><strong>Erros:</strong> contagem de erros por tipo, taxa de retry, sessões que escalaram para humano</li>
+  <li><strong>Anomalias:</strong> qualquer métrica acima do threshold de atenção</li>
+</ul>
+
+<h3>Construindo relatório operacional com workspace + cron</h3>
+
+<p>Um relatório diário pode ser gerado automaticamente pelo próprio agente:</p>
+
+<pre><code>openclaw cron add \
+  --name "Relatório operacional diário" \
+  --cron "0 7 * * *" \
+  --tz "America/Sao_Paulo" \
+  --session isolated \
+  --message "Leia os logs de ontem em workspace/logs/ e workspace/traces/. Produza um relatório operacional com: (1) Resumo de saúde do sistema; (2) Volume de atividade; (3) Erros e anomalias; (4) Top 3 sesssões mais longas; (5) Consumo estimado de tokens; (6) Itens que merecem atenção hoje. Formato: texto estruturado, objetivo, sem jargão." \
+  --channel telegram \
+  --to "SEU_CHAT_ID"</code></pre>
+
+<h3>Receita: heartbeat como sinal de vida do sistema</h3>
+
+<div class="recipe">
+<h3>Dashboard via heartbeat diário enriquecido</h3>
+<ol class="steps">
+  <li><strong>Configure o heartbeat</strong> para rodar diariamente às 7h com <code>lightContext: false</code> para ter acesso ao workspace completo.</li>
+  <li><strong>Crie um arquivo de contexto de monitoramento</strong> em <code>workspace/MONITORING.md</code> com: limiares esperados, agentes ativos, canais configurados.</li>
+  <li><strong>Instrua o heartbeat</strong> a verificar: gateway status, último log de cada agente ativo, tokens consumidos ontem, sessões abertas há mais de 1 hora (possível sessão presa).</li>
+  <li><strong>Defina um formato de resposta padronizado</strong> para o heartbeat:
+  <pre><code>OPERACIONAL: [OK | DEGRADADO | CRÍTICO]
+Agentes ativos: N
+Sessões ontem: N
+Tokens ontem: ~N mil (R$ estimado: N)
+Erros nas últimas 24h: N
+Anomalias: [Nenhuma | lista]
+Atenção: [itens que merecem revisão]</code></pre></li>
+  <li><strong>Configure o <code>target</code></strong> do heartbeat como <code>last</code> para que o relatório sempre seja entregue ao último canal ativo.</li>
+  <li><strong>Revise o relatório</strong> por 2 semanas e ajuste os limiares e o formato conforme o que é realmente útil vs barulho.</li>
+</ol>
+</div>
+
+<h2>Observabilidade em sistemas multi-agent</h2>
+
+<p>Em sistemas com múltiplos agentes (veja capítulo 8), a observabilidade é ainda mais crítica porque falhas podem se propagar entre agentes de formas não óbvias.</p>
+
+<ul>
+  <li><strong>Use trace IDs que cruzam fronteiras de agentes:</strong> quando o coordenador delega para um subagente, passe o trace_id da operação original. Isso permite reconstruir o fluxo completo.</li>
+  <li><strong>Monitore a taxa de rejeição de resultados:</strong> se o coordenador frequentemente rejeita resultados de um subagente, isso indica problema de configuração daquele agente.</li>
+  <li><strong>Correlacione latência com delegações:</strong> alta latência no coordenador muitas vezes é causada por um subagente lento — o trace revela qual.</li>
+  <li><strong>Monitore o tamanho das mensagens entre agentes:</strong> mensagens muito grandes entre agentes inflam o custo de tokens de ambos os lados.</li>
+</ul>
+
+<h2>Exercícios</h2>
+
+<div class="exercise"><strong>Exercício 1:</strong> Defina os 5 logs mais importantes que seu agente atual deveria emitir mas provavelmente não emite. Para cada um, descreva: o evento, os campos que incluiria, e que problema ele ajudaria a diagnosticar.</div>
+
+<div class="exercise"><strong>Exercício 2:</strong> Calcule o custo de observabilidade. Se você logar 100 eventos por dia, cada evento com 200 bytes de JSON, quanto de armazenamento isso usa por ano? Agora considere compressão gzip — qual o tamanho estimado? Esse custo justifica a observabilidade para o seu caso de uso?</div>
+
+<div class="exercise"><strong>Exercício 3:</strong> Configure o heartbeat diário enriquecido da receita acima. Após 1 semana, responda: que informação no relatório foi mais útil? Que informação foi apenas ruído? Refine o formato com base na sua experiência.</div>
+
+<div class="exercise"><strong>Exercício 4 — Auditoria de incidente:</strong> Simule um incidente: force um erro em uma ferramenta, deixe o agente tentar resolver, e então use apenas os logs produzidos para reconstruir o que aconteceu. Consegue responder: quando começou? quantas tentativas? como terminou? Essa capacidade é o objetivo final da observabilidade.</div>
+
+<div class="refs"><h3>Referências</h3><ul><li><a href="https://docs.openclaw.ai/gateway/troubleshooting" target="_blank" rel="noopener noreferrer">Gateway troubleshooting</a></li><li><a href="https://opentelemetry.io/docs/" target="_blank" rel="noopener noreferrer">OpenTelemetry Documentation</a></li><li><a href="https://docs.anthropic.com/en/docs/build-with-claude/agents" target="_blank" rel="noopener noreferrer">Anthropic: Building Agents</a></li></ul><p class="muted">Ver também: Capítulo 7 (quotas e consumo de tokens), Capítulo 8 (multi-agent e rastreabilidade), Capítulo 10 (segurança e auditoria), Capítulo 13 (troubleshooting e diagnóstico).</p></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="18-engenharia-de-prompts.html">← 18. Engenharia de prompts</a></div><div class="card"><a href="../index.html">Índice do livro</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="18-engenharia-de-prompts.html">← Capítulo 18: Engenharia de prompts</a><a class="pager-link pager-center" href="../index.html#sumario-livro">Sumário completo</a></nav><div class="footer">Você chegou ao final do livro. <a href="../index.html">Voltar ao índice</a> ou <a href="../glossario.html">consultar o glossário</a>.</div></main></div></body></html>
