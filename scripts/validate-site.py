@@ -17,7 +17,10 @@ def require(text, needle, file):
 for file in HTML_FILES:
     text = file.read_text(encoding='utf-8')
     require(text, '<title>', file)
+    require(text, 'lang="pt-BR"', file)
     require(text, '<meta name="description"', file)
+    require(text, '<meta name="theme-color"', file)
+    require(text, 'class="skip-link"', file)
     require(text, '<link rel="canonical"', file)
     require(text, 'application/ld+json', file)
     require(text, '<h1>', file)
