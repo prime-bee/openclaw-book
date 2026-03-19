@@ -1,5 +1,6 @@
 # STATUS
 
-- Current task: Create and adopt a formal page template for the book project.
-- What was done: Added chapter 21 on Skills and integrated it into navigation/search/summary.
-- Next steps: Add PAGE_TEMPLATE.html, document maintenance rules, validate, commit, merge, push.
+- Current state: 21 chapters published, all passing `validate-site.py` (26 HTML files).
+- CI pipeline: validation step added to GitHub Actions before every Pages deployment.
+- Template: `templates/PAGE_TEMPLATE.html` in place and referenced in `MAINTENANCE.md`.
+- Next: Expand `glossario.html` with ~10–12 new terms from chapters 16–21 (see issue #3).
