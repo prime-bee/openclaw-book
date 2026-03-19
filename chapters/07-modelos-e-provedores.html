@@ -1,4 +1,197 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Capítulo 7 — Modelos e provedores — openclaw-book</title><meta name="description" content="Veja como escolher modelos, configurar provedores, entender fallbacks e equilibrar custo, velocidade e capacidade."><meta name="theme-color" content="#0f1115"><meta name="author" content="Prime"><meta name="application-name" content="OpenClaw Book"><meta name="apple-mobile-web-app-title" content="OpenClaw Book"><meta name="robots" content="index,follow"><link rel="canonical" href="https://prime-bee.github.io/openclaw-book/chapters/07-modelos-e-provedores.html"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Capítulo 7 — Modelos e provedores — openclaw-book"><meta property="og:description" content="Veja como escolher modelos, configurar provedores, entender fallbacks e equilibrar custo, velocidade e capacidade."><meta property="og:type" content="website"><meta property="og:url" content="https://prime-bee.github.io/openclaw-book/chapters/07-modelos-e-provedores.html"><meta property="og:site_name" content="openclaw-book"><meta property="og:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Capítulo 7 — Modelos e provedores — openclaw-book"><meta name="twitter:description" content="Veja como escolher modelos, configurar provedores, entender fallbacks e equilibrar custo, velocidade e capacidade."><meta name="twitter:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><link rel="manifest" href="../site.webmanifest"><link rel="stylesheet" href="../styles.css"><script defer src="../app.js"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Capítulo 7 — Modelos e provedores — openclaw-book","name":"Capítulo 7 — Modelos e provedores — openclaw-book","description":"Veja como escolher modelos, configurar provedores, entender fallbacks e equilibrar custo, velocidade e capacidade.","inLanguage":"pt-BR","url":"https://prime-bee.github.io/openclaw-book/chapters/07-modelos-e-provedores.html","author":{"@type":"Person","name":"Prime"},"publisher":{"@type":"Organization","name":"Prime Bee","url":"https://github.com/prime-bee/openclaw-book"},"isPartOf":{"@type":"Book","name":"OpenClaw Book","url":"https://prime-bee.github.io/openclaw-book/"}}</script></head><body><a class="skip-link" href="#conteudo">Pular para o conteúdo</a><div class="layout"><aside class="sidebar"><div class="brand"><img src="../assets/openclaw-logo-text.png" alt="OpenClaw logo"><h1>Capítulo 7</h1><p>Modelos e provedores</p></div><nav class="nav"><a href="../index.html">← Início</a><a href="01-visao-geral.html">1. Visão geral</a><a href="02-arquitetura.html">2. Arquitetura</a><a href="03-gateway.html">3. Gateway</a><a href="04-cli.html">4. CLI</a><a href="05-memoria-e-workspace.html">5. Memória e workspace</a><a href="06-canais-e-rotina.html">6. Canais e operação</a><a class="active" href="07-modelos-e-provedores.html">7. Modelos e provedores</a><a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento</a><a href="09-automacoes-cron-e-heartbeat.html">9. Automação</a><a href="10-sandbox-e-seguranca-pratica.html">10. Sandbox e segurança</a><a href="11-browser-e-controle-remoto.html">11. Browser e controle remoto</a><a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo</a><a href="13-troubleshooting-e-diagnostico.html">13. Troubleshooting</a><a href="14-referencias-oficiais.html">14. Referências oficiais</a><a href="15-roadmap-e-proximos-passos.html">15. Roadmap</a><a href="16-agentes-ia-fluxos-e-delegacao.html">16. Agentes IA e fluxos</a><a href="17-missoes-e-desafios.html">17. Missões e desafios</a></nav></aside><main id="conteudo" class="content chapter"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../index.html">Início</a><span aria-hidden="true">/</span><a href="../index.html#sumario-livro">Capítulos</a><span aria-hidden="true">/</span><a href="07-modelos-e-provedores.html" aria-current="page">Capítulo 7: Modelos e provedores</a></nav><div class="chapter-intro"><p class="lede">Veja como escolher modelos, configurar provedores, entender fallbacks e equilibrar custo, velocidade e capacidade.</p><div class="kpi-row"><span class="kpi">Capítulo 7 de 17</span><span class="kpi">Leitura guiada</span><span class="kpi">Referências oficiais ao final</span></div></div><h1>Modelos: quem responde</h1><p>No OpenClaw, o modelo não é fixo para sempre. A documentação mostra uma hierarquia importante: <strong>modelo primário</strong>, <strong>fallbacks</strong> e, em alguns casos, <strong>modelo específico para imagem</strong>.</p><h2>Ordem de seleção</h2><ol><li>modelo primário</li><li>fallbacks em ordem</li><li>failover interno de auth do provedor</li></ol><div class="callout"><strong>Intuição útil:</strong> o gateway decide <em>qual modelo tentar</em>; o provedor pode ainda trocar de perfil/credencial antes de desistir.</div><h2>Comandos importantes</h2><pre><code>openclaw models status
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Capítulo 7 — Modelos e provedores — openclaw-book</title><meta name="description" content="Veja como escolher modelos, configurar provedores, entender fallbacks e equilibrar custo, velocidade e capacidade."><meta name="theme-color" content="#0f1115"><meta name="author" content="Prime"><meta name="application-name" content="OpenClaw Book"><meta name="apple-mobile-web-app-title" content="OpenClaw Book"><meta name="robots" content="index,follow"><link rel="canonical" href="https://prime-bee.github.io/openclaw-book/chapters/07-modelos-e-provedores.html"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Capítulo 7 — Modelos e provedores — openclaw-book"><meta property="og:description" content="Veja como escolher modelos, configurar provedores, entender fallbacks e equilibrar custo, velocidade e capacidade."><meta property="og:type" content="website"><meta property="og:url" content="https://prime-bee.github.io/openclaw-book/chapters/07-modelos-e-provedores.html"><meta property="og:site_name" content="openclaw-book"><meta property="og:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Capítulo 7 — Modelos e provedores — openclaw-book"><meta name="twitter:description" content="Veja como escolher modelos, configurar provedores, entender fallbacks e equilibrar custo, velocidade e capacidade."><meta name="twitter:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><link rel="manifest" href="../site.webmanifest"><link rel="stylesheet" href="../styles.css"><script defer src="../app.js"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Capítulo 7 — Modelos e provedores — openclaw-book","name":"Capítulo 7 — Modelos e provedores — openclaw-book","description":"Veja como escolher modelos, configurar provedores, entender fallbacks e equilibrar custo, velocidade e capacidade.","inLanguage":"pt-BR","url":"https://prime-bee.github.io/openclaw-book/chapters/07-modelos-e-provedores.html","author":{"@type":"Person","name":"Prime"},"publisher":{"@type":"Organization","name":"Prime Bee","url":"https://github.com/prime-bee/openclaw-book"},"isPartOf":{"@type":"Book","name":"OpenClaw Book","url":"https://prime-bee.github.io/openclaw-book/"}}</script></head><body><a class="skip-link" href="#conteudo">Pular para o conteúdo</a><div class="layout"><aside class="sidebar"><div class="brand"><img src="../assets/openclaw-logo-text.png" alt="OpenClaw logo"><h1>Capítulo 7</h1><p>Modelos e provedores</p></div><nav class="nav"><a href="../index.html">← Início</a><a href="01-visao-geral.html">1. Visão geral</a><a href="02-arquitetura.html">2. Arquitetura</a><a href="03-gateway.html">3. Gateway</a><a href="04-cli.html">4. CLI</a><a href="05-memoria-e-workspace.html">5. Memória e workspace</a><a href="06-canais-e-rotina.html">6. Canais e operação</a><a class="active" href="07-modelos-e-provedores.html">7. Modelos e provedores</a><a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento</a><a href="09-automacoes-cron-e-heartbeat.html">9. Automação</a><a href="10-sandbox-e-seguranca-pratica.html">10. Sandbox e segurança</a><a href="11-browser-e-controle-remoto.html">11. Browser e controle remoto</a><a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo</a><a href="13-troubleshooting-e-diagnostico.html">13. Troubleshooting</a><a href="14-referencias-oficiais.html">14. Referências oficiais</a><a href="15-roadmap-e-proximos-passos.html">15. Roadmap</a><a href="16-agentes-ia-fluxos-e-delegacao.html">16. Agentes IA e fluxos</a><a href="17-missoes-e-desafios.html">17. Missões e desafios</a><a href="18-engenharia-de-prompts.html">18. Engenharia de prompts</a></nav></aside><main id="conteudo" class="content chapter"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../index.html">Início</a><span aria-hidden="true">/</span><a href="../index.html#sumario-livro">Capítulos</a><span aria-hidden="true">/</span><a href="07-modelos-e-provedores.html" aria-current="page">Capítulo 7: Modelos e provedores</a></nav><div class="chapter-intro"><p class="lede">Veja como escolher modelos, configurar provedores, entender fallbacks e equilibrar custo, velocidade e capacidade.</p><div class="kpi-row"><span class="kpi">Capítulo 7 de 18</span><span class="kpi">Leitura guiada</span><span class="kpi">Referências oficiais ao final</span></div></div><h1>Modelos: quem responde</h1><p>No OpenClaw, o modelo não é fixo para sempre. A documentação mostra uma hierarquia importante: <strong>modelo primário</strong>, <strong>fallbacks</strong> e, em alguns casos, <strong>modelo específico para imagem</strong>.</p><h2>Ordem de seleção</h2><ol><li>modelo primário</li><li>fallbacks em ordem</li><li>failover interno de auth do provedor</li></ol><div class="callout"><strong>Intuição útil:</strong> o gateway decide <em>qual modelo tentar</em>; o provedor pode ainda trocar de perfil/credencial antes de desistir.</div><h2>Comandos importantes</h2><pre><code>openclaw models status
 openclaw models list
 openclaw models set openai/gpt-5.2
-openclaw models fallbacks add anthropic/claude-sonnet-4-5</code></pre><h2>Boas práticas</h2><ul><li>use um modelo forte como principal</li><li>configure fallbacks para robustez</li><li>se trabalha com imagens, pense no image model separadamente</li><li>evite allowlists excessivamente restritivas se você troca de modelo com frequência</li></ul><h2>Problema clássico: “model is not allowed”</h2><p>Se existe uma allowlist em <code>agents.defaults.models</code>, o OpenClaw bloqueia modelos fora dela. Isso pode parecer que o agente “sumiu”, mas na verdade ele recusou a troca.</p><h2>Exercício</h2><div class="exercise"><strong>Pergunta:</strong> por que faz sentido ter fallbacks em um sistema que depende de APIs externas?</div><section class="troubleshoot"><h3>Checklist antes de trocar provedor</h3><ol class="steps"><li>confirme se o modelo desejado está permitido</li><li>verifique credenciais, limites e região</li><li>teste um prompt curto antes de migrar fluxos críticos</li><li>deixe fallback explícito para evitar quedas silenciosas</li></ol></section><div class="refs"><h3>Referências oficiais</h3><ul><li><a href="https://docs.openclaw.ai/concepts/models" target="_blank" rel="noopener noreferrer">Models CLI</a></li></ul></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="06-canais-e-rotina.html">← 6. Canais e operação</a></div><div class="card"><a href="../index.html">Índice do livro</a></div><div class="card"><a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento →</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="06-canais-e-rotina.html">← Capítulo 6: Canais e rotina</a><a class="pager-link pager-center" href="../index.html#sumario-livro">Sumário completo</a><a class="pager-link" href="08-multi-agent-e-roteamento.html">Capítulo 8: Multi-agent e roteamento →</a></nav><div class="footer">Continue em <a href="08-multi-agent-e-roteamento.html">Multi-agent</a>.</div></main></div></body></html>
+openclaw models fallbacks add anthropic/claude-sonnet-4-5</code></pre><h2>Boas práticas</h2><ul><li>use um modelo forte como principal</li><li>configure fallbacks para robustez</li><li>se trabalha com imagens, pense no image model separadamente</li><li>evite allowlists excessivamente restritivas se você troca de modelo com frequência</li></ul><h2>Problema clássico: "model is not allowed"</h2><p>Se existe uma allowlist em <code>agents.defaults.models</code>, o OpenClaw bloqueia modelos fora dela. Isso pode parecer que o agente "sumiu", mas na verdade ele recusou a troca.</p>
+
+<h2>Gestão de tokens e custos</h2>
+
+<p>Tokens são a unidade de cobrança de todos os provedores de LLM. Entender como eles funcionam é essencial para operar agentes de forma econômica e previsível.</p>
+
+<h3>Como tokens são contados</h3>
+
+<p>Cada chamada a um modelo envolve dois fluxos de tokens:</p>
+
+<ul>
+  <li><strong>Tokens de entrada (input):</strong> tudo que entra no contexto — system prompt, histórico de conversa, conteúdo de ferramentas, arquivos injetados.</li>
+  <li><strong>Tokens de saída (output):</strong> a resposta gerada pelo modelo. Geralmente cobrada a uma taxa mais alta (2–5× o input em muitos provedores).</li>
+  <li><strong>Tokens de imagem:</strong> imagens são convertidas em tokens conforme resolução. Uma imagem de 1024×1024 pode custar 1.000–5.000 tokens dependendo do provedor e do detalhe solicitado.</li>
+  <li><strong>Tokens de ferramentas:</strong> as definições de ferramentas (tool schemas) são enviadas em cada chamada e também consomem tokens de entrada. Um conjunto de 10 ferramentas bem detalhadas pode custar 2.000–5.000 tokens extras por chamada.</li>
+</ul>
+
+<h3>Estimativa de custo por tipo de tarefa</h3>
+
+<div class="tableish">
+  <div><strong>Tipo de tarefa</strong></div><div><strong>Tokens estimados (entrada+saída)</strong></div><div><strong>Impacto</strong></div>
+  <div>Resposta simples de chat</div><div>500–2.000</div><div>Baixo</div>
+  <div>Cron de briefing matinal</div><div>2.000–8.000</div><div>Moderado</div>
+  <div>Heartbeat com contexto leve</div><div>300–1.000</div><div>Mínimo</div>
+  <div>Análise de documento longo</div><div>10.000–50.000</div><div>Alto</div>
+  <div>Loop de agente com 10 tool calls</div><div>15.000–60.000</div><div>Alto</div>
+  <div>Sessão de browser com screenshots</div><div>20.000–100.000</div><div>Muito alto</div>
+</div>
+
+<h3>Estratégias para reduzir consumo de tokens</h3>
+
+<ol>
+  <li><strong>Prompts concisos:</strong> cada palavra no system prompt é cobrada em toda chamada. Prefira instruções diretas e elimine redundâncias. Um system prompt de 800 tokens tem custo diferente de um de 200 tokens multiplicado por todas as sessões do mês.</li>
+  <li><strong>Truncação de histórico:</strong> configure um limite razoável de turnos de conversa no contexto. Não há valor em carregar 50 mensagens antigas para responder uma pergunta simples. Use <code>maxHistoryTurns</code> ou equivalente para limitar o contexto ativo.</li>
+  <li><strong>Context compaction:</strong> algumas plataformas e frameworks permitem comprimir o histórico em um resumo antes que ele encha o contexto. Implemente sumarização periódica para sessões longas.</li>
+  <li><strong>Seleção seletiva de ferramentas:</strong> não envie todas as ferramentas em toda chamada. Se a tarefa é uma resposta de chat simples, não há necessidade das ferramentas de browser ou de execução de código.</li>
+  <li><strong>Modelos menores para tarefas simples:</strong> classificação, extração de entidades simples e reformatação de texto podem ser feitos com modelos leves a uma fração do custo.</li>
+</ol>
+
+<h3>Cache de prompt (prompt caching)</h3>
+
+<p>A Anthropic oferece uma funcionalidade chamada <strong>prompt caching</strong> que permite reutilizar partes do contexto entre chamadas consecutivas. Quando habilitado, blocos marcados com <code>cache_control</code> são armazenados no servidor por até 5 minutos (ou mais em planos enterprise) e reutilizados sem reprocessamento completo.</p>
+
+<pre><code>{
+  "system": [
+    {
+      "type": "text",
+      "text": "Você é o assistente técnico da equipe de dados...",
+      "cache_control": { "type": "ephemeral" }
+    }
+  ]
+}</code></pre>
+
+<p>Quando usar:</p>
+<ul>
+  <li>System prompts longos usados em muitas sessões consecutivas (economia típica: 60–90% do custo do bloco cacheado)</li>
+  <li>Documentos de referência que são incluídos em múltiplas chamadas</li>
+  <li>Exemplos few-shot extensos que não mudam entre chamadas</li>
+</ul>
+
+<p>Quando <em>não</em> usar:</p>
+<ul>
+  <li>Contextos que mudam a cada chamada (sem ganho)</li>
+  <li>Sessões únicas de baixo volume (overhead de setup não compensa)</li>
+</ul>
+
+<div class="callout"><strong>Referência:</strong> veja a documentação completa de prompt caching em <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching" target="_blank" rel="noopener noreferrer">docs.anthropic.com/en/docs/build-with-claude/prompt-caching</a>.</div>
+
+<h2>Critérios de seleção de modelos</h2>
+
+<p>A escolha do modelo é uma das decisões mais impactantes na operação de um agente. Não existe resposta universal — ela depende da natureza da tarefa, das exigências de latência, do orçamento e do nível de confiabilidade necessário.</p>
+
+<h3>O triângulo velocidade × qualidade × custo</h3>
+
+<p>Todo modelo vive nesse triângulo. Otimizar os três simultaneamente é impossível — você sempre troca algum pilar pelos outros:</p>
+
+<ul>
+  <li><strong>Modelos grandes (ex: Claude Opus, GPT-4o):</strong> máxima qualidade de raciocínio, melhor em tarefas ambíguas e complexas, mais lentos, mais caros. Use quando a qualidade da decisão é crítica.</li>
+  <li><strong>Modelos intermediários (ex: Claude Sonnet, GPT-4o-mini):</strong> equilíbrio prático. Bons para a maioria das tarefas operacionais de agentes. Velocidade razoável, custo moderado.</li>
+  <li><strong>Modelos leves (ex: Claude Haiku, Gemini Flash):</strong> muito rápidos, muito baratos. Excelentes para classificação, triagem, extração simples e tarefas onde erros são recuperáveis.</li>
+</ul>
+
+<h3>Quando usar modelos leves vs grandes</h3>
+
+<div class="tableish">
+  <div><strong>Tipo de tarefa</strong></div><div><strong>Modelo recomendado</strong></div><div><strong>Justificativa</strong></div>
+  <div>Classificar urgência de e-mail</div><div>Leve (Haiku/Flash)</div><div>Tarefa simples, alta frequência</div>
+  <div>Responder dúvida técnica complexa</div><div>Intermediário/Grande</div><div>Qualidade importa</div>
+  <div>Gerar código de produção</div><div>Grande (Opus/GPT-4o)</div><div>Erros têm alto custo</div>
+  <div>Resumir documento curto</div><div>Leve ou Intermediário</div><div>Tarefa bem definida</div>
+  <div>Coordenar múltiplos subagentes</div><div>Intermediário/Grande</div><div>Raciocínio estrutural</div>
+  <div>Heartbeat de rotina</div><div>Leve</div><div>Volume alto, baixa complexidade</div>
+  <div>Análise de segurança de código</div><div>Grande</div><div>Consequências críticas</div>
+</div>
+
+<h3>Estratégia de fallback em cascata</h3>
+
+<p>Uma abordagem robusta é tentar primeiro o modelo mais rápido e barato, escalando para modelos mais capazes apenas quando necessário. Isso é chamado de <strong>cascata de modelos</strong>:</p>
+
+<pre><code>Etapa 1: Haiku responde (barato, rápido)
+  → se confiança baixa ou tarefa complexa detectada:
+Etapa 2: Sonnet responde (intermediário)
+  → se ainda inadequado ou erro crítico:
+Etapa 3: Opus responde (melhor qualidade)</code></pre>
+
+<p>No OpenClaw, isso pode ser implementado via:</p>
+<ol>
+  <li>Configurar fallbacks no gateway com modelos ordenados por capacidade</li>
+  <li>Usar roteamento condicional no agente coordenador (ver capítulo 8)</li>
+  <li>Avaliar a qualidade da resposta do modelo leve antes de usar</li>
+</ol>
+
+<h3>Matriz de capacidades por tipo de tarefa</h3>
+
+<div class="tableish">
+  <div><strong>Capacidade</strong></div><div><strong>Haiku/Flash</strong></div><div><strong>Sonnet/4o-mini</strong></div><div><strong>Opus/GPT-4o</strong></div>
+  <div>Classificação e triagem</div><div>Excelente</div><div>Excelente</div><div>Excelente</div>
+  <div>Extração de dados</div><div>Bom</div><div>Excelente</div><div>Excelente</div>
+  <div>Raciocínio multi-etapa</div><div>Limitado</div><div>Bom</div><div>Excelente</div>
+  <div>Geração de código</div><div>Básico</div><div>Bom</div><div>Excelente</div>
+  <div>Análise de segurança</div><div>Não recomendado</div><div>Adequado</div><div>Preferido</div>
+  <div>Conversação casual</div><div>Excelente</div><div>Excelente</div><div>Excessivo</div>
+  <div>Coordenação de agentes</div><div>Limitado</div><div>Bom</div><div>Excelente</div>
+</div>
+
+<h2>Quotas e limites de taxa</h2>
+
+<p>Provedores de LLM impõem limites para proteger a infraestrutura e garantir acesso equitativo. Entender esses limites é fundamental para agentes de produção que fazem muitas chamadas ou lidam com picos de uso.</p>
+
+<h3>Tipos de limites</h3>
+
+<ul>
+  <li><strong>RPM (Requests Per Minute):</strong> número máximo de chamadas à API por minuto. Afeta sistemas de alta frequência como bots de chat com muitos usuários ou loops de agentes rápidos.</li>
+  <li><strong>TPM (Tokens Per Minute):</strong> total de tokens processados por minuto. Mais restritivo para sessões com contextos grandes ou muitos documentos.</li>
+  <li><strong>TPD (Tokens Per Day):</strong> alguns planos têm limite diário absoluto. Útil monitorar para evitar cortes inesperados em produção.</li>
+  <li><strong>Concurrent requests:</strong> alguns provedores limitam chamadas simultâneas, afetando arquiteturas paralelas de agentes.</li>
+</ul>
+
+<h3>Impacto nos agentes</h3>
+
+<p>Quando um agente bate no limite de taxa, ele recebe um erro <code>429 Too Many Requests</code>. Sem tratamento adequado, isso causa:</p>
+<ul>
+  <li>Falha silenciosa da tarefa agendada (cron jobs que não concluem)</li>
+  <li>Interrupção de loops de raciocínio do agente no meio da execução</li>
+  <li>Cascata de erros em sistemas multi-agent onde agentes dependem uns dos outros</li>
+</ul>
+
+<h3>Estratégias de fila e backoff</h3>
+
+<ol>
+  <li><strong>Exponential backoff:</strong> ao receber 429, espere antes de tentar novamente. Dobre o intervalo a cada tentativa (ex: 1s, 2s, 4s, 8s) com jitter aleatório para evitar thundering herd.</li>
+  <li><strong>Fila com prioridade:</strong> em sistemas multi-tenant, enfileire requisições e processe por prioridade. Tarefas críticas passam na frente de rotinas de baixa prioridade.</li>
+  <li><strong>Rate limiting proativo:</strong> implemente um token bucket ou leaky bucket no próprio gateway para nunca enviar mais do que 80% do limite contratado, deixando margem para picos.</li>
+  <li><strong>Distribuição entre provedores:</strong> use fallbacks para provedores alternativos quando o provedor primário estiver saturado. O sistema de fallback do OpenClaw é exatamente para isso.</li>
+</ol>
+
+<pre><code># Exemplo de lógica de backoff (pseudocódigo)
+async function chamadaComRetry(payload, maxTentativas = 5) {
+  let delay = 1000; // 1 segundo inicial
+  for (let i = 0; i &lt; maxTentativas; i++) {
+    try {
+      return await chamarModelo(payload);
+    } catch (err) {
+      if (err.status !== 429) throw err; // outro erro, não retry
+      if (i === maxTentativas - 1) throw err; // esgotou tentativas
+      const jitter = Math.random() * 500;
+      await sleep(delay + jitter);
+      delay *= 2; // backoff exponencial
+    }
+  }
+}</code></pre>
+
+<h3>Monitoramento de consumo de quota</h3>
+
+<p>Monitore ativamente para evitar surpresas:</p>
+<ul>
+  <li>Registre tokens consumidos por chamada nos logs do gateway (input, output, total)</li>
+  <li>Configure alertas quando o consumo diário atingir 70% do limite contratado</li>
+  <li>Use <code>openclaw logs --follow</code> para inspecionar chamadas e identificar sessões que consomem mais do esperado</li>
+  <li>Agrupe consumo por agente e por tipo de tarefa para identificar onde está o gasto</li>
+  <li>Revise periodicamente se modelos maiores estão sendo usados onde modelos menores seriam suficientes</li>
+</ul>
+
+<div class="callout"><strong>Dica operacional:</strong> um spike inesperado de tokens geralmente aponta para um loop de agente sem condição de parada, um arquivo muito grande sendo injetado no contexto em toda chamada, ou um cron job mal configurado que dispara com frequência excessiva. Cheque essas causas primeiro.</div>
+
+<h2>Exercícios</h2>
+
+<div class="exercise"><strong>Exercício 1:</strong> Por que faz sentido ter fallbacks em um sistema que depende de APIs externas? Pense em dois cenários concretos onde um fallback evita indisponibilidade.</div>
+
+<div class="exercise"><strong>Exercício 2:</strong> Mapeie as tarefas do seu agente atual e classifique cada uma em "leve", "intermediária" ou "pesada" em termos de complexidade de raciocínio. Para quais você poderia substituir o modelo atual por um mais barato sem perda perceptível de qualidade?</div>
+
+<div class="exercise"><strong>Exercício 3:</strong> Calcule o custo mensal estimado do seu heartbeat. Se ele roda a cada 30 minutos, com contexto de 1.000 tokens de entrada e 200 de saída, quantos tokens são consumidos por dia? Por mês? Qual seria a economia ao usar um modelo 10× mais barato para essa tarefa?</div>
+
+<section class="troubleshoot"><h3>Checklist antes de trocar provedor</h3><ol class="steps"><li>confirme se o modelo desejado está permitido na allowlist</li><li>verifique credenciais, limites e região do provedor</li><li>teste um prompt curto antes de migrar fluxos críticos</li><li>deixe fallback explícito para evitar quedas silenciosas</li><li>valide os limites de RPM/TPM do novo provedor contra o volume esperado</li><li>revise o custo estimado por tarefa no novo provedor antes da migração</li></ol></section><div class="refs"><h3>Referências oficiais</h3><ul><li><a href="https://docs.openclaw.ai/concepts/models" target="_blank" rel="noopener noreferrer">Models CLI</a></li><li><a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching" target="_blank" rel="noopener noreferrer">Anthropic Prompt Caching</a></li><li><a href="https://docs.anthropic.com/en/api/rate-limits" target="_blank" rel="noopener noreferrer">Anthropic Rate Limits</a></li></ul></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="06-canais-e-rotina.html">← 6. Canais e operação</a></div><div class="card"><a href="../index.html">Índice do livro</a></div><div class="card"><a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento →</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="06-canais-e-rotina.html">← Capítulo 6: Canais e rotina</a><a class="pager-link pager-center" href="../index.html#sumario-livro">Sumário completo</a><a class="pager-link" href="08-multi-agent-e-roteamento.html">Capítulo 8: Multi-agent e roteamento →</a></nav><div class="footer">Continue em <a href="08-multi-agent-e-roteamento.html">Multi-agent</a>.</div></main></div></body></html>
