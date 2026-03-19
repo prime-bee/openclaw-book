@@ -1,5 +1,8 @@
 const SEARCH_INDEX = [
-  { title: 'Início', path: 'index.html', text: 'openclaw book livro didático html gateway cli memória canais modelos multi-agent automação sandbox browser troubleshooting referências' },
+  { title: 'Início', path: 'index.html', text: 'openclaw book livro didático html guia portugues gateway cli memória canais modelos multi-agent automação sandbox browser troubleshooting referências trilhas leitura' },
+  { title: 'Glossário', path: 'glossario.html', text: 'glossário termos conceitos definições gateway sessão workspace agente provedor canal sandbox' },
+  { title: 'Sobre', path: 'about.html', text: 'sobre projeto filosofia editorial objetivo escopo didática documentação oficial' },
+  { title: 'Contribuindo', path: 'contributing.html', text: 'contribuição contribuir issues melhorias revisão editorial links consistência pull request' },
   { title: '1. Visão geral', path: 'chapters/01-visao-geral.html', text: 'o que é openclaw gateway self-hosted agentes ia canais workspace modelo sessão' },
   { title: '2. Arquitetura', path: 'chapters/02-arquitetura.html', text: 'arquitetura gateway clientes nodes sessões websocket connect request response event' },
   { title: '3. Gateway', path: 'chapters/03-gateway.html', text: 'gateway status logs service auth bind porta restart doctor' },
@@ -16,6 +19,7 @@ const SEARCH_INDEX = [
   { title: '14. Referências oficiais', path: 'chapters/14-referencias-oficiais.html', text: 'referências oficiais docs openclaw bibliografia links tópicos' },
   { title: '15. Roadmap', path: 'chapters/15-roadmap-e-proximos-passos.html', text: 'roadmap editorial próximos passos melhorias projeto openclaw book' }
 ];
+
 function scoreEntry(query, entry) {
   const q = query.toLowerCase().trim();
   if (!q) return 0;
@@ -28,23 +32,43 @@ function scoreEntry(query, entry) {
   });
   return score;
 }
+
+function excerpt(entry) {
+  return entry.text.split(/\s+/).slice(0, 14).join(' ') + '…';
+}
+
 function initSearch() {
   const input = document.getElementById('search-input');
   const results = document.getElementById('search-results');
   if (!input || !results) return;
+
   function render() {
     const q = input.value.trim();
-    if (!q) { results.innerHTML = ''; return; }
-    const ranked = SEARCH_INDEX.map(e => ({...e, score: scoreEntry(q,e)}))
-      .filter(e => e.score > 0)
-      .sort((a,b)=>b.score-a.score)
-      .slice(0,8);
-    if (!ranked.length) {
-      results.innerHTML = '<div class="card"><strong>Nada encontrado.</strong><p class="muted">Tente termos como gateway, cron, telegram, sandbox ou browser.</p></div>';
+    if (!q) {
+      results.innerHTML = '';
       return;
     }
-    results.innerHTML = ranked.map(e => `<a class="card" href="${e.path}"><strong>${e.title}</strong><p class="muted">${e.path}</p></a>`).join('');
+
+    const ranked = SEARCH_INDEX.map(e => ({ ...e, score: scoreEntry(q, e) }))
+      .filter(e => e.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 8);
+
+    if (!ranked.length) {
+      results.innerHTML = '<div class="card"><strong>Nada encontrado.</strong><p class="muted">Tente termos como gateway, cron, telegram, sandbox, browser, memória ou multi-agent.</p></div>';
+      return;
+    }
+
+    results.innerHTML = ranked.map(e => `
+      <a class="card" href="${e.path}">
+        <strong>${e.title}</strong>
+        <p class="muted">${e.path}</p>
+        <p>${excerpt(e)}</p>
+      </a>
+    `).join('');
   }
+
   input.addEventListener('input', render);
 }
+
 document.addEventListener('DOMContentLoaded', initSearch);

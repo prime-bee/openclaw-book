@@ -4,159 +4,114 @@ Um livro didático em HTML sobre o **OpenClaw**, pensado para transformar a docu
 
 ## Leitura online
 
-O projeto está publicado em GitHub Pages:
-
 - **GitHub Pages:** https://prime-bee.github.io/openclaw-book/
 - **Repositório:** https://github.com/prime-bee/openclaw-book
 
-## O que é este projeto
+## Objetivo
 
-O `openclaw-book` é um experimento editorial e técnico: pegar a documentação oficial do OpenClaw e reorganizá-la em formato de **livro navegável**, com uma progressão mais amigável para leitura contínua.
+O `openclaw-book` reorganiza a documentação oficial em formato de **livro técnico estático**, com foco em:
 
-Em vez de apenas listar tópicos isolados, a proposta aqui é:
+- progressão de leitura mais natural
+- linguagem mais didática em português
+- ponte entre conceito, operação e troubleshooting
+- navegação simples, sem build complexo
+- referência explícita às fontes oficiais
 
-- introduzir conceitos em sequência
-- conectar arquitetura com operação prática
-- mostrar receitas passo a passo
-- incluir troubleshooting e referências oficiais
-- oferecer uma leitura mais próxima de um manual técnico vivo
+## Público-alvo
 
-## Para quem isso serve
-
-Este material pode ser útil para:
+Este material é útil para:
 
 - pessoas começando a usar OpenClaw
-- usuários que já operam o sistema, mas querem uma visão mais estruturada
-- quem prefere aprender por capítulos em vez de navegar só por páginas soltas de documentação
-- quem quer uma ponte entre **conceito**, **configuração** e **diagnóstico**
+- operadores que querem uma visão mais estruturada do sistema
+- quem prefere aprender por capítulos em vez de navegar apenas por páginas de referência
+- quem precisa de contexto antes de mergulhar na documentação oficial
 
-## O que você encontra aqui
-
-Atualmente o livro cobre temas como:
+## O que o livro cobre
 
 - visão geral do OpenClaw
 - arquitetura
 - gateway
 - CLI
 - memória e workspace
-- canais
+- canais e rotina operacional
 - modelos e provedores
-- multi-agent
+- multi-agent e roteamento
 - automação com cron e heartbeat
 - sandbox e segurança
 - browser automation
 - receitas passo a passo
 - troubleshooting
 - referências oficiais
-
-## Filosofia do projeto
-
-Este projeto **não tenta substituir a documentação oficial**.
-
-A ideia é complementar.
-
-A documentação oficial continua sendo a fonte principal de verdade para:
-
-- comportamento exato
-- flags e comandos
-- configurações detalhadas
-- mudanças entre versões
-
-O `openclaw-book` entra como uma camada acima, com foco em:
-
-1. didática
-2. continuidade de leitura
-3. contexto
-4. organização mental do sistema
+- roadmap editorial
 
 ## Estrutura do projeto
 
 ```text
 openclaw-book/
   index.html
+  404.html
   styles.css
+  app.js
+  search.js
   assets/
   chapters/
-  README.md
   .github/workflows/
 ```
 
-### Arquivos principais
+## Principais recursos do site
 
-- `index.html` — página inicial e sumário
-- `styles.css` — identidade visual do livro
-- `chapters/` — capítulos em HTML
-- `assets/` — imagens, logos e recursos visuais
-- `.github/workflows/pages.yml` — deploy para GitHub Pages
+- HTML estático, fácil de hospedar
+- breadcrumbs e paginação entre capítulos
+- sumário automático dentro dos capítulos
+- busca local em JavaScript
+- metadados básicos para SEO e compartilhamento social
+- sitemap e robots para publicação em Pages
 
-## Como ler
+## Como rodar localmente
 
-Você pode usar de duas formas:
+Você pode abrir `index.html` diretamente no navegador.
 
-### 1. Online
+Se preferir servir localmente com um servidor simples:
 
-Abra no GitHub Pages:
+```bash
+python3 -m http.server 8000
+```
 
-- https://prime-bee.github.io/openclaw-book/
+Depois acesse `http://localhost:8000`.
 
-### 2. Localmente
+## Filosofia editorial
 
-Não precisa de build nem de servidor.
+Este projeto **não substitui a documentação oficial**.
 
-Basta abrir:
+Ele funciona como uma camada didática acima da fonte oficial, priorizando:
 
-- `index.html`
+1. clareza
+2. continuidade de leitura
+3. contexto operacional
+4. organização mental do sistema
 
-em qualquer navegador moderno.
+Sempre que possível, os capítulos apontam para a documentação oficial correspondente.
 
-## Organização do conteúdo
+## Fontes
 
-O livro foi estruturado para permitir uma leitura progressiva:
-
-- **capítulos iniciais**: conceitos centrais, arquitetura e gateway
-- **capítulos intermediários**: CLI, memória, canais, modelos, multi-agent
-- **capítulos avançados**: automação, sandbox, browser
-- **capítulos operacionais**: receitas, troubleshooting e referências
-
-## Referências e fontes
-
-A principal base deste projeto é a documentação oficial do OpenClaw:
+As principais referências são:
 
 - https://docs.openclaw.ai
 - https://github.com/openclaw/openclaw
 
-Além disso, este projeto também foi desenvolvido usando a documentação local instalada no ambiente do autor.
-
-Sempre que possível, os capítulos do livro apontam para os tópicos oficiais correspondentes.
-
 ## Publicação
 
-Este projeto usa **GitHub Pages** para publicação estática.
-
-O deploy é feito por GitHub Actions, sem necessidade de build complexo, já que o conteúdo é composto por HTML/CSS estático.
-
-## Próximos passos desejáveis
-
-Algumas evoluções naturais para o projeto:
-
-- busca local em JavaScript
-- glossário
-- screenshots e diagramas próprios
-- capítulos mais profundos por tópico
-- exemplos de configuração mais completos
-- apêndices por canal
-- seção de erros comuns por tema
-- navegação ainda mais rica entre capítulos
-
+O projeto usa **GitHub Pages** com deploy via GitHub Actions no branch `master`.
 
 ## Contribuição
 
 Contribuições são bem-vindas, especialmente para:
 
 - enriquecer capítulos
-- adicionar troubleshooting
 - corrigir links ou explicações ambíguas
-- melhorar a estrutura de navegação
+- melhorar a navegação
+- ampliar troubleshooting e exemplos práticos
+- revisar consistência editorial
 
 Veja também:
 
@@ -165,7 +120,7 @@ Veja também:
 
 ## Licença
 
-A definir.
+MIT. Veja `LICENSE`.
 
 ## Autor
 
