@@ -21,7 +21,9 @@ const SEARCH_INDEX = [
   { title: '16. Agentes IA: fluxos e delegação', path: 'chapters/16-agentes-ia-fluxos-e-delegacao.html', text: 'agentes ia fluxos delegação avaliação prompt strategy human-in-the-loop memória contexto injection prompt injection riscos anti-padrões system prompt escopo confirmação ferramentas' },
   { title: '17. Missões e desafios', path: 'chapters/17-missoes-e-desafios.html', text: 'missões desafios gamificado níveis recruta operador especialista mestre scorecard drills exercícios boss fight aprender operando prática' },
   { title: '18. Engenharia de prompts', path: 'chapters/18-engenharia-de-prompts.html', text: 'engenharia prompts system prompt few-shot chain-of-thought CoT saídas estruturadas JSON markdown anti-padrões instruções vagas escopo iteração template agente operações' },
-  { title: '19. Observabilidade e monitoramento', path: 'chapters/19-observabilidade-e-monitoramento.html', text: 'observabilidade monitoramento logs estruturados métricas traces alertas dashboard operadores agentes IA latência P50 P95 tokens trace_id OpenTelemetry auditoria rate limits escalada heartbeat relatório operacional' }
+  { title: '19. Observabilidade e monitoramento', path: 'chapters/19-observabilidade-e-monitoramento.html', text: 'observabilidade monitoramento logs estruturados métricas traces alertas dashboard operadores agentes IA latência P50 P95 tokens trace_id OpenTelemetry auditoria rate limits escalada heartbeat relatório operacional' },
+  { title: '20. HITL e Governança', path: 'chapters/20-hitl-e-governanca.html', text: 'human-in-the-loop hitl governança aprovação gates auditoria EU AI Act NIST AI RMF override conformidade políticas revisão humana' },
+  { title: '21. Skills e capacidades', path: 'chapters/21-skills-e-composicao-de-capacidades.html', text: 'skills capacidades tools playbooks agentskills clawhub workspace skills local skills gating env bins config sandbox skill design skill security' }
 ];
 
 function normalizeText(text) {
