@@ -13,7 +13,8 @@ const SEARCH_INDEX = [
   { title: '11. Browser e controle remoto', path: 'chapters/11-browser-e-controle-remoto.html', text: 'browser cdp chrome relay snapshot screenshot click type profile remote' },
   { title: '12. Receitas passo a passo', path: 'chapters/12-receitas-passo-a-passo.html', text: 'receitas setup telegram heartbeat cron agents passo a passo' },
   { title: '13. Troubleshooting', path: 'chapters/13-troubleshooting-e-diagnostico.html', text: 'diagnóstico troubleshooting status logs doctor probe errors symptoms fixes' },
-  { title: '14. Referências oficiais', path: 'chapters/14-referencias-oficiais.html', text: 'referências oficiais docs openclaw bibliografia links tópicos' }
+  { title: '14. Referências oficiais', path: 'chapters/14-referencias-oficiais.html', text: 'referências oficiais docs openclaw bibliografia links tópicos' },
+  { title: '15. Roadmap', path: 'chapters/15-roadmap-e-proximos-passos.html', text: 'roadmap editorial próximos passos melhorias projeto openclaw book' }
 ];
 function scoreEntry(query, entry) {
   const q = query.toLowerCase().trim();

@@ -148,6 +148,21 @@ Algumas evoluções naturais para o projeto:
 - seção de erros comuns por tema
 - navegação ainda mais rica entre capítulos
 
+
+## Contribuição
+
+Contribuições são bem-vindas, especialmente para:
+
+- enriquecer capítulos
+- adicionar troubleshooting
+- corrigir links ou explicações ambíguas
+- melhorar a estrutura de navegação
+
+Veja também:
+
+- `contributing.html`
+- `PULL_REQUEST_TEMPLATE.md`
+
 ## Licença
 
 A definir.
