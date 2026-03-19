@@ -34,18 +34,36 @@ function scoreEntry(query, entry) {
 }
 
 function excerpt(entry) {
-  return entry.text.split(/\s+/).slice(0, 14).join(' ') + '…';
+  return entry.text.split(/\s+/).slice(0, 18).join(' ') + '…';
+}
+
+function escapeHtml(text) {
+  return text.replace(/[&<>"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
+}
+
+function escapeRegex(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function highlight(text, query) {
+  const tokens = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
+  if (!tokens.length) return escapeHtml(text);
+  const pattern = new RegExp(`(${tokens.map(escapeRegex).join('|')})`, 'ig');
+  return escapeHtml(text).replace(pattern, '<mark>$1</mark>');
 }
 
 function initSearch() {
   const input = document.getElementById('search-input');
   const results = document.getElementById('search-results');
+  const status = document.getElementById('search-status');
+  const clear = document.getElementById('search-clear');
   if (!input || !results) return;
 
   function render() {
     const q = input.value.trim();
     if (!q) {
       results.innerHTML = '';
+      if (status) status.textContent = 'Digite um termo para ver resultados.';
       return;
     }
 
@@ -56,19 +74,33 @@ function initSearch() {
 
     if (!ranked.length) {
       results.innerHTML = '<div class="card"><strong>Nada encontrado.</strong><p class="muted">Tente termos como gateway, cron, telegram, sandbox, browser, memória ou multi-agent.</p></div>';
+      if (status) status.textContent = `Nenhum resultado para “${q}”.`;
       return;
     }
 
+    if (status) status.textContent = `${ranked.length} resultado(s) para “${q}”.`;
     results.innerHTML = ranked.map(e => `
       <a class="card" href="${e.path}">
-        <strong>${e.title}</strong>
+        <strong>${highlight(e.title, q)}</strong>
         <p class="muted">${e.path}</p>
-        <p>${excerpt(e)}</p>
+        <p>${highlight(excerpt(e), q)}</p>
       </a>
     `).join('');
   }
 
   input.addEventListener('input', render);
+  clear?.addEventListener('click', () => {
+    input.value = '';
+    render();
+    input.focus();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === '/' && document.activeElement !== input && !event.metaKey && !event.ctrlKey && !event.altKey) {
+      event.preventDefault();
+      input.focus();
+    }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', initSearch);
