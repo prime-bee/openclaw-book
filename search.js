@@ -20,10 +20,14 @@ const SEARCH_INDEX = [
   { title: '15. Roadmap', path: 'chapters/15-roadmap-e-proximos-passos.html', text: 'roadmap editorial próximos passos melhorias projeto openclaw book' }
 ];
 
+function normalizeText(text) {
+  return text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
 function scoreEntry(query, entry) {
-  const q = query.toLowerCase().trim();
+  const q = normalizeText(query.trim());
   if (!q) return 0;
-  const hay = (entry.title + ' ' + entry.text).toLowerCase();
+  const hay = normalizeText(entry.title + ' ' + entry.text + ' ' + entry.path);
   if (entry.title.toLowerCase() === q) return 100;
   let score = 0;
   q.split(/\s+/).forEach(token => {
