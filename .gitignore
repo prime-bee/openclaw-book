@@ -1,8 +1,6 @@
 
 *.log
 .DS_Store
-PLAN.md
-STATUS.md
 
 __pycache__/
 .tmp_rounds.py
