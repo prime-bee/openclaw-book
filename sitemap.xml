@@ -2,8 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://prime-bee.github.io/openclaw-book/</loc></url>
   <url><loc>https://prime-bee.github.io/openclaw-book/about.html</loc></url>
-  <url><loc>https://prime-bee.github.io/openclaw-book/glossario.html</loc></url>
   <url><loc>https://prime-bee.github.io/openclaw-book/contributing.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/glossario.html</loc></url>
   <url><loc>https://prime-bee.github.io/openclaw-book/chapters/01-visao-geral.html</loc></url>
   <url><loc>https://prime-bee.github.io/openclaw-book/chapters/02-arquitetura.html</loc></url>
   <url><loc>https://prime-bee.github.io/openclaw-book/chapters/03-gateway.html</loc></url>
@@ -24,4 +24,5 @@
   <url><loc>https://prime-bee.github.io/openclaw-book/chapters/18-engenharia-de-prompts.html</loc></url>
   <url><loc>https://prime-bee.github.io/openclaw-book/chapters/19-observabilidade-e-monitoramento.html</loc></url>
   <url><loc>https://prime-bee.github.io/openclaw-book/chapters/20-hitl-e-governanca.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/chapters/21-skills-e-composicao-de-capacidades.html</loc></url>
 </urlset>
