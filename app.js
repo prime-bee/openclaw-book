@@ -70,10 +70,33 @@ function addBackToTopLinks() {
   });
 }
 
+function addReadingProgress() {
+  const chapter = document.querySelector('.content.chapter');
+  if (!chapter) return;
+  const bar = document.createElement('div');
+  bar.id = 'reading-progress';
+  bar.setAttribute('role', 'progressbar');
+  bar.setAttribute('aria-label', 'Progresso de leitura');
+  bar.setAttribute('aria-valuenow', '0');
+  bar.setAttribute('aria-valuemin', '0');
+  bar.setAttribute('aria-valuemax', '100');
+  document.body.prepend(bar);
+  function updateProgress() {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const pct = docHeight > 0 ? Math.min(100, Math.round((scrollTop / docHeight) * 100)) : 0;
+    bar.style.width = pct + '%';
+    bar.setAttribute('aria-valuenow', pct);
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   enhanceExternalLinks();
   addHeadingAnchors();
   buildChapterToc();
   markCurrentNav();
   addBackToTopLinks();
+  addReadingProgress();
 });
