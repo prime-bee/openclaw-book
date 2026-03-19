@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://prime-bee.github.io/openclaw-book/</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/about.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/glossario.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/contributing.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/chapters/01-visao-geral.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/chapters/02-arquitetura.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/chapters/03-gateway.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/chapters/04-cli.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/chapters/05-memoria-e-workspace.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/chapters/06-canais-e-rotina.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/chapters/07-modelos-e-provedores.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/chapters/08-multi-agent-e-roteamento.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/chapters/09-automacoes-cron-e-heartbeat.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/chapters/10-sandbox-e-seguranca-pratica.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/chapters/11-browser-e-controle-remoto.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/chapters/12-receitas-passo-a-passo.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/chapters/13-troubleshooting-e-diagnostico.html</loc></url>
+  <url><loc>https://prime-bee.github.io/openclaw-book/chapters/14-referencias-oficiais.html</loc></url>
+</urlset>
