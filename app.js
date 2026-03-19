@@ -56,9 +56,24 @@ function markCurrentNav() {
   });
 }
 
+function addBackToTopLinks() {
+  const chapter = document.querySelector('.content.chapter');
+  if (!chapter) return;
+  chapter.querySelectorAll('h2').forEach((heading) => {
+    if (heading.querySelector('.back-to-top')) return;
+    const link = document.createElement('a');
+    link.className = 'back-to-top';
+    link.href = '#conteudo';
+    link.textContent = 'Topo';
+    link.setAttribute('aria-label', `Voltar ao topo a partir de ${heading.textContent.trim()}`);
+    heading.append(' ', link);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   enhanceExternalLinks();
   addHeadingAnchors();
   buildChapterToc();
   markCurrentNav();
+  addBackToTopLinks();
 });
