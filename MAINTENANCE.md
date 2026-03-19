@@ -43,3 +43,12 @@ Rules:
   - quick navigation / pager
 - utility pages may omit some blocks when clarity improves
 - validate after creating or reshaping pages
+
+## Topics inventory
+
+Use `TOPICS.md` as the living editorial inventory of what the book already covers.
+
+Rules:
+- before creating a new chapter, check `TOPICS.md`
+- if a new chapter or major thematic expansion happens, update `TOPICS.md`
+- use it to avoid redundant chapters and to identify real gaps worth expanding
