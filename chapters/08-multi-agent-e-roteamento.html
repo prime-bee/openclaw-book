@@ -1,2 +1,202 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Capítulo 8 — Multi-agent e roteamento — openclaw-book</title><meta name="description" content="Explore isolamento, bindings, roteamento e organização quando o ambiente passa a ter vários agentes e contextos."><meta name="theme-color" content="#0f1115"><meta name="author" content="Prime"><meta name="application-name" content="OpenClaw Book"><meta name="apple-mobile-web-app-title" content="OpenClaw Book"><meta name="robots" content="index,follow"><link rel="canonical" href="https://prime-bee.github.io/openclaw-book/chapters/08-multi-agent-e-roteamento.html"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Capítulo 8 — Multi-agent e roteamento — openclaw-book"><meta property="og:description" content="Explore isolamento, bindings, roteamento e organização quando o ambiente passa a ter vários agentes e contextos."><meta property="og:type" content="website"><meta property="og:url" content="https://prime-bee.github.io/openclaw-book/chapters/08-multi-agent-e-roteamento.html"><meta property="og:site_name" content="openclaw-book"><meta property="og:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Capítulo 8 — Multi-agent e roteamento — openclaw-book"><meta name="twitter:description" content="Explore isolamento, bindings, roteamento e organização quando o ambiente passa a ter vários agentes e contextos."><meta name="twitter:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><link rel="manifest" href="../site.webmanifest"><link rel="stylesheet" href="../styles.css"><script defer src="../app.js"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Capítulo 8 — Multi-agent e roteamento — openclaw-book","name":"Capítulo 8 — Multi-agent e roteamento — openclaw-book","description":"Explore isolamento, bindings, roteamento e organização quando o ambiente passa a ter vários agentes e contextos.","inLanguage":"pt-BR","url":"https://prime-bee.github.io/openclaw-book/chapters/08-multi-agent-e-roteamento.html","author":{"@type":"Person","name":"Prime"},"publisher":{"@type":"Organization","name":"Prime Bee","url":"https://github.com/prime-bee/openclaw-book"},"isPartOf":{"@type":"Book","name":"OpenClaw Book","url":"https://prime-bee.github.io/openclaw-book/"}}</script></head><body><a class="skip-link" href="#conteudo">Pular para o conteúdo</a><div class="layout"><aside class="sidebar"><div class="brand"><img src="../assets/openclaw-logo-text.png" alt="OpenClaw logo"><h1>Capítulo 8</h1><p>Multi-agent</p></div><nav class="nav"><a href="../index.html">← Início</a><a href="01-visao-geral.html">1. Visão geral</a><a href="02-arquitetura.html">2. Arquitetura</a><a href="03-gateway.html">3. Gateway</a><a href="04-cli.html">4. CLI</a><a href="05-memoria-e-workspace.html">5. Memória e workspace</a><a href="06-canais-e-rotina.html">6. Canais e operação</a><a href="07-modelos-e-provedores.html">7. Modelos e provedores</a><a class="active" href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento</a><a href="09-automacoes-cron-e-heartbeat.html">9. Automação</a><a href="10-sandbox-e-seguranca-pratica.html">10. Sandbox e segurança</a><a href="11-browser-e-controle-remoto.html">11. Browser e controle remoto</a><a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo</a><a href="13-troubleshooting-e-diagnostico.html">13. Troubleshooting</a><a href="14-referencias-oficiais.html">14. Referências oficiais</a><a href="15-roadmap-e-proximos-passos.html">15. Roadmap</a><a href="16-agentes-ia-fluxos-e-delegacao.html">16. Agentes IA e fluxos</a><a href="17-missoes-e-desafios.html">17. Missões e desafios</a></nav></aside><main id="conteudo" class="content chapter"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../index.html">Início</a><span aria-hidden="true">/</span><a href="../index.html#sumario-livro">Capítulos</a><span aria-hidden="true">/</span><a href="08-multi-agent-e-roteamento.html" aria-current="page">Capítulo 8: Multi-agent e roteamento</a></nav><div class="chapter-intro"><p class="lede">Explore isolamento, bindings, roteamento e organização quando o ambiente passa a ter vários agentes e contextos.</p><div class="kpi-row"><span class="kpi">Capítulo 8 de 17</span><span class="kpi">Leitura guiada</span><span class="kpi">Referências oficiais ao final</span></div></div><h1>Um gateway, vários cérebros</h1><p>A doc de multi-agent deixa uma coisa clara: um agente não é só um nome. Ele tem <strong>workspace próprio</strong>, <strong>agentDir próprio</strong>, <strong>sessões próprias</strong> e, idealmente, <strong>credenciais próprias</strong>.</p><h2>O que define um agente</h2><ul><li>workspace</li><li>state/agentDir</li><li>store de sessões</li><li>auth profiles</li><li>persona e regras</li></ul><h2>Por que isso é poderoso?</h2><ul><li>um agente para vida pessoal</li><li>outro para trabalho</li><li>outro para automações</li><li>outro para grupos específicos</li></ul><h2>Roteamento</h2><p>Bindings determinam qual mensagem vai para qual agente. A especificidade importa: peer exato tende a ganhar de regras mais genéricas de canal.</p><pre><code>peer específico &gt; conta/canal específico &gt; fallback do agente padrão</code></pre><h2>Exemplo mental</h2><p>Você pode ter um agente “chat” atendendo WhatsApp e um agente “opus” atendendo Telegram. Ou um único canal com exceções por pessoa/grupo.</p><div class="callout"><strong>Regra de ouro:</strong> não compartilhe o mesmo <code>agentDir</code> entre agentes. Isso mistura auth e sessões.</div><h2>Comando útil</h2><pre><code>openclaw agents add work
-openclaw agents list --bindings</code></pre><h2>Exercício</h2><div class="exercise"><strong>Desenhe seu setup ideal:</strong> se você tivesse 3 agentes, quais seriam? Um para quê, outro para quê, e como você os separaria?</div><section class="troubleshoot"><h3>Anti-padrões de roteamento</h3><ul><li>criar múltiplos agentes sem diferença real de função, workspace ou credencial</li><li>misturar ambientes pessoais e operacionais no mesmo agente “coringa”</li><li>adicionar bindings demais sem documentar a precedência</li><li>achar que multi-agent resolve má organização editorial ou má configuração base</li></ul></section><div class="refs"><h3>Referências oficiais</h3><ul><li><a href="https://docs.openclaw.ai/concepts/multi-agent" target="_blank" rel="noopener noreferrer">Multi-agent routing</a></li></ul></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="07-modelos-e-provedores.html">← 7. Modelos e provedores</a></div><div class="card"><a href="../index.html">Índice do livro</a></div><div class="card"><a href="09-automacoes-cron-e-heartbeat.html">9. Automação →</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="07-modelos-e-provedores.html">← Capítulo 7: Modelos e provedores</a><a class="pager-link pager-center" href="../index.html#sumario-livro">Sumário completo</a><a class="pager-link" href="09-automacoes-cron-e-heartbeat.html">Capítulo 9: Automações →</a></nav><div class="footer">Continue em <a href="09-automacoes-cron-e-heartbeat.html">Automação</a>.</div></main></div></body></html>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Capítulo 8 — Multi-agent e roteamento — openclaw-book</title><meta name="description" content="Explore isolamento, bindings, roteamento e organização quando o ambiente passa a ter vários agentes e contextos."><meta name="theme-color" content="#0f1115"><meta name="author" content="Prime"><meta name="application-name" content="OpenClaw Book"><meta name="apple-mobile-web-app-title" content="OpenClaw Book"><meta name="robots" content="index,follow"><link rel="canonical" href="https://prime-bee.github.io/openclaw-book/chapters/08-multi-agent-e-roteamento.html"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Capítulo 8 — Multi-agent e roteamento — openclaw-book"><meta property="og:description" content="Explore isolamento, bindings, roteamento e organização quando o ambiente passa a ter vários agentes e contextos."><meta property="og:type" content="website"><meta property="og:url" content="https://prime-bee.github.io/openclaw-book/chapters/08-multi-agent-e-roteamento.html"><meta property="og:site_name" content="openclaw-book"><meta property="og:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Capítulo 8 — Multi-agent e roteamento — openclaw-book"><meta name="twitter:description" content="Explore isolamento, bindings, roteamento e organização quando o ambiente passa a ter vários agentes e contextos."><meta name="twitter:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><link rel="manifest" href="../site.webmanifest"><link rel="stylesheet" href="../styles.css"><script defer src="../app.js"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Capítulo 8 — Multi-agent e roteamento — openclaw-book","name":"Capítulo 8 — Multi-agent e roteamento — openclaw-book","description":"Explore isolamento, bindings, roteamento e organização quando o ambiente passa a ter vários agentes e contextos.","inLanguage":"pt-BR","url":"https://prime-bee.github.io/openclaw-book/chapters/08-multi-agent-e-roteamento.html","author":{"@type":"Person","name":"Prime"},"publisher":{"@type":"Organization","name":"Prime Bee","url":"https://github.com/prime-bee/openclaw-book"},"isPartOf":{"@type":"Book","name":"OpenClaw Book","url":"https://prime-bee.github.io/openclaw-book/"}}</script></head><body><a class="skip-link" href="#conteudo">Pular para o conteúdo</a><div class="layout"><aside class="sidebar"><div class="brand"><img src="../assets/openclaw-logo-text.png" alt="OpenClaw logo"><h1>Capítulo 8</h1><p>Multi-agent</p></div><nav class="nav"><a href="../index.html">← Início</a><a href="01-visao-geral.html">1. Visão geral</a><a href="02-arquitetura.html">2. Arquitetura</a><a href="03-gateway.html">3. Gateway</a><a href="04-cli.html">4. CLI</a><a href="05-memoria-e-workspace.html">5. Memória e workspace</a><a href="06-canais-e-rotina.html">6. Canais e operação</a><a href="07-modelos-e-provedores.html">7. Modelos e provedores</a><a class="active" href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento</a><a href="09-automacoes-cron-e-heartbeat.html">9. Automação</a><a href="10-sandbox-e-seguranca-pratica.html">10. Sandbox e segurança</a><a href="11-browser-e-controle-remoto.html">11. Browser e controle remoto</a><a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo</a><a href="13-troubleshooting-e-diagnostico.html">13. Troubleshooting</a><a href="14-referencias-oficiais.html">14. Referências oficiais</a><a href="15-roadmap-e-proximos-passos.html">15. Roadmap</a><a href="16-agentes-ia-fluxos-e-delegacao.html">16. Agentes IA e fluxos</a><a href="17-missoes-e-desafios.html">17. Missões e desafios</a><a href="18-engenharia-de-prompts.html">18. Engenharia de prompts</a></nav></aside><main id="conteudo" class="content chapter"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../index.html">Início</a><span aria-hidden="true">/</span><a href="../index.html#sumario-livro">Capítulos</a><span aria-hidden="true">/</span><a href="08-multi-agent-e-roteamento.html" aria-current="page">Capítulo 8: Multi-agent e roteamento</a></nav><div class="chapter-intro"><p class="lede">Explore isolamento, bindings, roteamento e organização quando o ambiente passa a ter vários agentes e contextos.</p><div class="kpi-row"><span class="kpi">Capítulo 8 de 18</span><span class="kpi">Leitura guiada</span><span class="kpi">Referências oficiais ao final</span></div></div><h1>Um gateway, vários cérebros</h1><p>A doc de multi-agent deixa uma coisa clara: um agente não é só um nome. Ele tem <strong>workspace próprio</strong>, <strong>agentDir próprio</strong>, <strong>sessões próprias</strong> e, idealmente, <strong>credenciais próprias</strong>.</p><h2>O que define um agente</h2><ul><li>workspace</li><li>state/agentDir</li><li>store de sessões</li><li>auth profiles</li><li>persona e regras</li></ul><h2>Por que isso é poderoso?</h2><ul><li>um agente para vida pessoal</li><li>outro para trabalho</li><li>outro para automações</li><li>outro para grupos específicos</li></ul><h2>Roteamento</h2><p>Bindings determinam qual mensagem vai para qual agente. A especificidade importa: peer exato tende a ganhar de regras mais genéricas de canal.</p><pre><code>peer específico &gt; conta/canal específico &gt; fallback do agente padrão</code></pre><h2>Exemplo mental</h2><p>Você pode ter um agente "chat" atendendo WhatsApp e um agente "opus" atendendo Telegram. Ou um único canal com exceções por pessoa/grupo.</p><div class="callout"><strong>Regra de ouro:</strong> não compartilhe o mesmo <code>agentDir</code> entre agentes. Isso mistura auth e sessões.</div><h2>Comando útil</h2><pre><code>openclaw agents add work
+openclaw agents list --bindings</code></pre>
+
+<h2>Padrões de arquitetura multi-agent</h2>
+
+<p>Quando múltiplos agentes colaboram em uma tarefa, a forma como eles se organizam define a confiabilidade, a escalabilidade e a facilidade de depuração do sistema. Existem quatro padrões fundamentais.</p>
+
+<h3>Hub-and-spoke: coordenador com especialistas</h3>
+
+<p>Um agente central (coordenador) recebe o pedido, decompõe em subtarefas e delega para agentes especializados. Os resultados retornam ao coordenador para síntese final.</p>
+
+<pre><code>         [Usuário]
+              |
+        [Coordenador]
+       /      |       \
+[Pesquisa] [Código] [Revisão]</code></pre>
+
+<p>Quando usar:</p>
+<ul>
+  <li>Tarefas compostas que exigem especialidades distintas</li>
+  <li>Quando a orquestração lógica é complexa e centralizar facilita o controle</li>
+  <li>Quando você precisa de um ponto único de auditoria e log</li>
+</ul>
+
+<h3>Pipeline: saída de um alimenta o próximo</h3>
+
+<p>Cada agente processa e passa o resultado para o próximo, formando uma cadeia linear. Ideal quando há etapas sequenciais com dependências claras.</p>
+
+<pre><code>[Coletor] → [Limpeza] → [Análise] → [Formatador] → [Entregador]</code></pre>
+
+<p>Quando usar:</p>
+<ul>
+  <li>ETL de dados: coletar, transformar, carregar</li>
+  <li>Fluxos de publicação: rascunho → revisão → formatação → publicação</li>
+  <li>Qualquer fluxo onde a ordem é estrita e cada etapa tem responsabilidade única</li>
+</ul>
+
+<h3>Votação e consenso: múltiplos agentes, melhor resposta</h3>
+
+<p>Vários agentes (geralmente idênticos ou com personas ligeiramente diferentes) produzem respostas independentes para o mesmo problema. Um árbitro (que pode ser outro agente ou lógica determinística) seleciona ou sintetiza a melhor resposta.</p>
+
+<pre><code>Pergunta → [Agente A] ┐
+           [Agente B] ├→ [Árbitro] → Melhor resposta
+           [Agente C] ┘</code></pre>
+
+<p>Quando usar:</p>
+<ul>
+  <li>Decisões críticas onde a confiança numa única resposta é insuficiente</li>
+  <li>Avaliação de risco com múltiplos critérios</li>
+  <li>Geração criativa onde diversidade é desejável antes da seleção final</li>
+</ul>
+
+<h3>Execução paralela: fan-out para subtarefas independentes</h3>
+
+<p>A tarefa é decomposta em subtarefas sem dependência entre si. Todas são disparadas simultaneamente e os resultados são reunidos quando todas concluem.</p>
+
+<pre><code>Tarefa grande
+    ├→ [Agente 1: subtarefa A] ─┐
+    ├→ [Agente 2: subtarefa B] ─┤ → Reunião de resultados
+    └→ [Agente 3: subtarefa C] ─┘</code></pre>
+
+<p>Quando usar:</p>
+<ul>
+  <li>Processamento de múltiplos documentos simultaneamente</li>
+  <li>Consultar diferentes fontes de dados em paralelo</li>
+  <li>Tarefas de longa duração onde paralelismo reduz o tempo total</li>
+</ul>
+
+<h2>O papel do agente coordenador</h2>
+
+<p>O coordenador é o cérebro do sistema multi-agent. Sua qualidade determina a qualidade de todo o pipeline. Um bom coordenador precisa ter responsabilidades bem definidas e um system prompt que as reflita.</p>
+
+<h3>Responsabilidades do coordenador</h3>
+
+<ul>
+  <li><strong>Decomposição de tarefas:</strong> receber um pedido complexo e dividir em subtarefas claras, com escopo bem definido para cada especialista.</li>
+  <li><strong>Delegação:</strong> enviar cada subtarefa ao agente correto, incluindo contexto suficiente mas não excessivo.</li>
+  <li><strong>Síntese de resultados:</strong> reunir as respostas parciais e construir uma resposta coerente e útil para o usuário final.</li>
+  <li><strong>Tratamento de falhas:</strong> detectar quando um subagente falhou ou retornou resultado inadequado, e decidir entre retry, fallback ou escalada para humano.</li>
+</ul>
+
+<h3>System prompt padrão para coordenador</h3>
+
+<pre><code>Você é o coordenador de um sistema multi-agent.
+Sua função é:
+1. Receber tarefas do usuário
+2. Decompor em subtarefas específicas
+3. Delegar cada subtarefa ao agente especializado correto
+4. Reunir os resultados e sintetizar uma resposta final
+
+Agentes disponíveis:
+- agente-pesquisa: busca e coleta de informações externas
+- agente-codigo: análise, geração e revisão de código
+- agente-redacao: criação e revisão de texto
+
+Regras de operação:
+- Sempre confirme que entendeu a tarefa antes de decompor
+- Se uma subtarefa falhar 2 vezes, informe o usuário e peça orientação
+- Nunca invente resultados; use apenas o que os subagentes retornaram
+- Registre no workspace cada delegação e resultado para auditoria</code></pre>
+
+<h3>Detectando e tratando falhas de subagentes</h3>
+
+<p>Falhas em sistemas multi-agent são inevitáveis. O coordenador precisa:</p>
+
+<ol>
+  <li><strong>Detectar timeouts:</strong> se o subagente não respondeu em um tempo razoável, não fique esperando indefinidamente. Defina um timeout explícito.</li>
+  <li><strong>Avaliar qualidade da resposta:</strong> uma resposta que chegou pode ainda ser inadequada (muito vaga, claramente incorreta, fora do escopo solicitado). O coordenador deve checar antes de usar.</li>
+  <li><strong>Estratégia de retry:</strong> falhas transitórias (timeout, rate limit) merecem retry com backoff. Falhas estruturais (subagente mal configurado) devem ser escaladas.</li>
+  <li><strong>Escalada para humano:</strong> quando o sistema não consegue resolver autonomamente, o coordenador deve apresentar o estado parcial ao usuário e pedir orientação. Veja padrão HITL no capítulo 16.</li>
+</ol>
+
+<h3>Quando retry vs escalada</h3>
+
+<div class="tableish">
+  <div><strong>Situação</strong></div><div><strong>Ação recomendada</strong></div>
+  <div>Timeout na primeira tentativa</div><div>Retry automático (até 2×)</div>
+  <div>Rate limit (429)</div><div>Retry com backoff exponencial</div>
+  <div>Resposta vaga mas não incorreta</div><div>Retry com prompt mais específico</div>
+  <div>Resposta claramente incorreta (2× seguidas)</div><div>Escalada para humano</div>
+  <div>Subagente retorna erro de permissão</div><div>Escalada imediata (erro de configuração)</div>
+  <div>Tarefa ambígua, múltiplas interpretações válidas</div><div>Escalada: peça clarificação ao usuário</div>
+</div>
+
+<h2>Isolamento e comunicação entre agentes</h2>
+
+<p>Agentes em produção precisam de fronteiras claras. Sem isolamento, contextos se contaminam, credenciais vazam e a depuração torna-se impossível.</p>
+
+<h3>Padrões de comunicação agent-to-agent</h3>
+
+<ul>
+  <li><strong>Workspace compartilhado com namespacing:</strong> agentes leem e escrevem em arquivos de workspace, mas cada um tem sua própria pasta. O coordenador escreve a tarefa em <code>workspace/tarefas/pesquisa.md</code>, o agente de pesquisa lê e escreve o resultado em <code>workspace/resultados/pesquisa.md</code>.</li>
+  <li><strong>Passagem de mensagens via canal:</strong> o coordenador envia a tarefa como mensagem direta ao subagente pelo canal configurado. Mais simples, mas cria dependência de entrega de mensagem.</li>
+  <li><strong>Fila de tarefas em workspace:</strong> crie um arquivo <code>workspace/fila.json</code> onde o coordenador enfileira tarefas e os agentes fazem polling. Robusto para volumes maiores.</li>
+</ul>
+
+<h3>Prevenindo contaminação de contexto</h3>
+
+<p>Contaminação acontece quando o contexto de uma tarefa influencia indevidamente outra. Para evitar:</p>
+
+<ul>
+  <li>Use sessões isoladas (<code>--session isolated</code>) para cada subtarefa independente</li>
+  <li>Nunca passe o histórico completo de conversa do coordenador para o subagente — passe apenas o contexto relevante para a subtarefa</li>
+  <li>Limpe o workspace de resultados parciais após a síntese final</li>
+  <li>Prefira IDs de tarefa únicos para que resultados não se misturem</li>
+</ul>
+
+<h3>Níveis de confiança entre agentes</h3>
+
+<p>Uma pergunta fundamental em sistemas multi-agent: o agente A deve confiar cegamente no resultado do agente B?</p>
+
+<p>A resposta é: <strong>não automaticamente</strong>. O output de um subagente é, do ponto de vista do coordenador, um dado externo que precisa ser validado antes de uso. Considere:</p>
+
+<ul>
+  <li><strong>Validação de formato:</strong> o subagente deveria retornar JSON? Verifique antes de parsear.</li>
+  <li><strong>Validação de conteúdo:</strong> o resultado está dentro do escopo esperado? Um agente de pesquisa não deveria estar executando código.</li>
+  <li><strong>Validação de completude:</strong> o resultado endereça de fato a subtarefa delegada? Resultados vagos ou genéricos devem ser rejeitados.</li>
+  <li><strong>Prompt injection via subagente:</strong> se um subagente processa conteúdo externo (páginas web, e-mails), seu resultado pode conter instruções maliciosas. Trate o resultado como dado não-confiável (veja capítulo 10).</li>
+</ul>
+
+<h2>Receita: sistema de 3 agentes (coordenador + 2 especialistas)</h2>
+
+<div class="recipe">
+<h3>Sistema mínimo: coordenador + pesquisa + redação</h3>
+
+<ol class="steps">
+  <li><strong>Crie os agentes:</strong>
+    <pre><code>openclaw agents add coordenador
+openclaw agents add pesquisa
+openclaw agents add redacao</code></pre>
+  </li>
+  <li><strong>Configure workspaces separados</strong> em <code>config.yaml</code> para cada agente, garantindo que cada um tenha seu próprio diretório de estado e memória.</li>
+  <li><strong>Configure o system prompt do coordenador</strong> (use o template da seção anterior) no arquivo de persona do agente coordenador.</li>
+  <li><strong>Configure o agente de pesquisa</strong> com acesso a ferramentas de busca e browser, e system prompt focado em: buscar, verificar fontes, retornar síntese factual com referências.</li>
+  <li><strong>Configure o agente de redação</strong> com acesso ao workspace compartilhado e system prompt focado em: receber briefing, consultar resultados de pesquisa, redigir conteúdo no formato especificado.</li>
+  <li><strong>Defina o protocolo de comunicação:</strong> crie um arquivo <code>workspace/compartilhado/README.md</code> documentando as pastas e convenções de nomes que cada agente deve usar.</li>
+  <li><strong>Teste o fluxo:</strong> envie uma tarefa ao coordenador pelo Telegram (ex: "Pesquise e escreva um resumo sobre prompt caching da Anthropic"). Monitore com <code>openclaw logs --follow</code>.</li>
+  <li><strong>Valide o isolamento:</strong> confirme com <code>openclaw agents list --bindings</code> que cada agente responde apenas aos canais e peers corretos.</li>
+</ol>
+
+<pre><code># Estrutura de workspace compartilhado
+workspace/
+  compartilhado/
+    tarefas/          # Coordenador escreve aqui
+    resultados/       # Subagentes escrevem aqui
+    sintetizado/      # Coordenador escreve resultado final
+  coordenador/        # Estado privado do coordenador
+  pesquisa/           # Estado privado do agente de pesquisa
+  redacao/            # Estado privado do agente de redação</code></pre>
+</div>
+
+<h2>Anti-padrões de roteamento e multi-agent</h2>
+
+<section class="troubleshoot"><h3>Anti-padrões a evitar</h3><ul><li>criar múltiplos agentes sem diferença real de função, workspace ou credencial</li><li>misturar ambientes pessoais e operacionais no mesmo agente "coringa"</li><li>adicionar bindings demais sem documentar a precedência</li><li>achar que multi-agent resolve má organização editorial ou má configuração base</li><li>passar o contexto completo da conversa do coordenador para subagentes — isso polui o contexto e infla o custo</li><li>confiar cegamente no output de subagentes sem validação mínima de formato e conteúdo</li><li>usar sessões compartilhadas entre agentes — use sempre sessões isoladas para subtarefas independentes</li></ul></section>
+
+<h2>Exercício</h2>
+
+<div class="exercise"><strong>Desenhe seu setup ideal:</strong> se você tivesse 3 agentes, quais seriam? Um para quê, outro para quê, e como você os separaria? Qual padrão de arquitetura (hub-and-spoke, pipeline, votação, paralelo) melhor se aplica ao seu caso de uso?</div>
+
+<div class="exercise"><strong>Exercício avançado:</strong> implemente uma validação simples de output no coordenador. Defina 3 critérios que uma resposta de subagente deve atender antes de ser aceita. O que acontece quando ela falha nesses critérios?</div>
+
+<div class="refs"><h3>Referências oficiais</h3><ul><li><a href="https://docs.openclaw.ai/concepts/multi-agent" target="_blank" rel="noopener noreferrer">Multi-agent routing</a></li><li><a href="https://docs.anthropic.com/en/docs/build-with-claude/agents" target="_blank" rel="noopener noreferrer">Anthropic: Building Agents</a></li></ul></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="07-modelos-e-provedores.html">← 7. Modelos e provedores</a></div><div class="card"><a href="../index.html">Índice do livro</a></div><div class="card"><a href="09-automacoes-cron-e-heartbeat.html">9. Automação →</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="07-modelos-e-provedores.html">← Capítulo 7: Modelos e provedores</a><a class="pager-link pager-center" href="../index.html#sumario-livro">Sumário completo</a><a class="pager-link" href="09-automacoes-cron-e-heartbeat.html">Capítulo 9: Automações →</a></nav><div class="footer">Continue em <a href="09-automacoes-cron-e-heartbeat.html">Automação</a>.</div></main></div></body></html>
