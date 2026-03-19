@@ -74,6 +74,22 @@ python3 -m http.server 8000
 
 Depois acesse `http://localhost:8000`.
 
+## Validação e revisão antes de publicar
+
+Execute pelo menos:
+
+```bash
+python3 scripts/validate-site.py
+node --check app.js
+node --check search.js
+```
+
+Checklist rápido:
+
+- abrir `index.html` e 1 ou 2 capítulos no navegador
+- confirmar busca, breadcrumbs e links externos
+- revisar se a mudança manteve referências oficiais quando relevante
+
 ## Filosofia editorial
 
 Este projeto **não substitui a documentação oficial**.
