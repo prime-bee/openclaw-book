@@ -21,8 +21,10 @@ for file in HTML_FILES:
     require(text, '<link rel="canonical"', file)
     require(text, 'application/ld+json', file)
     require(text, '<h1>', file)
-    if 'target="_blank"' in text and 'noopener noreferrer' not in text:
-        errors.append(f'{file}: external link missing rel noopener noreferrer')
+    for match in re.finditer(r"<a\b[^>]*target=[\"']_blank[\"'][^>]*>", text):
+        tag = match.group(0)
+        if 'rel=' not in tag or 'noopener' not in tag or 'noreferrer' not in tag:
+            errors.append(f'{file}: external link missing rel noopener noreferrer: {tag}')
 
 for file in JS_FILES + CSS_FILES:
     if not file.exists():
