@@ -18,6 +18,14 @@ node --check search.js
 - robots/sitemap consistency
 - existence of core CSS/JS assets
 
+## Pre-publish checklist
+
+- validar HTML e JS localmente
+- abrir a home, um capítulo intermediário e a página 404
+- confirmar busca, breadcrumbs, navegação anterior/próximo e links externos
+- revisar sitemap/robots se novas páginas foram adicionadas
+- conferir se páginas novas têm descrição, canonical e JSON-LD
+
 ## Editorial rule of thumb
 
 Prefer small focused edits, keep explicit references to official docs when relevant, and preserve the book's didactic flow.
