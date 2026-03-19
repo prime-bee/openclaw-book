@@ -29,3 +29,17 @@ node --check search.js
 ## Editorial rule of thumb
 
 Prefer small focused edits, keep explicit references to official docs when relevant, and preserve the book's didactic flow.
+
+## Official page template
+
+Use `templates/PAGE_TEMPLATE.html` as the source template for new chapters/pages.
+
+Rules:
+- if you add a new recurring structural pattern, update `templates/PAGE_TEMPLATE.html` first
+- chapter pages should usually keep:
+  - breadcrumbs
+  - chapter intro
+  - references block
+  - quick navigation / pager
+- utility pages may omit some blocks when clarity improves
+- validate after creating or reshaping pages

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{PAGE_TITLE}} — openclaw-book</title>
+
+  <!-- REQUIRED METADATA -->
+  <meta name="description" content="{{PAGE_DESCRIPTION}}">
+  <meta name="theme-color" content="#0f1115">
+  <meta name="author" content="Prime">
+  <meta name="application-name" content="OpenClaw Book">
+  <meta name="apple-mobile-web-app-title" content="OpenClaw Book">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="{{CANONICAL_URL}}">
+
+  <!-- SOCIAL / SHARING -->
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="{{PAGE_TITLE}} — openclaw-book">
+  <meta property="og:description" content="{{PAGE_DESCRIPTION}}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{CANONICAL_URL}}">
+  <meta property="og:site_name" content="openclaw-book">
+  <meta property="og:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{PAGE_TITLE}} — openclaw-book">
+  <meta name="twitter:description" content="{{PAGE_DESCRIPTION}}">
+  <meta name="twitter:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png">
+
+  <link rel="manifest" href="{{MANIFEST_PATH}}">
+  <link rel="stylesheet" href="{{STYLES_PATH}}">
+  <script defer src="{{APP_JS_PATH}}"></script>
+
+  <!-- REQUIRED STRUCTURED DATA -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "{{SCHEMA_TYPE}}",
+    "headline": "{{PAGE_TITLE}} — openclaw-book",
+    "name": "{{PAGE_TITLE}} — openclaw-book",
+    "description": "{{PAGE_DESCRIPTION}}",
+    "inLanguage": "pt-BR",
+    "url": "{{CANONICAL_URL}}",
+    "author": {"@type": "Person", "name": "Prime"},
+    "publisher": {"@type": "Organization", "name": "Prime Bee", "url": "https://github.com/prime-bee/openclaw-book"},
+    "isPartOf": {"@type": "Book", "name": "OpenClaw Book", "url": "https://prime-bee.github.io/openclaw-book/"}
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="{{LOGO_PATH}}" alt="OpenClaw logo">
+        <h1>{{SIDEBAR_TITLE}}</h1>
+        <p>{{SIDEBAR_SUBTITLE}}</p>
+      </div>
+
+      <!-- REQUIRED: consistent nav -->
+      <nav class="nav">
+        {{SIDEBAR_NAV}}
+      </nav>
+    </aside>
+
+    <!-- Use class="content chapter" for chapters and class="content" or class="content chapter" for utility pages that should benefit from TOC/progress features. -->
+    <main id="conteudo" class="{{MAIN_CLASS}}">
+      <!-- REQUIRED -->
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        {{BREADCRUMBS}}
+      </nav>
+
+      <!-- OPTIONAL but recommended for chapters -->
+      <div class="chapter-intro">
+        <p class="lede">{{LEDE}}</p>
+        <div class="kpi-row">
+          <span class="kpi">{{KPI_1}}</span>
+          <span class="kpi">{{KPI_2}}</span>
+          <span class="kpi">{{KPI_3}}</span>
+        </div>
+      </div>
+
+      <!-- REQUIRED -->
+      <h1>{{H1_TITLE}}</h1>
+      <p>{{INTRO_PARAGRAPH}}</p>
+
+      <!-- BODY CONTENT -->
+      <h2>Seção principal</h2>
+      <p>Conteúdo...</p>
+
+      <!-- OPTIONAL STANDARD BLOCKS -->
+      <div class="callout"><strong>Ponto-chave:</strong> destaque curto e útil.</div>
+      <section class="recipe"><h3>Receita / checklist</h3><ol class="steps"><li>Passo 1</li><li>Passo 2</li></ol></section>
+      <div class="exercise"><strong>Exercício:</strong> pergunta prática ou drill.</div>
+      <div class="tableish"><div><strong>Coluna A</strong></div><div><strong>Coluna B</strong></div><div>Item</div><div>Descrição</div></div>
+
+      <!-- STRONGLY RECOMMENDED FOR CHAPTERS -->
+      <div class="refs">
+        <h3>Referências oficiais</h3>
+        <ul>
+          <li><a href="{{REFERENCE_1}}" target="_blank" rel="noopener noreferrer">Fonte oficial 1</a></li>
+          <li><a href="{{REFERENCE_2}}" target="_blank" rel="noopener noreferrer">Fonte oficial 2</a></li>
+        </ul>
+      </div>
+
+      <!-- STRONGLY RECOMMENDED FOR CHAPTERS -->
+      <div class="diagram">
+        <h3>Navegação rápida</h3>
+        <div class="grid">
+          <div class="card"><a href="{{PREV_LINK}}">← {{PREV_LABEL}}</a></div>
+          <div class="card"><a href="{{INDEX_LINK}}">Índice</a></div>
+          <div class="card"><a href="{{NEXT_LINK}}">{{NEXT_LABEL}} →</a></div>
+        </div>
+      </div>
+
+      <!-- REQUIRED FOR CHAPTERS / optional for utility pages -->
+      <nav class="chapter-pager" aria-label="Chapter navigation">
+        <a class="pager-link" href="{{PREV_LINK}}">← {{PREV_LABEL}}</a>
+        <a class="pager-link pager-center" href="{{INDEX_LINK}}">{{INDEX_LABEL}}</a>
+        <a class="pager-link" href="{{NEXT_LINK}}">{{NEXT_LABEL}} →</a>
+      </nav>
+
+      <div class="footer">{{FOOTER_TEXT}}</div>
+    </main>
+  </div>
+
+  <!--
+    TEMPLATE RULES
+    1. If you add a new recurring section/pattern to multiple pages, update PAGE_TEMPLATE.html first.
+    2. Not every page needs every block, but chapters should usually keep:
+       - breadcrumbs
+       - chapter-intro
+       - h1 + intro
+       - references block
+       - navigation block / chapter pager
+    3. Utility pages can omit KPI/refs/pager when that genuinely improves clarity.
+    4. After creating/updating a page, run:
+       - python3 scripts/validate-site.py
+       - node --check app.js
+       - node --check search.js
+  -->
+</body>
+</html>
