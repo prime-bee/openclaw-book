@@ -24,6 +24,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Validate site
+        run: python3 scripts/validate-site.py
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
