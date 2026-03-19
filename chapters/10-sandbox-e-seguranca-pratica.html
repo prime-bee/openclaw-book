@@ -80,6 +80,79 @@
   </ol>
 </section>
 
+<h2>OWASP Top 10 para LLMs: mapeamento prático</h2>
+
+<p>O projeto <strong>OWASP Top 10 para Aplicações de Modelos de Linguagem</strong> é o mapa de riscos mais referenciado para sistemas baseados em LLMs. Publicado em 2023 e mantido pela comunidade de segurança global, ele nomeia os dez riscos mais críticos que afetam sistemas como o OpenClaw. Abaixo, cada risco está mapeado para ameaças concretas e mitigações práticas no seu ambiente.</p>
+
+<div class="tableish">
+  <div><strong>Risco OWASP</strong></div><div><strong>O que é no contexto OpenClaw</strong></div><div><strong>Mitigação prática</strong></div>
+  <div><strong>LLM01 — Prompt Injection</strong></div><div>Conteúdo externo (e-mails, arquivos, páginas web) que contém instruções disfarçadas para manipular o agente. Pode fazer o agente encaminhar dados, chamar ferramentas indevidas ou ignorar seu system prompt.</div><div>Separação estrita entre dados e instruções; confirmação humana antes de qualquer ação baseada em conteúdo externo; escopo mínimo de ferramentas.</div>
+  <div><strong>LLM02 — Insecure Output Handling</strong></div><div>O agente gera código, HTML ou comandos que são executados sem validação — por exemplo, um script que o usuário roda direto, ou HTML exibido em interface sem sanitização.</div><div>Trate todo output do agente como não-confiável quando ele envolve execução. Revise código gerado antes de rodar em produção. Nunca exiba HTML gerado pelo agente sem sanitização.</div>
+  <div><strong>LLM03 — Training Data Poisoning</strong></div><div>Menos relevante em uso de modelos de terceiros (Anthropic, OpenAI), mas pode ocorrer se você usa fine-tuning ou RAG alimentado por dados comprometidos. Dados maliciosos no workspace podem enviesar o comportamento do agente.</div><div>Audite regularmente os documentos no workspace. Controle quem pode adicionar arquivos à memória do agente. Documente a origem de cada documento de referência.</div>
+  <div><strong>LLM04 — Model Denial of Service</strong></div><div>Requisições longas, loops de ferramenta mal projetados ou automações sem limite de iteração podem esgotar cotas de API e deixar o sistema sem resposta.</div><div>Configure limites de sessão, timeouts de ferramenta e alertas de custo de API. Evite loops sem condição de saída em automações cron. Monitore consumo de tokens por agente.</div>
+  <div><strong>LLM05 — Supply Chain Vulnerabilities</strong></div><div>Dependência de modelos, plugins ou integrações de terceiros sem auditoria. Se um provedor de modelo for comprometido, ou um plugin de terceiro for mal-intencionado, o agente pode ser vetor de ataque.</div><div>Use apenas provedores oficiais configurados no gateway. Documente e revise cada integração externa. Atualize o gateway regularmente para receber patches de segurança.</div>
+  <div><strong>LLM06 — Sensitive Information Disclosure</strong></div><div>O agente pode vazar informações sensíveis presentes no workspace ou no histórico da sessão — por exemplo, chaves de API lidas de arquivos, dados pessoais de memória, ou informações confidenciais do usuário.</div><div>Nunca coloque credenciais em arquivos do workspace. Revise o que está na memória longa do agente. Limite quais arquivos do workspace o agente pode ler com permissão <code>ro</code> ou scopes específicos.</div>
+  <div><strong>LLM07 — Insecure Plugin Design</strong></div><div>Ferramentas e plugins configurados sem validação adequada de entrada ou com permissões excessivas. Um plugin de "busca na web" que também pode escrever arquivos é um risco desnecessário.</div><div>Projete cada ferramenta com o menor conjunto de permissões necessário. Valide todos os argumentos passados às ferramentas. Documente explicitamente o que cada ferramenta pode e não pode fazer.</div>
+  <div><strong>LLM08 — Excessive Agency</strong></div><div>O agente tem ferramentas, permissões ou autonomia além do que precisa para a tarefa. Um agente de relatórios não precisa de ferramenta para deletar arquivos ou enviar e-mails.</div><div>Aplique o princípio do menor privilégio a ferramentas e permissões de workspace. Revise periodicamente quais ferramentas cada agente tem e remova as não utilizadas.</div>
+  <div><strong>LLM09 — Overreliance</strong></div><div>Operadores e usuários confiam cegamente no output do agente sem verificação. Isso é especialmente perigoso em tarefas financeiras, jurídicas, médicas ou de infraestrutura.</div><div>Estabeleça pontos de revisão humana para decisões de alto impacto. Documente no system prompt que o agente pode cometer erros e que revisão é esperada. Nunca execute outputs críticos sem verificação.</div>
+  <div><strong>LLM10 — Model Theft</strong></div><div>Extração não autorizada de modelos proprietários ou de system prompts detalhados via engenharia reversa. Em geral, menos crítico para usuários finais do que para desenvolvedores de produto.</div><div>Não exponha system prompts completos a usuários não confiáveis. Use prompts de instrução que não revelem lógica proprietária sensível. Monitore tentativas de extração via perguntas sobre "suas instruções".</div>
+</div>
+
+<div class="callout"><strong>Priorização:</strong> para a maioria dos operadores OpenClaw, os riscos mais urgentes são LLM01 (Prompt Injection), LLM08 (Excessive Agency) e LLM09 (Overreliance). Comece por esses três e expanda o programa de segurança progressivamente.</div>
+
+<section class="recipe">
+  <h3>Checklist de avaliação OWASP para sua instalação</h3>
+  <ol class="steps">
+    <li><strong>LLM01:</strong> Existe separação clara entre instruções do sistema e dados externos que o agente processa? Há etapa de confirmação para ações baseadas em conteúdo externo?</li>
+    <li><strong>LLM02:</strong> O código gerado pelo agente passa por revisão antes de execução? Interfaces que exibem output do agente sanitizam HTML?</li>
+    <li><strong>LLM04:</strong> Automações cron têm condição de saída e limite de iterações? Há alerta configurado para consumo excessivo de tokens?</li>
+    <li><strong>LLM06:</strong> O workspace tem arquivos com credenciais? A permissão de workspace está no nível mais restritivo possível para cada agente?</li>
+    <li><strong>LLM08:</strong> Cada agente tem apenas as ferramentas que usa ativamente? Há ferramentas com permissões que excedem o necessário?</li>
+    <li><strong>LLM09:</strong> Há pontos documentados de revisão humana para outputs críticos? Usuários sabem que devem verificar antes de agir?</li>
+  </ol>
+</section>
+
+<h2>NIST AI Risk Management Framework: governança para sistemas de agentes</h2>
+
+<p>O <strong>NIST AI Risk Management Framework (AI RMF)</strong>, publicado pelo National Institute of Standards and Technology dos EUA em 2023, oferece uma estrutura de governança adaptável para qualquer organização que usa IA. Mesmo para operadores individuais ou pequenas equipes, os quatro pilares do NIST AI RMF fornecem um mapa mental útil para pensar sistematicamente sobre risco em sistemas com agentes.</p>
+
+<div class="grid">
+  <div class="card">
+    <h3>GOVERN — Governar</h3>
+    <p>Estabelece a cultura, políticas e responsabilidades para gestão de risco de IA na organização. Em termos OpenClaw: quem decide o que o agente pode fazer? Quem tem autoridade para mudar o system prompt? Existe política documentada?</p>
+    <p><strong>Na prática:</strong> documente no workspace quem pode alterar configurações críticas, quais decisões requerem aprovação humana, e qual é o processo de revisão periódica do sistema.</p>
+  </div>
+  <div class="card">
+    <h3>MAP — Mapear</h3>
+    <p>Identifica e categoriza os riscos específicos do seu contexto. Não basta saber que "LLMs têm riscos" — você precisa saber <em>quais riscos no seu caso</em> têm maior probabilidade e maior impacto.</p>
+    <p><strong>Na prática:</strong> faça um inventário dos agentes, ferramentas, dados e canais. Para cada combinação, pergunte: o que pode dar errado? Qual é o pior caso possível? Quão reversível é?</p>
+  </div>
+  <div class="card">
+    <h3>MEASURE — Medir</h3>
+    <p>Avalia e monitora os riscos identificados com métricas concretas. Risco não medido tende a aumentar silenciosamente.</p>
+    <p><strong>Na prática:</strong> meça taxa de erros de ferramenta, frequência de escalações para humano, volume de tokens consumidos, incidentes de comportamento inesperado. Revise mensalmente.</p>
+  </div>
+  <div class="card">
+    <h3>MANAGE — Gerenciar</h3>
+    <p>Trata os riscos com controles, procedimentos e planos de resposta. Inclui tanto mitigação preventiva quanto resposta a incidentes.</p>
+    <p><strong>Na prática:</strong> implemente os controles listados neste capítulo, mantenha um registro de incidentes no workspace, e faça simulações periódicas de resposta a cenários de risco.</p>
+  </div>
+</div>
+
+<section class="troubleshoot">
+  <h3>Aplicando NIST AI RMF na prática operacional</h3>
+  <p>Para um operador OpenClaw, o ciclo GOVERN → MAP → MEASURE → MANAGE pode ser simplificado em uma rotina trimestral:</p>
+  <ol class="steps">
+    <li><strong>Revisão de governança (GOVERN):</strong> Políticas estão documentadas? Responsabilidades estão claras? Há mudanças de equipe ou contexto que afetam quem tem acesso ao quê?</li>
+    <li><strong>Inventário de riscos (MAP):</strong> Liste todos os agentes, ferramentas ativas e dados no workspace. Adicione novos riscos descobertos desde a última revisão. Remova riscos que foram mitigados ou que não se aplicam mais.</li>
+    <li><strong>Revisão de métricas (MEASURE):</strong> Consulte os logs do período: houve erros inesperados? Comportamentos anômalos? Tentativas de prompt injection? Consumo de tokens fora do padrão?</li>
+    <li><strong>Ajuste de controles (MANAGE):</strong> Com base nos riscos e métricas, ajuste permissões, atualize system prompts, revise allowlists e documente as mudanças feitas.</li>
+    <li><strong>Documentação:</strong> Registre a revisão no workspace com data, o que foi verificado, o que mudou e quem participou.</li>
+  </ol>
+</section>
+
+<div class="callout"><strong>Referências OWASP e NIST:</strong> o OWASP Top 10 para LLMs e o NIST AI RMF se complementam — o primeiro é orientado a ameaças técnicas específicas, o segundo é um framework de governança. Use os dois juntos para cobrir tanto o nível técnico quanto o organizacional.</div>
+
 <h2>Exercícios</h2>
 <div class=”exercise”><strong>Exercício 1:</strong> Em quais situações você deixaria um agente com acesso <code>rw</code> ao workspace? Em quais usaria <code>ro</code> ou <code>none</code>? Documente sua política pessoal.</div>
 <div class=”exercise”><strong>Exercício 2:</strong> Faça um mapeamento de credenciais do seu ambiente: quais tokens existem, quem pode ver cada um, e quando foram criados. Há algum que deveria ser rotacionado?</div>
@@ -91,4 +164,5 @@
   <li><a href=”https://docs.openclaw.ai/gateway/sandboxing” target=”_blank” rel=”noopener noreferrer”>OpenClaw — Sandboxing</a></li>
   <li><a href=”https://owasp.org/www-project-top-10-for-large-language-model-applications/” target=”_blank” rel=”noopener noreferrer”>OWASP Top 10 para LLMs (prompt injection e outros riscos)</a></li>
   <li><a href=”https://docs.anthropic.com/en/docs/build-with-claude/agentic-systems-best-practices” target=”_blank” rel=”noopener noreferrer”>Anthropic — Boas práticas para sistemas agênticos</a></li>
+  <li><a href=”https://www.nist.gov/system/files/documents/2023/01/26/AI%20RMF%201.0.pdf” target=”_blank” rel=”noopener noreferrer”>NIST AI Risk Management Framework 1.0 (PDF em inglês)</a></li>
 </ul></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="09-automacoes-cron-e-heartbeat.html">← 9. Automação</a></div><div class="card"><a href="../index.html">Índice do livro</a></div><div class="card"><a href="11-browser-e-controle-remoto.html">11. Browser e controle remoto →</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="09-automacoes-cron-e-heartbeat.html">← Capítulo 9: Automações</a><a class="pager-link pager-center" href="../index.html#sumario-livro">Sumário completo</a><a class="pager-link" href="11-browser-e-controle-remoto.html">Capítulo 11: Browser e controle remoto →</a></nav><div class="footer">Continue em <a href="11-browser-e-controle-remoto.html">Browser e controle remoto</a>.</div></main></div></body></html>
