@@ -1,4 +1,4 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Capítulo 13 — Troubleshooting — openclaw-book</title><meta name="description" content="Use sintomas, sinais e comandos úteis para diagnosticar problemas de gateway, canais, modelos e sessões."><meta name="theme-color" content="#0f1115"><meta name="author" content="Prime"><meta name="application-name" content="OpenClaw Book"><meta name="apple-mobile-web-app-title" content="OpenClaw Book"><meta name="robots" content="index,follow"><link rel="canonical" href="https://prime-bee.github.io/openclaw-book/chapters/13-troubleshooting-e-diagnostico.html"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Capítulo 13 — Troubleshooting — openclaw-book"><meta property="og:description" content="Use sintomas, sinais e comandos úteis para diagnosticar problemas de gateway, canais, modelos e sessões."><meta property="og:type" content="website"><meta property="og:url" content="https://prime-bee.github.io/openclaw-book/chapters/13-troubleshooting-e-diagnostico.html"><meta property="og:site_name" content="openclaw-book"><meta property="og:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Capítulo 13 — Troubleshooting — openclaw-book"><meta name="twitter:description" content="Use sintomas, sinais e comandos úteis para diagnosticar problemas de gateway, canais, modelos e sessões."><meta name="twitter:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><link rel="manifest" href="../site.webmanifest"><link rel="stylesheet" href="../styles.css"><script defer src="../app.js"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Capítulo 13 — Troubleshooting — openclaw-book","name":"Capítulo 13 — Troubleshooting — openclaw-book","description":"Use sintomas, sinais e comandos úteis para diagnosticar problemas de gateway, canais, modelos e sessões.","inLanguage":"pt-BR","url":"https://prime-bee.github.io/openclaw-book/chapters/13-troubleshooting-e-diagnostico.html","author":{"@type":"Person","name":"Prime"},"publisher":{"@type":"Organization","name":"Prime Bee","url":"https://github.com/prime-bee/openclaw-book"},"isPartOf":{"@type":"Book","name":"OpenClaw Book","url":"https://prime-bee.github.io/openclaw-book/"}}</script></head><body><a class="skip-link" href="#conteudo">Pular para o conteúdo</a><div class="layout"><aside class="sidebar"><div class="brand"><img src="../assets/openclaw-logo-text.png" alt="OpenClaw logo"><h1>Capítulo 13</h1><p>Troubleshooting</p></div><nav class="nav"><a href="../index.html">← Início</a><a href="01-visao-geral.html">1. Visão geral</a><a href="02-arquitetura.html">2. Arquitetura</a><a href="03-gateway.html">3. Gateway</a><a href="04-cli.html">4. CLI</a><a href="05-memoria-e-workspace.html">5. Memória e workspace</a><a href="06-canais-e-rotina.html">6. Canais e operação</a><a href="07-modelos-e-provedores.html">7. Modelos e provedores</a><a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento</a><a href="09-automacoes-cron-e-heartbeat.html">9. Automação</a><a href="10-sandbox-e-seguranca-pratica.html">10. Sandbox e segurança</a><a href="11-browser-e-controle-remoto.html">11. Browser e controle remoto</a><a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo</a><a class="active" href="13-troubleshooting-e-diagnostico.html">13. Troubleshooting</a><a href="14-referencias-oficiais.html">14. Referências oficiais</a><a href="15-roadmap-e-proximos-passos.html">15. Roadmap</a><a href="16-agentes-ia-fluxos-e-delegacao.html">16. Agentes IA e fluxos</a><a href="17-missoes-e-desafios.html">17. Missões e desafios</a></nav></aside><main id="conteudo" class="content chapter"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../index.html">Início</a><span aria-hidden="true">/</span><a href="../index.html#sumario-livro">Capítulos</a><span aria-hidden="true">/</span><a href="13-troubleshooting-e-diagnostico.html" aria-current="page">Capítulo 13: Troubleshooting</a></nav><div class="chapter-intro"><p class="lede">Use sintomas, sinais e comandos úteis para diagnosticar problemas de gateway, canais, modelos e sessões.</p><div class="kpi-row"><span class="kpi">Capítulo 13 de 17</span><span class="kpi">Leitura guiada</span><span class="kpi">Referências oficiais ao final</span></div></div><h1>Diagnóstico: quando algo não funciona</h1><p>Este capítulo resume a mentalidade de troubleshooting da doc oficial: <strong>primeiro confirme a saúde global, depois vá para a camada específica</strong>.</p><div class="troubleshoot"><h3>Escada universal de diagnóstico</h3><pre><code>openclaw status
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Capítulo 13 — Troubleshooting — openclaw-book</title><meta name="description" content="Use sintomas, sinais e comandos úteis para diagnosticar problemas de gateway, canais, modelos e sessões."><meta name="theme-color" content="#0f1115"><meta name="author" content="Prime"><meta name="application-name" content="OpenClaw Book"><meta name="apple-mobile-web-app-title" content="OpenClaw Book"><meta name="robots" content="index,follow"><link rel="canonical" href="https://prime-bee.github.io/openclaw-book/chapters/13-troubleshooting-e-diagnostico.html"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Capítulo 13 — Troubleshooting — openclaw-book"><meta property="og:description" content="Use sintomas, sinais e comandos úteis para diagnosticar problemas de gateway, canais, modelos e sessões."><meta property="og:type" content="website"><meta property="og:url" content="https://prime-bee.github.io/openclaw-book/chapters/13-troubleshooting-e-diagnostico.html"><meta property="og:site_name" content="openclaw-book"><meta property="og:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Capítulo 13 — Troubleshooting — openclaw-book"><meta name="twitter:description" content="Use sintomas, sinais e comandos úteis para diagnosticar problemas de gateway, canais, modelos e sessões."><meta name="twitter:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><link rel="manifest" href="../site.webmanifest"><link rel="stylesheet" href="../styles.css"><script defer src="../app.js"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Capítulo 13 — Troubleshooting — openclaw-book","name":"Capítulo 13 — Troubleshooting — openclaw-book","description":"Use sintomas, sinais e comandos úteis para diagnosticar problemas de gateway, canais, modelos e sessões.","inLanguage":"pt-BR","url":"https://prime-bee.github.io/openclaw-book/chapters/13-troubleshooting-e-diagnostico.html","author":{"@type":"Person","name":"Prime"},"publisher":{"@type":"Organization","name":"Prime Bee","url":"https://github.com/prime-bee/openclaw-book"},"isPartOf":{"@type":"Book","name":"OpenClaw Book","url":"https://prime-bee.github.io/openclaw-book/"}}</script></head><body><a class="skip-link" href="#conteudo">Pular para o conteúdo</a><div class="layout"><aside class="sidebar"><div class="brand"><img src="../assets/openclaw-logo-text.png" alt="OpenClaw logo"><h1>Capítulo 13</h1><p>Troubleshooting</p></div><nav class="nav"><a href="../index.html">← Início</a><a href="01-visao-geral.html">1. Visão geral</a><a href="02-arquitetura.html">2. Arquitetura</a><a href="03-gateway.html">3. Gateway</a><a href="04-cli.html">4. CLI</a><a href="05-memoria-e-workspace.html">5. Memória e workspace</a><a href="06-canais-e-rotina.html">6. Canais e operação</a><a href="07-modelos-e-provedores.html">7. Modelos e provedores</a><a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento</a><a href="09-automacoes-cron-e-heartbeat.html">9. Automação</a><a href="10-sandbox-e-seguranca-pratica.html">10. Sandbox e segurança</a><a href="11-browser-e-controle-remoto.html">11. Browser e controle remoto</a><a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo</a><a class="active" href="13-troubleshooting-e-diagnostico.html">13. Troubleshooting</a><a href="14-referencias-oficiais.html">14. Referências oficiais</a><a href="15-roadmap-e-proximos-passos.html">15. Roadmap</a><a href="16-agentes-ia-fluxos-e-delegacao.html">16. Agentes IA e fluxos</a><a href="17-missoes-e-desafios.html">17. Missões e desafios</a><a href="18-engenharia-de-prompts.html">18. Engenharia de prompts</a></nav></aside><main id="conteudo" class="content chapter"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../index.html">Início</a><span aria-hidden="true">/</span><a href="../index.html#sumario-livro">Capítulos</a><span aria-hidden="true">/</span><a href="13-troubleshooting-e-diagnostico.html" aria-current="page">Capítulo 13: Troubleshooting</a></nav><div class="chapter-intro"><p class="lede">Use sintomas, sinais e comandos úteis para diagnosticar problemas de gateway, canais, modelos e sessões.</p><div class="kpi-row"><span class="kpi">Capítulo 13 de 17</span><span class="kpi">Leitura guiada</span><span class="kpi">Referências oficiais ao final</span></div></div><h1>Diagnóstico: quando algo não funciona</h1><p>Este capítulo resume a mentalidade de troubleshooting da doc oficial: <strong>primeiro confirme a saúde global, depois vá para a camada específica</strong>.</p><div class="troubleshoot"><h3>Escada universal de diagnóstico</h3><pre><code>openclaw status
 openclaw gateway status
 openclaw logs --follow
 openclaw doctor
@@ -20,4 +20,197 @@ openclaw logs --follow</code></pre><p>No perfil <code>chrome-relay</code>, lembr
 └─ Ferramenta específica falhou?
    ├─ Browser → profile / cdp / playwright
    ├─ Cron → status / runs / delivery
-   └─ Node → approvals / permissions / connectivity</code></pre></div><div class="troubleshoot"><h3>Kit mínimo para incidentes</h3><ul><li>Um comando de status geral</li><li>Um comando da camada específica</li><li>Logs recentes do serviço</li><li>Uma hipótese explícita antes de reiniciar ou reconfigurar</li></ul></div><div class="refs"><h3>Referências oficiais</h3><ul><li><a href="https://docs.openclaw.ai/gateway/troubleshooting" target="_blank" rel="noopener noreferrer">Gateway troubleshooting</a></li><li><a href="https://docs.openclaw.ai/channels/troubleshooting" target="_blank" rel="noopener noreferrer">Channel troubleshooting</a></li><li><a href="https://docs.openclaw.ai/automation/cron-jobs" target="_blank" rel="noopener noreferrer">Cron jobs</a></li><li><a href="https://docs.openclaw.ai/gateway/heartbeat" target="_blank" rel="noopener noreferrer">Heartbeat</a></li><li><a href="https://docs.openclaw.ai/tools/browser" target="_blank" rel="noopener noreferrer">Browser tool</a></li></ul><p class="muted">Fontes locais: docs/gateway/troubleshooting.md, docs/automation/cron-jobs.md, docs/gateway/heartbeat.md, docs/tools/browser.md</p></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="12-receitas-passo-a-passo.html">← 12. Receitas passo a passo</a></div><div class="card"><a href="../index.html">Índice do livro</a></div><div class="card"><a href="14-referencias-oficiais.html">14. Referências oficiais →</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="12-receitas-passo-a-passo.html">← Capítulo 12: Receitas passo a passo</a><a class="pager-link pager-center" href="../index.html#sumario-livro">Sumário completo</a><a class="pager-link" href="14-referencias-oficiais.html">Capítulo 14: Referências oficiais →</a></nav><div class="footer">Continue em <a href="14-referencias-oficiais.html">Referências oficiais</a>.</div></main></div></body></html>
+   └─ Node → approvals / permissions / connectivity</code></pre></div><div class="troubleshoot"><h3>Kit mínimo para incidentes</h3><ul><li>Um comando de status geral</li><li>Um comando da camada específica</li><li>Logs recentes do serviço</li><li>Uma hipótese explícita antes de reiniciar ou reconfigurar</li></ul></div><h2>Diagnóstico de qualidade de resposta</h2>
+
+<p>Problemas de qualidade são mais difíceis de diagnosticar do que problemas técnicos — não há um erro explícito, apenas respostas que decepcionam. Use este guia para identificar a causa raiz.</p>
+
+<h3>Agente dando respostas genéricas ou inúteis</h3>
+
+<p><strong>Sintoma:</strong> o agente responde com frases vagas ("claro, posso ajudar com isso!"), não resolve a tarefa concreta, ou ignora o contexto específico.</p>
+
+<p><strong>Causas comuns e correções:</strong></p>
+<ul>
+  <li><strong>System prompt ausente ou vago:</strong> sem instrução de papel e escopo, o modelo entra em modo genérico. Corrija adicionando identidade, escopo e formato esperado ao system prompt (veja capítulo 18).</li>
+  <li><strong>Contexto insuficiente na mensagem:</strong> o usuário enviou uma pergunta sem contexto. Instrua o agente a perguntar pelo contexto antes de responder quando a tarefa for ambígua.</li>
+  <li><strong>Modelo inadequado para a tarefa:</strong> modelos leves (Haiku/Flash) têm capacidade limitada para raciocínio complexo. Considere escalar para um modelo mais capaz (veja capítulo 7).</li>
+  <li><strong>Temperatura muito alta:</strong> configurações de temperatura elevada aumentam criatividade mas reduzem precisão. Para tarefas operacionais, use temperatura 0 ou próxima de 0.</li>
+</ul>
+
+<h3>Agente alucinando fatos</h3>
+
+<p><strong>Sintoma:</strong> o agente afirma fatos incorretos com confiança, inventa referências, ou descreve funcionalidades que não existem.</p>
+
+<p><strong>Prevenção e correção:</strong></p>
+<ul>
+  <li><strong>Grounding com fontes:</strong> forneça documentos de referência no contexto ou via workspace. Instrua o agente a citar apenas o que está na fonte fornecida.</li>
+  <li><strong>Instrução explícita de incerteza:</strong> adicione ao system prompt: "Se não tiver certeza, diga 'não tenho certeza' antes de responder. Nunca invente informações."</li>
+  <li><strong>Verificação com ferramentas:</strong> configure ferramentas de busca ou acesso a workspace para que o agente consulte fontes antes de responder, em vez de depender apenas da memória do modelo.</li>
+  <li><strong>Auditoria de respostas críticas:</strong> para domínios onde alucinação tem alto custo (médico, jurídico, financeiro), implemente um passo de verificação humana antes de qualquer ação baseada na resposta.</li>
+</ul>
+
+<h3>Agente ignorando instruções do system prompt</h3>
+
+<p><strong>Sintoma:</strong> o agente não segue regras definidas no system prompt — responde em idioma errado, usa formato diferente do especificado, ou executa ações proibidas.</p>
+
+<p><strong>Diagnóstico e correção:</strong></p>
+<ol>
+  <li>Confirme que o system prompt está sendo enviado corretamente: verifique nos logs se a chamada inclui o campo <code>system</code> com o conteúdo esperado.</li>
+  <li>Verifique conflito com o histórico de conversa: instruções anteriores no histórico podem sobrepor o system prompt. Limpe o histórico e teste novamente.</li>
+  <li>Reformule instruções negativas como positivas: "não use bullets" funciona menos que "use parágrafos corridos".</li>
+  <li>Priorize instruções críticas no início do system prompt, não no final — modelos tendem a dar mais peso ao início do contexto.</li>
+  <li>Teste com uma sessão totalmente nova e contexto mínimo para isolar se o problema é do prompt ou do estado acumulado.</li>
+</ol>
+
+<h3>Agente em loop ou preso</h3>
+
+<p><strong>Sintoma:</strong> o agente continua tentando a mesma ação sem progresso, ou fica chamando ferramentas repetidamente sem concluir a tarefa.</p>
+
+<p><strong>Detecção:</strong></p>
+<ul>
+  <li>Monitore o número de tool calls por sessão nos logs — mais de 15-20 chamadas sem conclusão é sinal de loop</li>
+  <li>Configure um limite máximo de iterações no agente (max_steps ou equivalente)</li>
+  <li>Observe padrões repetitivos nos logs: mesma ferramenta chamada com os mesmos argumentos é diagnóstico claro</li>
+</ul>
+
+<p><strong>Interrupção:</strong></p>
+<ul>
+  <li>Encerre a sessão corrente: <code>openclaw sessions kill &lt;sessionId&gt;</code></li>
+  <li>Adicione ao system prompt uma condição explícita de parada: "Se tentar a mesma ação mais de 3 vezes sem progresso, pare e explique ao usuário o que está bloqueando."</li>
+  <li>Implemente um mecanismo de circuit breaker: se N tentativas falharem, escale para humano em vez de continuar tentando</li>
+</ul>
+
+<h2>Diagnóstico de performance</h2>
+
+<p>Performance degradada afeta diretamente a experiência do usuário e o custo operacional. Diagnostique antes de otimizar.</p>
+
+<h3>Alta latência de resposta</h3>
+
+<p><strong>Sintoma:</strong> o agente leva muito tempo para responder — segundos a dezenas de segundos mesmo para perguntas simples.</p>
+
+<p><strong>Causas e diagnóstico:</strong></p>
+<ul>
+  <li><strong>Modelo muito grande para a tarefa:</strong> Claude Opus ou GPT-4o têm latência maior que modelos leves. Se a tarefa é simples, troque por Sonnet ou Haiku (veja a matriz do capítulo 7).</li>
+  <li><strong>Contexto excessivo:</strong> contextos com 50.000+ tokens demoram mais para processar. Reduza o histórico de conversa e filtre arquivos desnecessários do workspace.</li>
+  <li><strong>Muitas tool calls em sequência:</strong> cada tool call é uma ida e volta ao modelo. Redesenhe o fluxo para minimizar roundtrips — agrupe ações quando possível.</li>
+  <li><strong>Latência de rede:</strong> use <code>openclaw logs --follow</code> e compare o tempo de início da chamada com o fim para separar latência de rede da latência de processamento do modelo.</li>
+</ul>
+
+<h3>Alto consumo de tokens</h3>
+
+<p><strong>Sintoma:</strong> fatura acima do esperado ou rate limits sendo atingidos mais cedo que o previsto.</p>
+
+<p><strong>Diagnóstico com logging:</strong></p>
+<pre><code># Inspecione o consumo de tokens por sessão
+openclaw logs --follow | grep "tokens"
+
+# Identifique sessões com consumo anômalo
+openclaw sessions list --sort tokens-desc --limit 10</code></pre>
+
+<p><strong>Causas comuns:</strong></p>
+<ul>
+  <li>Arquivos grandes sendo injetados no contexto em toda chamada (MEMORY.md crescendo sem controle)</li>
+  <li>System prompt excessivamente longo com redundâncias</li>
+  <li>Cron jobs com frequência alta e contexto desnecessariamente rico</li>
+  <li>Loop de agente consumindo tokens sem produzir resultado</li>
+  <li>Definições de ferramentas extensas enviadas em chamadas que não as usam</li>
+</ul>
+
+<h3>Limites de taxa (rate limits) sendo atingidos</h3>
+
+<p>Quando o agente bate em rate limits frequentemente, o problema raramente é de capacidade contratada — quase sempre é de padrão de chamadas mal otimizado.</p>
+
+<p><strong>Diagnóstico:</strong></p>
+<ul>
+  <li>Identifique o tipo de limite: RPM (requests) ou TPM (tokens)? Os logs de erro 429 incluem informação sobre qual limite foi atingido.</li>
+  <li>Mapeie os horários de pico: use os logs para encontrar quando as rajadas acontecem.</li>
+  <li>Identifique o agente ou cron responsável: multi-agent pode ter um agente consumindo desproporcionalmente.</li>
+</ul>
+
+<p><strong>Soluções:</strong></p>
+<ul>
+  <li>Implemente backoff exponencial nas chamadas (veja capítulo 7 — seção de quotas)</li>
+  <li>Escalone crons que disparavam no mesmo minuto para horários diferentes</li>
+  <li>Use modelos leves para tarefas de alta frequência</li>
+  <li>Solicite aumento de limite ao provedor se o uso legítimo justificar</li>
+</ul>
+
+<h2>Diagnóstico de integração de ferramentas</h2>
+
+<p>Falhas em ferramentas (tools) são uma das categorias mais comuns de problemas em agentes operacionais.</p>
+
+<h3>Tool calls falhando</h3>
+
+<p><strong>Sintoma:</strong> o agente tenta usar uma ferramenta mas recebe erro, ou a ferramenta retorna vazio quando deveria retornar dados.</p>
+
+<p><strong>Diagnóstico por tipo de ferramenta:</strong></p>
+
+<div class="tableish">
+  <div><strong>Ferramenta</strong></div><div><strong>Verificação primária</strong></div><div><strong>Verificação secundária</strong></div>
+  <div>Leitura de arquivo</div><div>Arquivo existe? Path correto?</div><div>Permissão de leitura no sandbox?</div>
+  <div>Escrita de arquivo</div><div>Diretório destino existe?</div><div>Sandbox permite escrita nesse path?</div>
+  <div>Execução de comando</div><div>Comando está no PATH?</div><div>Escopo elevated necessário? (cap. 10)</div>
+  <div>Browser/CDP</div><div>Processo do browser está rodando?</div><div>Perfil correto configurado?</div>
+  <div>API externa</div><div>Credenciais válidas?</div><div>Endpoint alcançável da sandbox?</div>
+</div>
+
+<p><strong>Auditoria de permissões:</strong></p>
+<pre><code># Verifique o escopo da sandbox
+openclaw sandbox status
+openclaw sandbox scope list
+
+# Se a ferramenta requer acesso não permitido:
+# Revise o escopo em config antes de expandir permissões</code></pre>
+
+<h3>Resultados de ferramentas não usados corretamente pelo agente</h3>
+
+<p><strong>Sintoma:</strong> a ferramenta retorna o resultado correto, mas o agente o ignora, o mal-interpreta, ou produz uma resposta que não reflete o que foi retornado.</p>
+
+<p><strong>Diagnóstico de prompt:</strong></p>
+<ol>
+  <li>Inspecione nos logs o conteúdo exato do tool result que chegou ao modelo.</li>
+  <li>Verifique se o formato do resultado é o que o agente espera (JSON vs texto plano, estrutura esperada).</li>
+  <li>Adicione ao system prompt instruções explícitas sobre como processar resultados de ferramentas: "Quando a ferramenta retornar JSON, extraia apenas os campos X e Y para a sua resposta."</li>
+  <li>Se o resultado é muito longo, o modelo pode estar truncando internamente. Filtre o resultado antes de enviá-lo de volta ao contexto.</li>
+</ol>
+
+<h3>Automação de browser instável</h3>
+
+<p><strong>Sintoma:</strong> o agente usa browser mas falha intermitentemente — às vezes funciona, às vezes não encontra elementos ou trava no carregamento da página.</p>
+
+<p><strong>Causa raiz mais comum: seletores frágeis e timing.</strong> Veja o capítulo 11 para estratégias completas. Resumo rápido:</p>
+
+<ul>
+  <li><strong>Seletor quebrado:</strong> o elemento mudou na última atualização do site. Atualize o seletor para um atributo mais estável (data-testid, aria-label) em vez de classes CSS ou posição no DOM.</li>
+  <li><strong>Timing de carregamento:</strong> o agente tenta interagir antes do elemento estar renderizado. Adicione espera explícita por visibilidade do elemento, não apenas por carregamento da página.</li>
+  <li><strong>JavaScript assíncrono:</strong> conteúdo carregado via SPA não está disponível imediatamente após o page load. Use <code>waitForSelector</code> com timeout adequado.</li>
+  <li><strong>Captcha ou bloqueio:</strong> sites detectam automação e bloqueiam. Considere se a automação do site em questão é permitida pelos termos de uso antes de investir em contornar bloqueios.</li>
+  <li><strong>Perfil do browser:</strong> confirme que o perfil está configurado corretamente com <code>openclaw browser profiles</code> e que o processo está rodando antes de tentar a automação.</li>
+</ul>
+
+<h2>Árvore de decisão para troubleshooting</h2>
+
+<div class="diagram"><h3>Fluxo de diagnóstico expandido</h3><pre><code>Problema percebido
+├─ É um problema técnico (gateway, canal, ferramenta)?
+│  ├─ Gateway não sobe → status / logs / doctor / port / auth
+│  ├─ Canal não entrega → status --probe / token / pairing / policy
+│  └─ Ferramenta falha → permissões / sandbox scope / credenciais
+│
+├─ É um problema de qualidade de resposta?
+│  ├─ Resposta genérica → system prompt vago → revise persona e escopo (cap. 18)
+│  ├─ Alucinação → adicione grounding / fontes / instrução de incerteza
+│  ├─ Ignora instruções → conflito de contexto / reformule instruções
+│  └─ Loop ou preso → kill session / adicione condição de parada / circuit breaker
+│
+├─ É um problema de performance?
+│  ├─ Alta latência → modelo muito grande? contexto excessivo? (cap. 7)
+│  ├─ Alto consumo de tokens → audit logs / MEMORY.md crescendo? / cron excessivo?
+│  └─ Rate limits → backoff / redistribuir horários / modelos menores
+│
+└─ É um problema de ferramenta/integração?
+   ├─ Tool call falha → permissões / sandbox / credenciais
+   ├─ Resultado ignorado → prompt debugging / formato do resultado
+   └─ Browser instável → seletores / timing / perfil (cap. 11)</code></pre></div>
+
+<p>Use sempre a mesma metodologia: <strong>confirme o sintoma → colete evidências → formule uma hipótese → teste → valide</strong>. Nunca mude múltiplas variáveis ao mesmo tempo ou você não saberá o que resolveu o problema.</p>
+
+<div class="refs"><h3>Referências oficiais</h3><ul><li><a href="https://docs.openclaw.ai/gateway/troubleshooting" target="_blank" rel="noopener noreferrer">Gateway troubleshooting</a></li><li><a href="https://docs.openclaw.ai/channels/troubleshooting" target="_blank" rel="noopener noreferrer">Channel troubleshooting</a></li><li><a href="https://docs.openclaw.ai/automation/cron-jobs" target="_blank" rel="noopener noreferrer">Cron jobs</a></li><li><a href="https://docs.openclaw.ai/gateway/heartbeat" target="_blank" rel="noopener noreferrer">Heartbeat</a></li><li><a href="https://docs.openclaw.ai/tools/browser" target="_blank" rel="noopener noreferrer">Browser tool</a></li></ul><p class="muted">Ver também: Capítulo 7 (modelos e quotas), Capítulo 10 (sandbox e segurança), Capítulo 11 (browser), Capítulo 18 (engenharia de prompts).</p><p class="muted">Fontes locais: docs/gateway/troubleshooting.md, docs/automation/cron-jobs.md, docs/gateway/heartbeat.md, docs/tools/browser.md</p></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="12-receitas-passo-a-passo.html">← 12. Receitas passo a passo</a></div><div class="card"><a href="../index.html">Índice do livro</a></div><div class="card"><a href="14-referencias-oficiais.html">14. Referências oficiais →</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="12-receitas-passo-a-passo.html">← Capítulo 12: Receitas passo a passo</a><a class="pager-link pager-center" href="../index.html#sumario-livro">Sumário completo</a><a class="pager-link" href="14-referencias-oficiais.html">Capítulo 14: Referências oficiais →</a></nav><div class="footer">Continue em <a href="14-referencias-oficiais.html">Referências oficiais</a>.</div></main></div></body></html>
