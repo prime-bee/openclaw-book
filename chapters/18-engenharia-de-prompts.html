@@ -1,0 +1,288 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Capítulo 18 — Engenharia de prompts — openclaw-book</title><meta name="description" content="Aprenda a projetar system prompts eficazes, aplicar few-shot prompting, chain-of-thought e obter saídas estruturadas com agentes OpenClaw."><meta name="theme-color" content="#0f1115"><meta name="author" content="Prime"><meta name="application-name" content="OpenClaw Book"><meta name="apple-mobile-web-app-title" content="OpenClaw Book"><meta name="robots" content="index,follow"><link rel="canonical" href="https://prime-bee.github.io/openclaw-book/chapters/18-engenharia-de-prompts.html"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Capítulo 18 — Engenharia de prompts — openclaw-book"><meta property="og:description" content="Aprenda a projetar system prompts eficazes, aplicar few-shot prompting, chain-of-thought e obter saídas estruturadas com agentes OpenClaw."><meta property="og:type" content="website"><meta property="og:url" content="https://prime-bee.github.io/openclaw-book/chapters/18-engenharia-de-prompts.html"><meta property="og:site_name" content="openclaw-book"><meta property="og:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Capítulo 18 — Engenharia de prompts — openclaw-book"><meta name="twitter:description" content="Aprenda a projetar system prompts eficazes, aplicar few-shot prompting, chain-of-thought e obter saídas estruturadas com agentes OpenClaw."><meta name="twitter:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><link rel="manifest" href="../site.webmanifest"><link rel="stylesheet" href="../styles.css"><script defer src="../app.js"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Capítulo 18 — Engenharia de prompts — openclaw-book","name":"Capítulo 18 — Engenharia de prompts — openclaw-book","description":"Aprenda a projetar system prompts eficazes, aplicar few-shot prompting, chain-of-thought e obter saídas estruturadas com agentes OpenClaw.","inLanguage":"pt-BR","url":"https://prime-bee.github.io/openclaw-book/chapters/18-engenharia-de-prompts.html","author":{"@type":"Person","name":"Prime"},"publisher":{"@type":"Organization","name":"Prime Bee","url":"https://github.com/prime-bee/openclaw-book"},"isPartOf":{"@type":"Book","name":"OpenClaw Book","url":"https://prime-bee.github.io/openclaw-book/"}}</script></head><body><a class="skip-link" href="#conteudo">Pular para o conteúdo</a><div class="layout"><aside class="sidebar"><div class="brand"><img src="../assets/openclaw-logo-text.png" alt="OpenClaw logo"><h1>Capítulo 18</h1><p>Engenharia de prompts</p></div><nav class="nav"><a href="../index.html">← Início</a><a href="01-visao-geral.html">1. Visão geral</a><a href="02-arquitetura.html">2. Arquitetura</a><a href="03-gateway.html">3. Gateway</a><a href="04-cli.html">4. CLI</a><a href="05-memoria-e-workspace.html">5. Memória e workspace</a><a href="06-canais-e-rotina.html">6. Canais e operação</a><a href="07-modelos-e-provedores.html">7. Modelos e provedores</a><a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento</a><a href="09-automacoes-cron-e-heartbeat.html">9. Automação</a><a href="10-sandbox-e-seguranca-pratica.html">10. Sandbox e segurança</a><a href="11-browser-e-controle-remoto.html">11. Browser e controle remoto</a><a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo</a><a href="13-troubleshooting-e-diagnostico.html">13. Troubleshooting</a><a href="14-referencias-oficiais.html">14. Referências oficiais</a><a href="15-roadmap-e-proximos-passos.html">15. Roadmap</a><a href="16-agentes-ia-fluxos-e-delegacao.html">16. Agentes IA e fluxos</a><a href="17-missoes-e-desafios.html">17. Missões e desafios</a><a class="active" href="18-engenharia-de-prompts.html">18. Engenharia de prompts</a></nav></aside><main id="conteudo" class="content chapter"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../index.html">Início</a><span aria-hidden="true">/</span><a href="../index.html#sumario-livro">Capítulos</a><span aria-hidden="true">/</span><a href="18-engenharia-de-prompts.html" aria-current="page">Capítulo 18: Engenharia de prompts</a></nav><div class="chapter-intro"><p class="lede">Aprenda a projetar system prompts eficazes, aplicar few-shot prompting, chain-of-thought e obter saídas estruturadas com agentes OpenClaw.</p><div class="kpi-row"><span class="kpi">Capítulo 18 de 18</span><span class="kpi">Avançado</span><span class="kpi">System prompts · Few-shot · CoT · Saídas estruturadas · Anti-padrões</span></div></div>
+
+<h1>Engenharia de prompts: da instrução vaga ao agente previsível</h1>
+
+<p>Um modelo de linguagem capaz não garante um agente útil. O que separa um agente frustrante de um agente excelente, na maioria dos casos, não é o modelo — é a qualidade das instruções. <strong>Engenharia de prompts</strong> é a disciplina de escrever, testar e refinar essas instruções para obter comportamento previsível, seguro e de alta qualidade.</p>
+
+<div class="callout"><strong>Premissa central:</strong> o modelo sabe muito mais do que você usa. Engenharia de prompts é a arte de direcionar esse conhecimento para o problema certo, com o formato certo, no momento certo.</div>
+
+<h2>1. Anatomia de um system prompt</h2>
+
+<p>O system prompt é a instrução permanente que define quem é o agente, o que ele faz e como ele se comporta. É lido em toda interação e define o "envelope" dentro do qual o modelo opera. Um system prompt bem construído tem cinco componentes:</p>
+
+<div class="grid">
+  <div class="card">
+    <h3>Papel e identidade</h3>
+    <p>Quem é o agente? Para quem trabalha? Qual é o tom — formal, técnico, casual? Sem essa âncora, o modelo fica em modo genérico e produz respostas medianas.</p>
+    <p><strong>Exemplo:</strong> "Você é o assistente técnico da equipe de dados da Empresa X. Seu estilo é direto, técnico e preferência por listas sobre parágrafos longos."</p>
+  </div>
+  <div class="card">
+    <h3>Escopo explícito</h3>
+    <p>O que o agente DEVE fazer e — ainda mais importante — o que NÃO deve. Fronteiras explícitas evitam alucinação de capacidades e ações indevidas.</p>
+    <p><strong>Exemplo:</strong> "Você responde perguntas sobre o sistema de dados interno. Você NÃO dá conselhos jurídicos, NÃO faz compras e NÃO envia comunicados externos sem aprovação."</p>
+  </div>
+  <div class="card">
+    <h3>Restrições operacionais</h3>
+    <p>Regras de negócio, limites de confidencialidade, políticas de resposta. Isso inclui o que fazer quando não sabe, quando a tarefa está fora do escopo, ou quando precisa escalar.</p>
+    <p><strong>Exemplo:</strong> "Se não tiver certeza, diga claramente que não tem certeza antes de responder. Se a tarefa envolver dados de produção, peça confirmação explícita."</p>
+  </div>
+  <div class="card">
+    <h3>Formato de resposta</h3>
+    <p>Extensão esperada, estrutura (lista, parágrafo, tabela, JSON), idioma, nível de detalhe. Sem esse guia, o modelo escolhe formato por conta própria — nem sempre o mais útil para você.</p>
+    <p><strong>Exemplo:</strong> "Respostas curtas: máximo 3 parágrafos. Respostas técnicas: inclua exemplos de código. Sempre responda em português brasileiro."</p>
+  </div>
+  <div class="card">
+    <h3>Exemplos no prompt</h3>
+    <p>Um ou dois exemplos concretos de input/output esperado. Isso reduz ambiguidade mais do que qualquer descrição textual — o modelo aprende mais com exemplos do que com regras.</p>
+    <p><strong>Exemplo:</strong> "Quando perguntado 'como reinicio o gateway?', responda: 'Execute <code>openclaw gateway restart</code>. Para ver se voltou, use <code>openclaw gateway status</code>.' — direto e com código."</p>
+  </div>
+</div>
+
+<section class="recipe">
+  <h3>Template de system prompt para OpenClaw</h3>
+  <pre><code># Papel
+Você é [nome/função] da equipe [contexto].
+Trabalha para [usuário/organização].
+Tom: [formal/técnico/casual].
+
+# Escopo
+DEVE fazer: [lista explícita de responsabilidades].
+NÃO DEVE fazer: [lista explícita de proibições].
+
+# Restrições operacionais
+- Se não tiver certeza, diga antes de responder.
+- Para ações irreversíveis (deletar, enviar, publicar), peça confirmação.
+- Se a tarefa estiver fora do escopo, oriente o usuário a [alternativa].
+
+# Formato de resposta
+- Responda em português brasileiro.
+- Prefira listas a parágrafos para informações técnicas.
+- Inclua exemplos de código quando relevante.
+- Respostas de até [N] linhas, exceto quando explicitamente pedido mais detalhe.
+
+# Exemplo de interação ideal
+Pergunta: [exemplo de pergunta típica]
+Resposta ideal: [exemplo de resposta no formato e nível esperados]</code></pre>
+</section>
+
+<h2>2. Few-shot prompting: ensinar com exemplos</h2>
+
+<p>Few-shot prompting é a técnica de incluir exemplos de input/output dentro do próprio prompt para guiar o comportamento do modelo. Em vez de descrever o que você quer (o que é ambíguo), você mostra. Três exemplos bem escolhidos costumam ter mais impacto do que três parágrafos de instruções.</p>
+
+<div class="callout"><strong>Quando usar few-shot:</strong> quando o formato de saída é específico, quando a tarefa tem um padrão que palavras não descrevem bem, ou quando o modelo está produzindo outputs inconsistentes.</div>
+
+<section class="recipe">
+  <h3>Estrutura de few-shot prompting</h3>
+  <pre><code># Tarefa
+Classifique a urgência de mensagens de suporte como: ALTA, MÉDIA ou BAIXA.
+Responda apenas com a classificação, nada mais.
+
+# Exemplos
+Mensagem: "O sistema de pagamentos está fora e estamos perdendo vendas"
+Classificação: ALTA
+
+Mensagem: "Como faço para mudar minha senha?"
+Classificação: BAIXA
+
+Mensagem: "O relatório mensal não está sendo gerado desde ontem"
+Classificação: MÉDIA
+
+# Agora classifique:
+Mensagem: [mensagem do usuário]
+Classificação:</code></pre>
+</section>
+
+<p>Boas práticas para few-shot:</p>
+<ul>
+  <li><strong>Escolha exemplos representativos</strong> — cubra casos típicos, não só os extremos.</li>
+  <li><strong>Use 2 a 5 exemplos</strong> — menos de 2 pode não ser suficiente; mais de 6 raro traz ganho e ocupa contexto.</li>
+  <li><strong>Mantenha formato consistente</strong> — cada exemplo deve ter exatamente a mesma estrutura.</li>
+  <li><strong>Inclua exemplos de borda</strong> — mostre o que fazer em casos ambíguos ou difíceis.</li>
+  <li><strong>Atualize exemplos quando o comportamento mudar</strong> — exemplos obsoletos confundem o modelo.</li>
+</ul>
+
+<h2>3. Chain-of-thought: raciocínio passo a passo</h2>
+
+<p>Chain-of-thought (CoT) é a técnica de instruir o modelo a raciocinar explicitamente antes de dar a resposta final. Para tarefas complexas — diagnóstico, planejamento, análise de múltiplas variáveis — pedir que o modelo "pense em voz alta" melhora significativamente a qualidade e a detectabilidade de erros.</p>
+
+<section class="recipe">
+  <h3>Ativando chain-of-thought</h3>
+  <pre><code># Técnica simples
+Antes de responder, analise os seguintes pontos:
+1. Qual é o problema central?
+2. Que informações tenho e o que está faltando?
+3. Quais são as opções possíveis?
+4. Qual é a melhor opção e por quê?
+Depois, responda com base nessa análise.
+
+# Técnica de scratchpad
+&lt;pensamento&gt;
+[o modelo raciocina aqui — você pode instruí-lo a usar essas tags]
+&lt;/pensamento&gt;
+
+Resposta final: [resposta limpa para o usuário]</code></pre>
+</section>
+
+<div class="callout warning"><strong>Cuidado com CoT em produção:</strong> cadeia de pensamento aumenta o número de tokens gerados. Em respostas de alto volume ou com restrição de custo, use com moderação ou apenas para tarefas que justificam o custo.</div>
+
+<p>Casos de uso ideais para chain-of-thought no OpenClaw:</p>
+<ul>
+  <li><strong>Diagnóstico de problemas</strong> — o agente raciocina sobre sintomas antes de sugerir solução.</li>
+  <li><strong>Planejamento de automações</strong> — o agente detalha cada passo antes de executar.</li>
+  <li><strong>Análise de risco</strong> — o agente lista prós, contras e riscos antes de recomendar.</li>
+  <li><strong>Revisão de código ou documentos</strong> — o agente identifica problemas antes de sugerir correção.</li>
+</ul>
+
+<h2>4. Prompts para saídas estruturadas</h2>
+
+<p>Sistemas que consomem output de agentes — dashboards, integrações, relatórios automáticos — precisam de saída previsível. Três formatos dominam: JSON, Markdown e tabelas.</p>
+
+<div class="tableish">
+  <div><strong>Formato</strong></div><div><strong>Quando usar</strong></div><div><strong>Como solicitar</strong></div>
+  <div>JSON</div><div>Integração com código, APIs, armazenamento estruturado</div><div>"Responda apenas com JSON válido, sem texto adicional. Schema: {campo: tipo}"</div>
+  <div>Markdown</div><div>Documentação, relatórios, wikis, saída para humanos</div><div>"Formate a resposta em Markdown com cabeçalhos h2, listas e blocos de código quando necessário."</div>
+  <div>Tabela Markdown</div><div>Comparações, dados tabulares, relatórios</div><div>"Apresente as informações em formato de tabela Markdown com colunas: [col1, col2, col3]."</div>
+  <div>Texto simples</div><div>Mensagens de chat, respostas conversacionais</div><div>"Responda em texto corrido, sem formatação especial."</div>
+</div>
+
+<section class="recipe">
+  <h3>Solicitando JSON estruturado com schema</h3>
+  <pre><code>Analise a mensagem de suporte e responda APENAS com JSON válido.
+Não inclua texto antes ou depois do JSON.
+
+Schema:
+{
+  "categoria": "string (tecnico|financeiro|administrativo)",
+  "urgencia": "string (alta|media|baixa)",
+  "resumo": "string (máximo 100 caracteres)",
+  "acoes_sugeridas": ["string"]
+}
+
+Mensagem: [mensagem do usuário]</code></pre>
+</section>
+
+<div class="callout"><strong>Dica de robustez:</strong> mesmo com instrução clara, modelos ocasionalmente inserem texto antes ou depois do JSON. Considere usar um parser que busque o bloco JSON dentro da resposta em vez de parsear a string completa.</div>
+
+<h2>5. Anti-padrões de prompt</h2>
+
+<p>Estes são os erros mais comuns que fazem prompts falharem. Reconhecê-los é mais rápido do que descobri-los por tentativa e erro.</p>
+
+<section class="troubleshoot">
+  <h3>Anti-padrões e como corrigi-los</h3>
+  <div class="tableish">
+    <div><strong>Anti-padrão</strong></div><div><strong>Sintoma</strong></div><div><strong>Correção</strong></div>
+    <div>Instruções vagas</div><div>"Seja útil" → respostas genéricas e inconsistentes</div><div>Substitua por instruções específicas: "responda em no máximo 3 frases", "inclua código quando relevante"</div>
+    <div>Contradições internas</div><div>"Seja conciso" + "explique em detalhes" → o modelo escolhe um aleatoriamente</div><div>Resolva a contradição antes de enviar: "seja conciso em respostas rotineiras; detalhe em questões técnicas"</div>
+    <div>Scope creep</div><div>Prompt acumula regras ao longo do tempo sem curadoria → comportamento imprevisível</div><div>Revise e consolide o prompt mensalmente; remova regras que se contradizem ou que não são mais relevantes</div>
+    <div>Negações sem alternativa</div><div>"Não faça X" sem dizer o que fazer → o modelo improvisa</div><div>"Não faça X; em vez disso, faça Y"</div>
+    <div>Instruções implícitas</div><div>Você assume que o modelo "sabe" o que você quer → surpresas frequentes</div><div>Torne tudo explícito, especialmente o óbvio; o modelo não tem o seu contexto implícito</div>
+    <div>Prompt monolítico</div><div>Um bloco de texto sem estrutura → difícil de manter e de debugar</div><div>Use cabeçalhos (# Papel, # Escopo, # Formato) para organizar e facilitar edição</div>
+  </div>
+</section>
+
+<h2>6. System prompts para ferramentas OpenClaw: exemplos reais</h2>
+
+<p>Abaixo estão templates de system prompt para casos de uso comuns no OpenClaw. Adapte ao seu contexto — os exemplos são pontos de partida, não fórmulas rígidas.</p>
+
+<section class="recipe">
+  <h3>Agente de operações diárias</h3>
+  <pre><code># Papel
+Você é o assistente operacional de [nome]. Seu trabalho é ajudar
+com tarefas técnicas do dia a dia: diagnóstico de sistema, busca de
+informações, redação de documentos técnicos e execução de comandos
+quando autorizado.
+
+# Escopo
+DEVE: responder perguntas técnicas, buscar arquivos no workspace,
+redigir rascunhos, diagnosticar problemas comuns, resumir logs.
+NÃO DEVE: executar comandos em produção sem confirmação, enviar
+comunicações externas, modificar arquivos de configuração críticos.
+
+# Confirmação obrigatória antes de
+- Deletar qualquer arquivo
+- Reiniciar serviços
+- Enviar mensagens para canais externos
+- Modificar memória de outros agentes
+
+# Formato
+Respostas em português. Prefira bullet points a parágrafos.
+Inclua comandos em blocos de código. Seja conciso por padrão;
+ofereça detalhes quando perguntado.</code></pre>
+</section>
+
+<section class="recipe">
+  <h3>Agente de relatórios automáticos (cron)</h3>
+  <pre><code># Papel
+Você é o agente de relatórios diários. Executa de forma autônoma
+às [hora] e produz um resumo estruturado para [destinatário].
+
+# Tarefa fixa
+1. Leia o log do dia anterior em workspace/logs/
+2. Identifique: erros críticos, avisos, operações concluídas
+3. Produza um relatório no formato abaixo
+4. Salve em workspace/reports/YYYY-MM-DD.md
+
+# Formato do relatório
+## Relatório Operacional — [data]
+### Resumo executivo (2-3 frases)
+### Erros críticos (lista, ou "Nenhum")
+### Avisos (lista, ou "Nenhum")
+### Operações concluídas (lista)
+### Recomendações (se houver)</code></pre>
+</section>
+
+<h2>7. Testes e iteração de prompts</h2>
+
+<p>Um prompt nunca está "pronto". Ele é uma hipótese que você testa e refina. Aqui está um processo pragmático:</p>
+
+<div class="tableish">
+  <div><strong>Etapa</strong></div><div><strong>O que fazer</strong></div>
+  <div>1. Escreva o prompt mínimo</div><div>Comece com o essencial: papel, escopo, formato. Não sobrecarregue.</div>
+  <div>2. Teste com casos típicos</div><div>Execute 5-10 interações representativas e avalie: o output foi o esperado?</div>
+  <div>3. Teste com casos de borda</div><div>O que acontece com perguntas fora do escopo? Com inputs ambíguos? Com inglês misturado?</div>
+  <div>4. Identifique padrões de falha</div><div>Onde o agente erra sistematicamente? Há regras que produzem comportamento indesejado?</div>
+  <div>5. Refine e documente</div><div>Faça uma mudança de cada vez. Documente o que mudou e por quê. Teste novamente.</div>
+  <div>6. Versione</div><div>Salve versões do prompt no workspace. Se uma mudança piorar o comportamento, você consegue reverter.</div>
+</div>
+
+<div class="callout"><strong>Princípio de teste:</strong> se você não consegue prever o output do agente para um dado input, o prompt não está bom o suficiente. Previsibilidade é o objetivo final da engenharia de prompts.</div>
+
+<section class="recipe">
+  <h3>Log de iteração de prompt (template para workspace)</h3>
+  <pre><code>## Prompt: [nome do agente] — histórico de versões
+
+### v1.0 — [data]
+Mudança: versão inicial
+Resultado: [o que funcionou, o que não funcionou]
+
+### v1.1 — [data]
+Mudança: [descrição específica da mudança]
+Motivação: [por que foi necessário mudar]
+Resultado: [melhoria observada, efeitos colaterais]
+
+### v2.0 — [data]
+Mudança: [mudança maior]
+Prompt atual: [cole o prompt completo aqui]</code></pre>
+</section>
+
+<h2>Exercícios</h2>
+
+<div class="exercise"><strong>Exercício 1 — Auditoria de system prompt:</strong> Abra o system prompt do seu agente principal e avalie: ele tem os cinco componentes (papel, escopo, restrições, formato, exemplos)? Qual está faltando? Adicione o que falta e teste com três perguntas típicas. O comportamento mudou?</div>
+
+<div class="exercise"><strong>Exercício 2 — Few-shot para formatação:</strong> Escolha uma tarefa que o agente faz com formato inconsistente (resumos, classificações, relatórios). Escreva 3 exemplos de input/output ideal. Adicione ao prompt e compare os resultados antes e depois.</div>
+
+<div class="exercise"><strong>Exercício 3 — Saída estruturada:</strong> Peça ao agente para resumir os logs da última semana em formato JSON com campos: data, eventos_criticos, contagem_operacoes, status_geral. Avalie se o JSON foi válido e parseável. Se não foi, refine a instrução.</div>
+
+<div class="exercise"><strong>Exercício 4 — Teste de anti-padrões:</strong> Leia o system prompt atual e identifique pelo menos um anti-padrão da lista acima (instrução vaga, contradição, negação sem alternativa). Corrija e documente a mudança no seu log de versões.</div>
+
+<div class="exercise"><strong>Exercício 5 — Iteração documentada:</strong> Faça três versões de um prompt para uma tarefa real. Para cada versão, registre o que mudou e o que melhorou. Ao final, você terá um mini-histórico de engenharia de prompts que serve como referência futura.</div>
+
+<div class="refs"><h3>Referências</h3><ul>
+  <li><a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank" rel="noopener noreferrer">Anthropic — Guia de engenharia de prompts (em inglês)</a></li>
+  <li><a href="https://platform.openai.com/docs/guides/prompt-engineering" target="_blank" rel="noopener noreferrer">OpenAI — Guia de engenharia de prompts (em inglês)</a></li>
+  <li><a href="https://docs.openclaw.ai/concepts/memory" target="_blank" rel="noopener noreferrer">OpenClaw — Memória e workspace (contexto do agente)</a></li>
+  <li><a href="16-agentes-ia-fluxos-e-delegacao.html">Capítulo 16 — Agentes IA: fluxos e delegação (estrutura de system prompts)</a></li>
+</ul></div>
+
+<div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="17-missoes-e-desafios.html">← 17. Missões e desafios</a></div><div class="card"><a href="../index.html">Índice do livro</a></div><div class="card"><a href="../glossario.html">Glossário →</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="17-missoes-e-desafios.html">← Capítulo 17: Missões e desafios</a><a class="pager-link pager-center" href="../index.html#sumario-livro">Sumário completo</a><a class="pager-link" href="../glossario.html">Glossário →</a></nav><div class="footer">Volte ao <a href="../index.html">índice</a> ou explore o <a href="../glossario.html">glossário</a>.</div>
+</main></div></body></html>
