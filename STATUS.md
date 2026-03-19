@@ -1,16 +1,14 @@
 # STATUS.md
 
 ## Current task
-Finalizar a rodada 8 com validação básica do site e documentação de manutenção do repositório.
+Concluir o passe de acessibilidade e navegação da rodada 9, com foco em capítulos e links externos.
 
 ## Done
-- Rodadas 1 a 7 concluídas e mescladas em master.
-- .editorconfig adicionado para consistência de edição.
-- Script `scripts/validate-site.py` criado para checar HTML/SEO/publicação.
-- MAINTENANCE.md criado com rotina mínima de validação.
-- PLAN.md atualizado para o lote final de trabalho.
+- Rodadas 1 a 8 concluídas e mescladas em master.
+- app.js agora melhora aria-label de links externos, adiciona âncoras de seção e marca `aria-current` na navegação ativa.
+- Estilos de âncoras de heading adicionados para descoberta sem poluir a leitura.
 
 ## Next steps
-1. Rodar validação do site e checagem de sintaxe JS.
-2. Commitar e mesclar a rodada 8.
-3. Seguir para acessibilidade/navegação/publicação final.
+1. Rodar validação do site e sintaxe JS.
+2. Commitar e mesclar a rodada 9.
+3. Fazer o último passe de consistência/publicação e encerrar a rodada 10.
