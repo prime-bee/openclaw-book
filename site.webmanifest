@@ -1,0 +1,10 @@
+{
+  "name": "OpenClaw Book",
+  "short_name": "OpenClaw Book",
+  "description": "Livro técnico estático em português sobre OpenClaw, com foco em didática, operação e publicação simples.",
+  "lang": "pt-BR",
+  "start_url": "/openclaw-book/",
+  "display": "standalone",
+  "background_color": "#0f1115",
+  "theme_color": "#0f1115"
+}

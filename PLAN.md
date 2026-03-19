@@ -2,8 +2,6 @@
 
 ## Active batch
 
-1. Adicionar higiene de repositório com validação básica para HTML/JS/CSS e documentação de manutenção.
-2. Aplicar um passe final de acessibilidade/navegação/publicação.
-3. Revisar links, sitemap/robots e consistência de metadados após o novo fluxo.
-4. Fazer um passe final em páginas-chave para reduzir arestas editoriais remanescentes.
-5. Atualizar STATUS.md e preparar o fechamento do ciclo de 10 rodadas.
+1. Encerrado: 10 rodadas concluídas e mescladas em master.
+2. Encerrado: conteúdo, navegação, SEO, acessibilidade e higiene de repositório melhorados.
+3. Encerrado: PLAN.md e STATUS.md mantidos durante o passe final.
