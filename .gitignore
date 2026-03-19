@@ -1,2 +1,5 @@
-.DS_Store
+
 *.log
+.DS_Store
+PLAN.md
+STATUS.md
