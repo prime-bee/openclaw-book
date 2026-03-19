@@ -9,6 +9,6 @@
 
 ## Active priorities
 
-1. Expand `glossario.html` with terms introduced in chapters 16–21 (Skills, HITL, observability, prompt engineering).
+1. [x] Expand `glossario.html` with terms introduced in chapters 16–21 (Skills, HITL, observability, prompt engineering).
 2. Review cross-chapter navigation links for consistency (especially chapters 15–21 pager arrows).
 3. Keep `STATUS.md` and this file current after each significant change.
