@@ -1,13 +1,13 @@
 # openclaw-book
 
-Um livro didático em HTML sobre o **OpenClaw**, pensado para transformar a documentação oficial em uma experiência de estudo mais fluida, navegável e pedagógica.
+Um livro técnico estático em HTML sobre o **OpenClaw**, escrito em português para transformar a documentação oficial em uma experiência de estudo mais clara, navegável e útil no dia a dia.
 
 ## Leitura online
 
 - **GitHub Pages:** https://prime-bee.github.io/openclaw-book/
 - **Repositório:** https://github.com/prime-bee/openclaw-book
 
-## Objetivo
+## O que este projeto entrega
 
 O `openclaw-book` reorganiza a documentação oficial em formato de **livro técnico estático**, com foco em:
 
@@ -17,32 +17,25 @@ O `openclaw-book` reorganiza a documentação oficial em formato de **livro téc
 - navegação simples, sem build complexo
 - referência explícita às fontes oficiais
 
+## Trilhas de leitura sugeridas
+
+### 1. Entender o sistema
+Leia os capítulos **1 a 5** para construir base mental sobre arquitetura, gateway, CLI, memória e workspace.
+
+### 2. Operar com confiança
+Passe por **3, 4, 6, 9 e 13** para cobrir rotina operacional, automação e diagnóstico.
+
+### 3. Escalar com segurança
+Use **7, 8, 10 e 11** para estudar modelos, multi-agent, sandbox e browser/control plane.
+
 ## Público-alvo
 
 Este material é útil para:
 
 - pessoas começando a usar OpenClaw
 - operadores que querem uma visão mais estruturada do sistema
+- equipes que precisam de um material de onboarding mais didático
 - quem prefere aprender por capítulos em vez de navegar apenas por páginas de referência
-- quem precisa de contexto antes de mergulhar na documentação oficial
-
-## O que o livro cobre
-
-- visão geral do OpenClaw
-- arquitetura
-- gateway
-- CLI
-- memória e workspace
-- canais e rotina operacional
-- modelos e provedores
-- multi-agent e roteamento
-- automação com cron e heartbeat
-- sandbox e segurança
-- browser automation
-- receitas passo a passo
-- troubleshooting
-- referências oficiais
-- roadmap editorial
 
 ## Estrutura do projeto
 
@@ -50,12 +43,14 @@ Este material é útil para:
 openclaw-book/
   index.html
   404.html
+  about.html
+  contributing.html
+  glossario.html
   styles.css
   app.js
   search.js
   assets/
   chapters/
-  .github/workflows/
 ```
 
 ## Principais recursos do site
