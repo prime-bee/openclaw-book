@@ -22,6 +22,7 @@ for file in HTML_FILES:
     require(text, '<meta name="theme-color"', file)
     require(text, 'class="skip-link"', file)
     require(text, '<link rel="canonical"', file)
+    require(text, 'aria-label="Breadcrumb"', file)
     require(text, 'application/ld+json', file)
     require(text, '<h1>', file)
     for match in re.finditer(r"<a\b[^>]*target=[\"']_blank[\"'][^>]*>", text):
