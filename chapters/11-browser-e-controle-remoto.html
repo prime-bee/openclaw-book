@@ -1,5 +1,133 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Capítulo 11 — Browser e controle remoto — openclaw-book</title><meta name="description" content="Conheça o uso de browser automation, CDP e controle remoto dentro das rotinas operacionais do OpenClaw."><meta name="theme-color" content="#0f1115"><meta name="author" content="Prime"><meta name="application-name" content="OpenClaw Book"><meta name="apple-mobile-web-app-title" content="OpenClaw Book"><meta name="robots" content="index,follow"><link rel="canonical" href="https://prime-bee.github.io/openclaw-book/chapters/11-browser-e-controle-remoto.html"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Capítulo 11 — Browser e controle remoto — openclaw-book"><meta property="og:description" content="Conheça o uso de browser automation, CDP e controle remoto dentro das rotinas operacionais do OpenClaw."><meta property="og:type" content="website"><meta property="og:url" content="https://prime-bee.github.io/openclaw-book/chapters/11-browser-e-controle-remoto.html"><meta property="og:site_name" content="openclaw-book"><meta property="og:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Capítulo 11 — Browser e controle remoto — openclaw-book"><meta name="twitter:description" content="Conheça o uso de browser automation, CDP e controle remoto dentro das rotinas operacionais do OpenClaw."><meta name="twitter:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><link rel="manifest" href="../site.webmanifest"><link rel="stylesheet" href="../styles.css"><script defer src="../app.js"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Capítulo 11 — Browser e controle remoto — openclaw-book","name":"Capítulo 11 — Browser e controle remoto — openclaw-book","description":"Conheça o uso de browser automation, CDP e controle remoto dentro das rotinas operacionais do OpenClaw.","inLanguage":"pt-BR","url":"https://prime-bee.github.io/openclaw-book/chapters/11-browser-e-controle-remoto.html","author":{"@type":"Person","name":"Prime"},"publisher":{"@type":"Organization","name":"Prime Bee","url":"https://github.com/prime-bee/openclaw-book"},"isPartOf":{"@type":"Book","name":"OpenClaw Book","url":"https://prime-bee.github.io/openclaw-book/"}}</script></head><body><a class="skip-link" href="#conteudo">Pular para o conteúdo</a><div class="layout"><aside class="sidebar"><div class="brand"><img src="../assets/openclaw-logo-text.png" alt="OpenClaw logo"><h1>Capítulo 11</h1><p>Browser</p></div><nav class="nav"><a href="../index.html">← Início</a><a href="01-visao-geral.html">1. Visão geral</a><a href="02-arquitetura.html">2. Arquitetura</a><a href="03-gateway.html">3. Gateway</a><a href="04-cli.html">4. CLI</a><a href="05-memoria-e-workspace.html">5. Memória e workspace</a><a href="06-canais-e-rotina.html">6. Canais e operação</a><a href="07-modelos-e-provedores.html">7. Modelos e provedores</a><a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento</a><a href="09-automacoes-cron-e-heartbeat.html">9. Automação</a><a href="10-sandbox-e-seguranca-pratica.html">10. Sandbox e segurança</a><a class="active" href="11-browser-e-controle-remoto.html">11. Browser e controle remoto</a><a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo</a><a href="13-troubleshooting-e-diagnostico.html">13. Troubleshooting</a><a href="14-referencias-oficiais.html">14. Referências oficiais</a><a href="15-roadmap-e-proximos-passos.html">15. Roadmap</a><a href="16-agentes-ia-fluxos-e-delegacao.html">16. Agentes IA e fluxos</a><a href="17-missoes-e-desafios.html">17. Missões e desafios</a></nav></aside><main id="conteudo" class="content chapter"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../index.html">Início</a><span aria-hidden="true">/</span><a href="../index.html#sumario-livro">Capítulos</a><span aria-hidden="true">/</span><a href="11-browser-e-controle-remoto.html" aria-current="page">Capítulo 11: Browser e controle remoto</a></nav><div class="chapter-intro"><p class="lede">Conheça o uso de browser automation, CDP e controle remoto dentro das rotinas operacionais do OpenClaw.</p><div class="kpi-row"><span class="kpi">Capítulo 11 de 17</span><span class="kpi">Leitura guiada</span><span class="kpi">Referências oficiais ao final</span></div></div><h1>Controle de navegador</h1><p>O OpenClaw também pode operar navegadores, inspecionar tabs, clicar, digitar e navegar. Isso abre espaço para automação visual e workflows de web.</p><h2>Perfis</h2><ul><li><strong>openclaw</strong> — navegador dedicado</li><li><strong>user</strong> — sua sessão já existente</li><li><strong>chrome-relay</strong> — aba controlada por extensão</li></ul><h2>Comandos básicos</h2><pre><code>openclaw browser profiles
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Capítulo 11 — Browser e controle remoto — openclaw-book</title><meta name="description" content="Conheça o uso de browser automation, CDP e controle remoto dentro das rotinas operacionais do OpenClaw."><meta name="theme-color" content="#0f1115"><meta name="author" content="Prime"><meta name="application-name" content="OpenClaw Book"><meta name="apple-mobile-web-app-title" content="OpenClaw Book"><meta name="robots" content="index,follow"><link rel="canonical" href="https://prime-bee.github.io/openclaw-book/chapters/11-browser-e-controle-remoto.html"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Capítulo 11 — Browser e controle remoto — openclaw-book"><meta property="og:description" content="Conheça o uso de browser automation, CDP e controle remoto dentro das rotinas operacionais do OpenClaw."><meta property="og:type" content="website"><meta property="og:url" content="https://prime-bee.github.io/openclaw-book/chapters/11-browser-e-controle-remoto.html"><meta property="og:site_name" content="openclaw-book"><meta property="og:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Capítulo 11 — Browser e controle remoto — openclaw-book"><meta name="twitter:description" content="Conheça o uso de browser automation, CDP e controle remoto dentro das rotinas operacionais do OpenClaw."><meta name="twitter:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><link rel="manifest" href="../site.webmanifest"><link rel="stylesheet" href="../styles.css"><script defer src="../app.js"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Capítulo 11 — Browser e controle remoto — openclaw-book","name":"Capítulo 11 — Browser e controle remoto — openclaw-book","description":"Conheça o uso de browser automation, CDP e controle remoto dentro das rotinas operacionais do OpenClaw.","inLanguage":"pt-BR","url":"https://prime-bee.github.io/openclaw-book/chapters/11-browser-e-controle-remoto.html","author":{"@type":"Person","name":"Prime"},"publisher":{"@type":"Organization","name":"Prime Bee","url":"https://github.com/prime-bee/openclaw-book"},"isPartOf":{"@type":"Book","name":"OpenClaw Book","url":"https://prime-bee.github.io/openclaw-book/"}}</script></head><body><a class="skip-link" href="#conteudo">Pular para o conteúdo</a><div class="layout"><aside class="sidebar"><div class="brand"><img src="../assets/openclaw-logo-text.png" alt="OpenClaw logo"><h1>Capítulo 11</h1><p>Browser</p></div><nav class="nav"><a href="../index.html">← Início</a><a href="01-visao-geral.html">1. Visão geral</a><a href="02-arquitetura.html">2. Arquitetura</a><a href="03-gateway.html">3. Gateway</a><a href="04-cli.html">4. CLI</a><a href="05-memoria-e-workspace.html">5. Memória e workspace</a><a href="06-canais-e-rotina.html">6. Canais e operação</a><a href="07-modelos-e-provedores.html">7. Modelos e provedores</a><a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento</a><a href="09-automacoes-cron-e-heartbeat.html">9. Automação</a><a href="10-sandbox-e-seguranca-pratica.html">10. Sandbox e segurança</a><a class="active" href="11-browser-e-controle-remoto.html">11. Browser e controle remoto</a><a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo</a><a href="13-troubleshooting-e-diagnostico.html">13. Troubleshooting</a><a href="14-referencias-oficiais.html">14. Referências oficiais</a><a href="15-roadmap-e-proximos-passos.html">15. Roadmap</a><a href="16-agentes-ia-fluxos-e-delegacao.html">16. Agentes IA e fluxos</a><a href="17-missoes-e-desafios.html">17. Missões e desafios</a><a href="18-engenharia-de-prompts.html">18. Engenharia de prompts</a></nav></aside><main id="conteudo" class="content chapter"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../index.html">Início</a><span aria-hidden="true">/</span><a href="../index.html#sumario-livro">Capítulos</a><span aria-hidden="true">/</span><a href="11-browser-e-controle-remoto.html" aria-current="page">Capítulo 11: Browser e controle remoto</a></nav><div class="chapter-intro"><p class="lede">Conheça o uso de browser automation, CDP e controle remoto dentro das rotinas operacionais do OpenClaw.</p><div class="kpi-row"><span class="kpi">Capítulo 11 de 17</span><span class="kpi">Leitura guiada</span><span class="kpi">Referências oficiais ao final</span></div></div><h1>Controle de navegador</h1><p>O OpenClaw também pode operar navegadores, inspecionar tabs, clicar, digitar e navegar. Isso abre espaço para automação visual e workflows de web.</p><h2>Perfis</h2><ul><li><strong>openclaw</strong> — navegador dedicado</li><li><strong>user</strong> — sua sessão já existente</li><li><strong>chrome-relay</strong> — aba controlada por extensão</li></ul><h2>Comandos básicos</h2><pre><code>openclaw browser profiles
 openclaw browser start
 openclaw browser open https://example.com
 openclaw browser snapshot
-openclaw browser screenshot</code></pre><h2>Ações</h2><ul><li>navegar</li><li>clicar</li><li>digitar</li><li>tirar screenshot</li><li>inspecionar snapshot</li></ul><h2>Controle remoto</h2><p>Se o browser está em outra máquina, a doc recomenda um <strong>node host</strong> nessa máquina. O gateway então faz proxy dos comandos.</p><div class="callout"><strong>Isso importa:</strong> browser automation útil em produção quase sempre exige pensar em sessão, login, segurança e onde o navegador realmente roda.</div><h2>Exercício</h2><div class="exercise"><strong>Projeto:</strong> imagine uma automação segura usando browser. O que poderia ser automatizado sem expor demais sua conta?</div><section class="troubleshoot"><h3>Pré-voo para automação de browser</h3><ul><li>confirme se o Chrome/Chromium está acessível no host certo</li><li>defina se o caso exige perfil persistente ou sessão descartável</li><li>teste navegação e captura antes de automatizar cliques complexos</li><li>registre limites do ambiente remoto: latência, auth, telas e viewport</li></ul></section><div class="refs"><h3>Referências oficiais</h3><ul><li><a href="https://docs.openclaw.ai/tools/browser" target="_blank" rel="noopener noreferrer">Browser</a></li><li><a href="https://docs.openclaw.ai/cli/browser" target="_blank" rel="noopener noreferrer">CLI browser</a></li></ul></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="10-sandbox-e-seguranca-pratica.html">← 10. Sandbox e segurança</a></div><div class="card"><a href="../index.html">Índice do livro</a></div><div class="card"><a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo →</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="10-sandbox-e-seguranca-pratica.html">← Capítulo 10: Sandbox e segurança</a><a class="pager-link pager-center" href="../index.html#sumario-livro">Sumário completo</a><a class="pager-link" href="12-receitas-passo-a-passo.html">Capítulo 12: Receitas passo a passo →</a></nav><div class="footer">Continue em <a href="12-receitas-passo-a-passo.html">Receitas passo a passo</a>.</div></main></div></body></html>
+openclaw browser screenshot</code></pre><h2>Ações</h2><ul><li>navegar</li><li>clicar</li><li>digitar</li><li>tirar screenshot</li><li>inspecionar snapshot</li></ul><h2>Controle remoto</h2><p>Se o browser está em outra máquina, a doc recomenda um <strong>node host</strong> nessa máquina. O gateway então faz proxy dos comandos.</p><div class="callout"><strong>Isso importa:</strong> browser automation útil em produção quase sempre exige pensar em sessão, login, segurança e onde o navegador realmente roda.</div><h2>Padrões de automação robusta</h2>
+
+<p>Browser automation em produção falha por razões previsíveis: elementos que ainda não carregaram, seletores que mudaram com uma atualização do site, redes lentas, timeouts insuficientes. Automação robusta não tenta evitar falhas — ela as antecipa e lida com elas graciosamente.</p>
+
+<h3>Estratégias de espera</h3>
+
+<p>O erro mais comum em automação de browser é clicar ou ler antes que o elemento esteja pronto. Existem três estratégias de espera, em ordem crescente de robustez:</p>
+
+<div class="tableish">
+  <div><strong>Estratégia</strong></div><div><strong>Como funciona</strong></div><div><strong>Quando usar</strong></div>
+  <div>Espera por tempo fixo</div><div>Aguarda N segundos sem verificar</div><div>Nunca em produção. Frágil e lento por definição.</div>
+  <div>Espera por seletor</div><div>Aguarda até que um elemento específico apareça no DOM</div><div>Para elementos com seletor estável. Mais rápido que tempo fixo.</div>
+  <div>Espera por estado</div><div>Aguarda até que o elemento esteja visível, clicável ou tenha um valor específico</div><div>Preferido. Verifica estado real, não só presença no DOM.</div>
+</div>
+
+<div class="callout"><strong>Princípio:</strong> espere pelo estado que você precisa, não pelo tempo que você acha que será suficiente. Páginas lentas fazem timeout; páginas rápidas desperdiçam espera fixa.</div>
+
+<h3>Lógica de retry e tratamento de erros</h3>
+
+<p>Em automação robusta, toda ação crítica deve ter uma política de retry explícita. Erros transitórios — elemento temporariamente fora do DOM, rede lenta, elemento coberto por outro — são normais em produção.</p>
+
+<section class="recipe">
+  <h3>Padrão de retry para automação OpenClaw</h3>
+  <pre><code># No system prompt do agente de automação:
+Se uma ação de browser falhar, siga este protocolo:
+1. Aguarde 2 segundos
+2. Tire um screenshot para diagnóstico
+3. Verifique se a página mudou (novo URL, novo título)
+4. Tente a ação novamente
+5. Se falhar pela segunda vez, registre o erro com screenshot
+   e escalate para o operador humano
+
+Não repita mais de 3 vezes a mesma ação sem sucesso.
+Registre cada tentativa no log de sessão.</code></pre>
+</section>
+
+<section class="troubleshoot">
+  <h3>Checklist de tratamento de erros em automação</h3>
+  <ul>
+    <li><strong>Capture screenshot em falhas:</strong> um screenshot no momento da falha vale mais do que dez linhas de log. Instrua o agente a sempre tirar screenshot quando uma ação falhar.</li>
+    <li><strong>Registre o estado da página:</strong> URL atual, título da página e presença de elementos chave ajudam a diagnosticar o que deu errado.</li>
+    <li><strong>Defina limites de retry:</strong> sem limite, um loop de retry pode consumir cota de API indefinidamente. Três tentativas é o máximo razoável para a maioria dos casos.</li>
+    <li><strong>Escalate quando necessário:</strong> se após as tentativas a ação ainda falha, o agente deve parar e notificar o operador — não improvisar.</li>
+    <li><strong>Diferencie erros transitórios de permanentes:</strong> elemento não encontrado pode ser transitório; página de erro 404 é permanente. Tratamentos diferentes.</li>
+  </ul>
+</section>
+
+<h2>CDP: capacidades do Chrome DevTools Protocol</h2>
+
+<p>O CDP (Chrome DevTools Protocol) é o protocolo de baixo nível que o OpenClaw usa para controlar o navegador. Ele expõe capacidades além do clique e navegação básica:</p>
+
+<div class="grid">
+  <div class="card">
+    <h3>Interceptação de rede</h3>
+    <p>Via CDP, é possível interceptar e inspecionar requisições de rede. Útil para capturar respostas de API que a página consome, monitorar chamadas de autenticação, ou verificar que um recurso foi carregado.</p>
+    <p><strong>Caso de uso:</strong> aguardar que uma chamada de API específica complete antes de continuar a automação.</p>
+  </div>
+  <div class="card">
+    <h3>Emulação de dispositivo</h3>
+    <p>CDP permite emular viewport de mobile, densidade de pixel e touch events. Para automações que precisam testar comportamento mobile ou sites que servem conteúdo diferente por device.</p>
+    <p><strong>Caso de uso:</strong> capturar screenshot da versão mobile de uma página.</p>
+  </div>
+  <div class="card">
+    <h3>Execução de JavaScript</h3>
+    <p>CDP permite executar JavaScript diretamente no contexto da página. Útil para extrair dados de variáveis JS, disparar eventos customizados, ou interagir com elementos que resistem a clique normal.</p>
+    <p><strong>Caso de uso:</strong> extrair dados do estado interno de uma aplicação React ou Vue.</p>
+  </div>
+  <div class="card">
+    <h3>Captura de performance</h3>
+    <p>CDP expõe métricas de performance da página: tempo de carregamento, consumo de memória, layout shifts. Útil para monitoramento de performance automatizado.</p>
+    <p><strong>Caso de uso:</strong> alerta automático quando o tempo de carregamento de uma página crítica aumenta acima de um threshold.</p>
+  </div>
+</div>
+
+<div class="callout warning"><strong>CDP e segurança:</strong> execução de JavaScript via CDP tem acesso ao DOM completo, cookies e localStorage da página. Use com cuidado em páginas autenticadas — um script mal escrito pode vazar dados de sessão ou corrompê-los.</div>
+
+<h2>Boas práticas de estabilidade</h2>
+
+<p>Automações frágeis criam mais trabalho do que economizam. Estas práticas reduzem a taxa de falha em produção:</p>
+
+<h3>Seletores resistentes a mudança</h3>
+
+<div class="tableish">
+  <div><strong>Tipo de seletor</strong></div><div><strong>Estabilidade</strong></div><div><strong>Recomendação</strong></div>
+  <div>ID único (<code>#checkout-button</code>)</div><div>Alta</div><div>Prefira quando disponível. IDs raramente mudam entre deploys.</div>
+  <div>Atributo de dados (<code>[data-testid="submit"]</code>)</div><div>Alta</div><div>Excelente. Atributos <code>data-*</code> são mantidos para automação.</div>
+  <div>Texto do elemento (<code>text=Confirmar</code>)</div><div>Média</div><div>Bom para elementos com texto estável. Frágil se o texto muda com i18n.</div>
+  <div>Classes CSS (<code>.btn-primary</code>)</div><div>Baixa</div><div>Evite. Classes mudam com redesigns e atualizações de framework.</div>
+  <div>XPath absoluto</div><div>Muito baixa</div><div>Nunca use. Quebra com qualquer mudança de estrutura HTML.</div>
+</div>
+
+<h3>Timeouts e configuração defensiva</h3>
+
+<section class="recipe">
+  <h3>Configuração de timeout para automação em produção</h3>
+  <pre><code># Instrução no system prompt do agente de browser:
+Ao automatizar páginas web, use estes limites:
+- Timeout para carregar página: 30 segundos
+- Timeout para aguardar elemento: 10 segundos
+- Timeout para ação (clique, digitação): 5 segundos
+- Máximo de retentativas por ação: 3
+
+Se qualquer timeout for excedido:
+1. Capture screenshot imediatamente
+2. Registre o estado atual da página (URL, título)
+3. Notifique o operador com o contexto completo
+4. Não tente continuar o fluxo — pare e escalate</code></pre>
+</section>
+
+<h2>Receita de scraping com resiliência</h2>
+
+<p>Scraping é um dos usos mais comuns de browser automation. Uma receita anti-frágil funciona mesmo quando a página está lenta, parcialmente carregada ou com elementos faltando.</p>
+
+<section class="recipe">
+  <h3>Receita: scraping resiliente passo a passo</h3>
+  <ol class="steps">
+    <li><strong>Defina o dado mínimo:</strong> antes de começar, identifique quais campos são obrigatórios e quais são opcionais. A receita deve ter sucesso parcial — não falhar tudo se um campo opcional não estiver presente.</li>
+    <li><strong>Navegue e aguarde o estado certo:</strong> não leia imediatamente após navegar. Aguarde que o elemento principal da página esteja visível e estável.</li>
+    <li><strong>Capture snapshot antes de extrair:</strong> um snapshot do DOM no momento da extração serve como evidência e facilita debug posterior.</li>
+    <li><strong>Extraia com fallback:</strong> para cada campo, defina um seletor primário e um seletor alternativo. Se o primário falhar, tente o alternativo antes de registrar como "não encontrado".</li>
+    <li><strong>Valide o que foi extraído:</strong> antes de salvar, verifique se o dado faz sentido — por exemplo, um preço deve ser numérico, uma data deve ser parseável.</li>
+    <li><strong>Salve com metadados:</strong> junto com os dados extraídos, salve: URL de origem, timestamp, versão do seletor, e se houve fallback. Facilita auditar a qualidade dos dados depois.</li>
+    <li><strong>Registre falhas explicitamente:</strong> se um campo obrigatório não foi encontrado, registre o erro com contexto e não apenas "null". Isso acelera o diagnóstico quando o site muda.</li>
+  </ol>
+</section>
+
+<div class="callout"><strong>Anti-fragilidade:</strong> uma automação anti-frágil não apenas tolera falhas — ela coleta informação sobre as falhas que encontra. Com o tempo, o log de falhas revela os padrões de instabilidade da fonte, permitindo melhorar os seletores e a lógica de retry progressivamente.</div>
+
+<h2>Exercício</h2><div class="exercise"><strong>Projeto:</strong> imagine uma automação segura usando browser. O que poderia ser automatizado sem expor demais sua conta?</div><section class="troubleshoot"><h3>Pré-voo para automação de browser</h3><ul><li>confirme se o Chrome/Chromium está acessível no host certo</li><li>defina se o caso exige perfil persistente ou sessão descartável</li><li>teste navegação e captura antes de automatizar cliques complexos</li><li>registre limites do ambiente remoto: latência, auth, telas e viewport</li></ul></section><div class="refs"><h3>Referências oficiais</h3><ul><li><a href="https://docs.openclaw.ai/tools/browser" target="_blank" rel="noopener noreferrer">Browser</a></li><li><a href="https://docs.openclaw.ai/cli/browser" target="_blank" rel="noopener noreferrer">CLI browser</a></li></ul></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="10-sandbox-e-seguranca-pratica.html">← 10. Sandbox e segurança</a></div><div class="card"><a href="../index.html">Índice do livro</a></div><div class="card"><a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo →</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="10-sandbox-e-seguranca-pratica.html">← Capítulo 10: Sandbox e segurança</a><a class="pager-link pager-center" href="../index.html#sumario-livro">Sumário completo</a><a class="pager-link" href="12-receitas-passo-a-passo.html">Capítulo 12: Receitas passo a passo →</a></nav><div class="footer">Continue em <a href="12-receitas-passo-a-passo.html">Receitas passo a passo</a>.</div></main></div></body></html>
