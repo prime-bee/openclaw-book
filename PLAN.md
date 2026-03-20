@@ -26,8 +26,8 @@ Evoluir o livro como referência prática e profissional sobre OpenClaw, agentes
 
 ## Próximo lote sugerido
 
-- aprofundar evals/benchmarking de agentes
 - aprofundar UX de interação com agentes
 - adicionar padrões de equipes/collaboration com OpenClaw
+- cobrir voz/multimodalidade e custos em produção
 - comparar stacks e estratégias agentic com mais profundidade
 - revisar capítulos antigos contra `templates/PAGE_TEMPLATE.html`
