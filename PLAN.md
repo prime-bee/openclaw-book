@@ -1,5 +1,6 @@
 # PLAN
 
-1. Integrar o inventário editorial (`TOPICS.md`) ao fluxo de contribuição.
-2. Destacar a rotina de manutenção (`MAINTENANCE.md`) para reduzir mudanças editoriais desalinhadas.
-3. Validar e publicar a melhoria.
+1. Create a detailed chapter on running multiple OpenClaw instances on the same machine.
+2. Include diagrams and an operational rollout plan.
+3. Integrate navigation/search/index/topics and normalize chapter counts.
+4. Validate and publish.

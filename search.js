@@ -28,7 +28,8 @@ const SEARCH_INDEX = [
   { title: '22. LLMs, plataformas e orquestração', path: 'chapters/22-llms-plataformas-orquestracao-e-openclaw-para-openclaw.html', text: 'llms plataformas orquestração openclaw para openclaw multi-agent modelos provedores brokers openrouter coordenação agentes arquitetura loops custos' },
   { title: '23. Personalidade de agentes', path: 'chapters/23-personalidade-de-agentes-como-projetar-e-o-que-melhora.html', text: 'personalidade persona identidade tom limites estilo operacional sycophancy antropomorfismo system prompt comportamento consistência agente' },
   { title: '24. RAG e retrieval', path: 'chapters/24-rag-e-retrieval-para-agentes.html', text: 'rag retrieval grounding memória contexto chunking ranking embeddings busca semântica keyword híbrida vector database prompt injection documentos snippets evidência' },
-  { title: '25. Design de ferramentas para agentes', path: 'chapters/25-design-de-ferramentas-para-agentes.html', text: 'design de ferramentas tools contratos schema entrada saída ergonomia idempotência observabilidade blast radius sandbox tool policy approvals interface tool design agentes openclaw' }
+  { title: '25. Design de ferramentas para agentes', path: 'chapters/25-design-de-ferramentas-para-agentes.html', text: 'design de ferramentas tools contratos schema entrada saída ergonomia idempotência observabilidade blast radius sandbox tool policy approvals interface tool design agentes openclaw' },
+  { title: '26. Múltiplos OpenClaw no host', path: 'chapters/26-multiplos-openclaw-na-mesma-maquina.html', text: 'múltiplos openclaw mesma máquina multiple gateways same host perfis profiles rescue bot state dir config path workspace port mapping cdp browser control derived ports isolation' }
 ];
 
 function normalizeText(text) {
