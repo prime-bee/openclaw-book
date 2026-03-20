@@ -1,6 +1,6 @@
 # STATUS
 
-- Rodada: 2026-03-20 12:57 America/New_York
-- O que foi feito: Loop 2/10 concluído. Reforcei a home como página-hub: além do bloco avançado existente, ela agora tem uma seção explícita de ciclo operacional conectando observabilidade, evals, colaboração em times e custos. Também adicionei atalhos por objetivo (incidente, adoção em equipe, troca de modelo/policy) para reduzir a necessidade de o leitor montar esse caminho sozinho.
-- Arquivos alterados: `index.html`, `STATUS.md`
-- Próximo passo sugerido: Aplicar a mesma lógica de rotas por objetivo em `reading-paths.html`, com percursos avançados mais explícitos por decisão operacional.
+- Rodada: 2026-03-20 13:00 America/New_York
+- O que foi feito: Loop 3/10 concluído. Expandi `reading-paths.html` com rotas avançadas por decisão operacional, conectando capítulos como 13, 19, 20, 29, 31 e 33 em percursos para incidentes, rollout, autonomia em time e troca de modelo/tier. Isso deixa a página menos genérica e mais útil para quem já opera o sistema.
+- Arquivos alterados: `reading-paths.html`, `STATUS.md`
+- Próximo passo sugerido: Atualizar o glossário com termos de evals, orçamento, rollout e operação em equipe para sustentar essas novas trilhas.
