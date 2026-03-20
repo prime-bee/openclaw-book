@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Loop operacional avançado do OpenClaw Book</title>
+  <desc id="desc">Diagrama ligando observabilidade, evals, colaboração em times e custos em um ciclo contínuo.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#171d28"/><stop offset="100%" stop-color="#0f1115"/></linearGradient>
+    <linearGradient id="card" x1="0" x2="1"><stop offset="0%" stop-color="#1d2533"/><stop offset="100%" stop-color="#131923"/></linearGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#ff8855"/></marker>
+  </defs>
+  <rect width="1200" height="680" fill="url(#bg)" rx="28"/>
+  <text x="600" y="66" fill="#f4f7fb" font-family="Inter,Arial,sans-serif" font-size="34" text-anchor="middle" font-weight="700">Loop operacional avançado</text>
+  <text x="600" y="102" fill="#9fb0c7" font-family="Inter,Arial,sans-serif" font-size="18" text-anchor="middle">Use 19, 29, 31 e 33 como ciclo de melhoria contínua — não como capítulos isolados.</text>
+  <g font-family="Inter,Arial,sans-serif">
+    <rect x="90" y="170" width="250" height="150" rx="22" fill="url(#card)" stroke="#42546d"/>
+    <text x="215" y="215" fill="#ffb18d" font-size="18" text-anchor="middle">Capítulo 19</text>
+    <text x="215" y="252" fill="#ffffff" font-size="28" text-anchor="middle" font-weight="700">Observabilidade</text>
+    <text x="215" y="286" fill="#c4d0de" font-size="17" text-anchor="middle">logs, métricas, traces, alertas</text>
+
+    <rect x="860" y="170" width="250" height="150" rx="22" fill="url(#card)" stroke="#42546d"/>
+    <text x="985" y="215" fill="#ffb18d" font-size="18" text-anchor="middle">Capítulo 29</text>
+    <text x="985" y="252" fill="#ffffff" font-size="28" text-anchor="middle" font-weight="700">Evals</text>
+    <text x="985" y="286" fill="#c4d0de" font-size="17" text-anchor="middle">golden set, benchmark, rollout</text>
+
+    <rect x="90" y="420" width="250" height="150" rx="22" fill="url(#card)" stroke="#42546d"/>
+    <text x="215" y="465" fill="#ffb18d" font-size="18" text-anchor="middle">Capítulo 31</text>
+    <text x="215" y="502" fill="#ffffff" font-size="28" text-anchor="middle" font-weight="700">Times</text>
+    <text x="215" y="536" fill="#c4d0de" font-size="17" text-anchor="middle">ownership, rollout, políticas</text>
+
+    <rect x="860" y="420" width="250" height="150" rx="22" fill="url(#card)" stroke="#42546d"/>
+    <text x="985" y="465" fill="#ffb18d" font-size="18" text-anchor="middle">Capítulo 33</text>
+    <text x="985" y="502" fill="#ffffff" font-size="28" text-anchor="middle" font-weight="700">Custos</text>
+    <text x="985" y="536" fill="#c4d0de" font-size="17" text-anchor="middle">budget, tiers, guardrails</text>
+
+    <rect x="410" y="245" width="380" height="250" rx="28" fill="#121923" stroke="#536786" stroke-dasharray="8 8"/>
+    <text x="600" y="292" fill="#ffffff" font-size="26" text-anchor="middle" font-weight="700">Perguntas que fecham o ciclo</text>
+    <text x="600" y="336" fill="#c4d0de" font-size="19" text-anchor="middle">1. O que mudou no ambiente?</text>
+    <text x="600" y="371" fill="#c4d0de" font-size="19" text-anchor="middle">2. Como evitar regressão?</text>
+    <text x="600" y="406" fill="#c4d0de" font-size="19" text-anchor="middle">3. Quem aprova e opera?</text>
+    <text x="600" y="441" fill="#c4d0de" font-size="19" text-anchor="middle">4. Quanto custa sustentar isso?</text>
+
+    <path d="M340 245 C410 210, 770 210, 860 245" fill="none" stroke="#ff8855" stroke-width="5" marker-end="url(#arrow)"/>
+    <path d="M985 320 C985 360, 985 380, 985 420" fill="none" stroke="#ff8855" stroke-width="5" marker-end="url(#arrow)"/>
+    <path d="M860 495 C760 540, 430 540, 340 495" fill="none" stroke="#ff8855" stroke-width="5" marker-end="url(#arrow)"/>
+    <path d="M215 420 C215 380, 215 360, 215 320" fill="none" stroke="#ff8855" stroke-width="5" marker-end="url(#arrow)"/>
+  </g>
+</svg>
