@@ -1,5 +1,5 @@
 # STATUS.md
 
-- Current task: Loop 1 complete — publish chapter 29 on evals and benchmarking.
-- What was done: Added a new advanced chapter on golden sets, regression, metrics, and model comparison workflow; updated TOPICS.md, sitemap, and next-plan priorities.
-- Next steps: Expand UX, team collaboration, multimodality, costs, stack comparisons, and template-alignment work.
+- Current task: Loop 2 complete — publish chapter 30 on UX for talking to agents.
+- What was done: Added patterns for intent confirmation, milestone updates, approval clarity, and conversational anti-patterns; updated editorial inventory and counts.
+- Next steps: Add team collaboration, multimodality, cost planning, stack comparisons, and consistency passes.
