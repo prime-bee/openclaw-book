@@ -1,5 +1,5 @@
 # STATUS.md
 
-- Current task: Loop 8 complete — refresh chapter 14 as a stronger reference map.
-- What was done: Updated chapter 14 counts, added maturity-based lookup guidance tied to chapters 29–34, and improved forward navigation into the new advanced block.
-- Next steps: Refresh roadmap chapter 15 and then surface the new advanced block on the homepage.
+- Current task: Loop 9 complete — refresh chapter 15 and advance the evergreen plan.
+- What was done: Updated chapter 15 to reflect the book’s stronger advanced block, added an evergreen maintenance matrix, and rewrote PLAN.md with the next real priorities.
+- Next steps: Surface the advanced block on the homepage and close the cycle with a final published status.
