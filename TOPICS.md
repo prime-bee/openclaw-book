@@ -210,6 +210,15 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - como persona melhora consistência e UX
 - riscos de teatralidade, sycophancy e excesso de antropomorfismo
 
+### 24. RAG e retrieval para agentes
+- retrieval-augmented generation
+- grounding e contexto recuperado
+- memória como base de retrieval
+- chunking, ranking e filtros
+- RAG híbrido (keyword + semântico)
+- riscos de prompt injection via documentos
+- troubleshooting de retrieval
+
 ---
 
 ## Índice temático transversal
@@ -241,6 +250,16 @@ Capítulos:
 
 Capítulos:
 - 7, 22
+
+### Conhecimento, memória e retrieval
+- memória operacional
+- retrieval semântico
+- grounding
+- RAG
+- gestão de contexto
+
+Capítulos:
+- 5, 14, 24
 
 ### Multi-agent e coordenação
 - bindings
@@ -347,7 +366,6 @@ Esses temas já têm cobertura robusta e, em geral, devem ser expandidos antes d
 Temas que ainda podem render capítulos novos ou expansões fortes:
 
 - evals e benchmarking de agentes em mais profundidade
-- RAG / retrieval de forma dedicada
 - design de ferramentas para agentes
 - planejamento de custos em produção
 - padrões de UX para conversar com agentes
@@ -373,6 +391,6 @@ Antes de criar novo conteúdo:
 
 ## Status atual
 
-- capítulos totais: **23**
+- capítulos totais: **24**
 - livro já cobre fundamentos, operação, segurança, agentes, prompting, governança, observabilidade, skills, plataformas e personalidade
 - este arquivo deve continuar sendo tratado como **índice editorial vivo**
