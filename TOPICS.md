@@ -256,6 +256,10 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - métricas de qualidade
 - latência e custo por tarefa
 - benchmark antes de trocar modelo
+- scorecard operacional
+- integração entre evals, observabilidade e custo
+- loop pós-deploy e casos de regressão vindos de produção
+- troubleshooting de benchmarks
 
 ### 30. UX para conversar com agentes
 - clareza de intenção
@@ -456,8 +460,8 @@ Esses temas já têm cobertura robusta e, em geral, devem ser expandidos antes d
 
 Temas que ainda podem render capítulos novos ou expansões fortes:
 
-- integração mais profunda entre evals e observabilidade
 - agents para equipes / ambientes corporativos
+- playbooks mais profundos de operação corporativa, ownership e fronteiras entre times
 
 ---
 
