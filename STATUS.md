@@ -1,5 +1,5 @@
 # STATUS.md
 
-- Current task: Execute the next two suggested chapters from the continuous plan.
-- What was done: Added chapter 27 on safe migration to multiple gateways and chapter 28 on production architectures, plus diagrams and book integration.
-- Next steps: Validate, publish, and continue the evergreen plan with the next advanced topics.
+- Current task: Loop 1 complete — publish chapter 29 on evals and benchmarking.
+- What was done: Added a new advanced chapter on golden sets, regression, metrics, and model comparison workflow; updated TOPICS.md, sitemap, and next-plan priorities.
+- Next steps: Expand UX, team collaboration, multimodality, costs, stack comparisons, and template-alignment work.

@@ -250,6 +250,13 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - stable + lab
 - critérios de escolha arquitetural
 
+### 29. Evals e benchmarking de agentes
+- golden sets
+- regressão
+- métricas de qualidade
+- latência e custo por tarefa
+- benchmark antes de trocar modelo
+
 ---
 
 ## Índice temático transversal
@@ -351,9 +358,10 @@ Capítulos:
 - dashboards
 - manutenção editorial e publicação
 - padrões de produção
+- evals e regressão
 
 Capítulos:
-- 14, 15, 19, 28
+- 14, 15, 19, 28, 29
 
 ### Skills e extensibilidade
 - skills
@@ -410,7 +418,6 @@ Esses temas já têm cobertura robusta e, em geral, devem ser expandidos antes d
 
 Temas que ainda podem render capítulos novos ou expansões fortes:
 
-- evals e benchmarking de agentes em mais profundidade
 - planejamento de custos em produção
 - padrões de UX para conversar com agentes
 - agents para equipes / ambientes corporativos
@@ -435,6 +442,6 @@ Antes de criar novo conteúdo:
 
 ## Status atual
 
-- capítulos totais: **28**
-- livro já cobre fundamentos, operação, segurança, agentes, prompting, governança, observabilidade, skills, plataformas, personalidade, retrieval, design de ferramentas, múltiplos gateways no mesmo host, migração segura e arquiteturas de produção
+- capítulos totais: **29**
+- livro já cobre fundamentos, operação, segurança, agentes, prompting, governança, observabilidade, skills, plataformas, personalidade, retrieval, design de ferramentas, múltiplos gateways no mesmo host, migração segura, arquiteturas de produção e evals/benchmarking
 - este arquivo deve continuar sendo tratado como **índice editorial vivo**
