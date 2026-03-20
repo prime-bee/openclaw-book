@@ -24,6 +24,10 @@ Evoluir o livro como referência prática e profissional sobre OpenClaw, agentes
 4. fortalecer manutenção, validação e qualidade editorial
 5. continuar cobrindo cenários reais de uso de agentes
 
+## Concluído recentemente
+
+- mobile nav UX: hamburger drawer, sticky header, mobile search panel, sticky bottom pager, improved tap targets
+
 ## Próximo lote sugerido
 
 - aprofundar evals/benchmarking de agentes

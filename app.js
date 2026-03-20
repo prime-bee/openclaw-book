@@ -139,6 +139,104 @@ function ensureGlobalSearch() {
   }
 }
 
+function setupMobileNav() {
+  if (window.innerWidth > 900) return;
+  const sidebar = document.querySelector('.sidebar');
+  if (!sidebar || document.querySelector('.mobile-header')) return;
+
+  // Create mobile header bar
+  const header = document.createElement('header');
+  header.className = 'mobile-header';
+  header.setAttribute('role', 'banner');
+
+  const menuBtn = document.createElement('button');
+  menuBtn.className = 'menu-toggle';
+  menuBtn.setAttribute('aria-label', 'Abrir menu de navegação');
+  menuBtn.setAttribute('aria-expanded', 'false');
+  menuBtn.textContent = '\u2630';
+
+  const brandLink = document.createElement('a');
+  brandLink.className = 'brand-mini';
+  brandLink.href = sidebar.querySelector('.brand a')?.href || 'index.html';
+  const isChapter = location.pathname.includes('/chapters/');
+  brandLink.href = isChapter ? '../index.html' : 'index.html';
+  brandLink.textContent = 'OpenClaw Book';
+
+  const searchBtn = document.createElement('button');
+  searchBtn.className = 'search-toggle';
+  searchBtn.setAttribute('aria-label', 'Abrir busca');
+  searchBtn.setAttribute('aria-expanded', 'false');
+  searchBtn.textContent = '\uD83D\uDD0D';
+
+  header.append(menuBtn, brandLink, searchBtn);
+
+  // Create backdrop
+  const backdrop = document.createElement('div');
+  backdrop.className = 'sidebar-backdrop';
+  backdrop.setAttribute('aria-hidden', 'true');
+
+  // Create mobile search panel
+  const searchPanel = document.createElement('div');
+  searchPanel.className = 'mobile-search-panel';
+  searchPanel.innerHTML = '<input type="text" placeholder="Buscar no livro\u2026" class="search-input js-search-input" autocomplete="off" aria-label="Buscar no livro">' +
+    '<div class="grid search-results js-search-results" style="margin:8px 0 0"></div>';
+
+  document.body.prepend(searchPanel);
+  document.body.prepend(header);
+  document.body.appendChild(backdrop);
+
+  function openSidebar() {
+    sidebar.classList.add('open');
+    backdrop.classList.add('open');
+    document.body.classList.add('sidebar-open');
+    menuBtn.setAttribute('aria-expanded', 'true');
+    menuBtn.textContent = '\u2715';
+    // Scroll active nav item into view
+    const active = sidebar.querySelector('.nav a.active');
+    if (active) active.scrollIntoView({ block: 'center', behavior: 'instant' });
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove('open');
+    backdrop.classList.remove('open');
+    document.body.classList.remove('sidebar-open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.textContent = '\u2630';
+  }
+
+  menuBtn.addEventListener('click', () => {
+    sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+  });
+  backdrop.addEventListener('click', closeSidebar);
+
+  // Search toggle
+  searchBtn.addEventListener('click', () => {
+    const isOpen = searchPanel.classList.toggle('open');
+    searchBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if (isOpen) searchPanel.querySelector('.js-search-input').focus();
+  });
+
+  // Close sidebar on nav link click
+  sidebar.querySelectorAll('.nav a').forEach(a => {
+    a.addEventListener('click', closeSidebar);
+  });
+
+  // Close sidebar on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeSidebar();
+      if (searchPanel.classList.contains('open')) {
+        searchPanel.classList.remove('open');
+        searchBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+  });
+
+  // Hide the in-page global search widget on mobile since we have the header search
+  const inPageSearch = document.querySelector('.global-search-shell');
+  if (inPageSearch) inPageSearch.style.display = 'none';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   enhanceExternalLinks();
   ensureGlobalSearch();
@@ -147,4 +245,5 @@ document.addEventListener('DOMContentLoaded', () => {
   markCurrentNav();
   addBackToTopLinks();
   addReadingProgress();
+  setupMobileNav();
 });

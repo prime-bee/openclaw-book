@@ -122,10 +122,15 @@ function initSearchWidget(root) {
     }
 
     if (status) status.textContent = `${ranked.length} resultado(s) para “${q}”.`;
+    const isChapter = location.pathname.includes('/chapters/');
+    function resolvePath(p) {
+      if (!isChapter) return p;
+      return p.startsWith('chapters/') ? p.replace('chapters/', '') : '../' + p;
+    }
     results.innerHTML = ranked.map(e => `
-      <a class="card" href="${e.path}">
+      <a class=”card” href=”${resolvePath(e.path)}”>
         <strong>${highlight(e.title, q)}</strong>
-        <p class="muted">${e.path}</p>
+        <p class=”muted”>${e.path}</p>
         <p>${highlight(excerpt(e), q)}</p>
       </a>
     `).join('');
@@ -141,13 +146,20 @@ function initSearchWidget(root) {
   document.addEventListener('keydown', (event) => {
     if (event.key === '/' && document.activeElement !== input && !event.metaKey && !event.ctrlKey && !event.altKey) {
       event.preventDefault();
+      // On mobile, open the mobile search panel if it exists
+      const mobilePanel = document.querySelector('.mobile-search-panel');
+      if (mobilePanel && window.innerWidth <= 900) {
+        mobilePanel.classList.add('open');
+        const mobileInput = mobilePanel.querySelector('.js-search-input');
+        if (mobileInput) { mobileInput.focus(); return; }
+      }
       input.focus();
     }
   });
 }
 
 function initSearch() {
-  document.querySelectorAll('.search-widget, .global-search-shell').forEach(initSearchWidget);
+  document.querySelectorAll('.search-widget, .global-search-shell, .mobile-search-panel').forEach(initSearchWidget);
 }
 
 document.addEventListener('DOMContentLoaded', initSearch);

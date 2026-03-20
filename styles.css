@@ -31,3 +31,51 @@ a.chapter-meta-card:hover{text-decoration:none;transform:translateY(-2px);border
 .global-search-shell{margin:0 0 24px}
 .global-search-shell h2{margin:0 0 8px}
 .global-search-shell .meta{margin:10px 0 0}
+/* Mobile header bar */
+.mobile-header{display:none}
+@media (max-width:900px){
+.mobile-header{display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:1000;padding:10px 16px;background:rgba(21,25,34,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.mobile-header .brand-mini{font-weight:700;font-size:1.05rem;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;text-decoration:none}
+.mobile-header .brand-mini:hover{text-decoration:none}
+.menu-toggle,.search-toggle{background:none;border:1px solid var(--border);border-radius:10px;color:var(--text);padding:8px 10px;font-size:1.2rem;cursor:pointer;line-height:1;flex-shrink:0;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
+.menu-toggle:hover,.search-toggle:hover{background:#202636;border-color:#43536f}
+/* Sidebar drawer on mobile */
+.sidebar{transition:transform .25s ease}
+.sidebar-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999;opacity:0;transition:opacity .25s ease}
+.sidebar-backdrop.open{display:block;opacity:1}
+.layout{grid-template-columns:1fr}
+.sidebar{position:fixed;top:0;left:0;height:100vh;width:min(300px,85vw);z-index:1001;transform:translateX(-100%);overflow-y:auto;padding-top:16px}
+.sidebar.open{transform:translateX(0)}
+body.sidebar-open{overflow:hidden}
+/* Content padding for mobile header */
+.content{padding:16px 16px 80px}
+/* Mobile search panel */
+.mobile-search-panel{display:none;padding:10px 16px 14px;background:rgba(21,25,34,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:52px;z-index:998}
+.mobile-search-panel.open{display:block}
+.mobile-search-panel .search-input{margin-top:0;width:100%;padding:10px 12px}
+/* Better tap targets */
+.nav a{padding:12px 14px;font-size:1rem;min-height:44px;display:flex;align-items:center}
+.toplinks a,.pager-link,.button-link{padding:12px 16px;min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+.breadcrumbs{font-size:.88rem;margin-bottom:12px}
+/* Sticky bottom chapter pager */
+.chapter-pager{position:fixed;bottom:0;left:0;right:0;z-index:997;background:rgba(21,25,34,.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);margin:0;padding:8px 16px;gap:8px;justify-content:space-between;flex-wrap:nowrap}
+.chapter-pager .pager-link{font-size:.88rem;padding:8px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:45vw;flex-shrink:1}
+.chapter-pager .pager-center{margin:0;flex-shrink:0}
+/* Hide global search widget title on mobile to save space */
+.global-search-shell h2{font-size:.95rem}
+.global-search-shell>p.muted{display:none}
+/* Chapter heading scroll margin accounts for sticky header */
+.chapter h1,.chapter h2,.chapter h3{scroll-margin-top:70px}
+/* Card grid single column on small phones */
+.grid{grid-template-columns:1fr;gap:12px}
+.chapter-grid{grid-template-columns:1fr}
+.tableish{grid-template-columns:1fr}
+.hero h1{max-width:none;font-size:1.6rem}
+.hero{padding:18px;border-radius:16px}
+}
+@media (max-width:900px) and (min-width:540px){
+.grid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.chapter-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+}
+/* Reading progress sits above mobile header */
+#reading-progress{z-index:10000}
