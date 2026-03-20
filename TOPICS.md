@@ -129,6 +129,10 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - bibliografia operacional
 - mapa de referências da documentação oficial
 - agrupamento por objetivo
+- trilhas de consulta por tarefa operacional
+- trilhas de leitura por perfil
+- heurísticas para decidir quando usar livro vs doc oficial
+- erros comuns ao consultar referências oficiais
 
 ### 15. Roadmap
 - roadmap editorial
