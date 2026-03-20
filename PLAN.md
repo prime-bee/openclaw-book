@@ -28,6 +28,6 @@ Evoluir o livro como referência prática e profissional sobre OpenClaw, agentes
 
 - conectar capítulos 19, 29 e 33 com exemplos cruzados mais fortes
 - ampliar material para times/corporações sem virar genérico
-- revisar capítulos antigos com paginação e navegação do bloco avançado
+- reforçar páginas-hub (índice, trilhas, glossário) com mais atalhos contextuais e rotas por objetivo
 - adicionar mais diagramas operacionais e quick-reference tables
 - evoluir busca e landing pages temáticas

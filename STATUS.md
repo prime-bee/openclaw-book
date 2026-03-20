@@ -1,6 +1,6 @@
 # STATUS
 
-- Rodada: 2026-03-20 12:18 America/New_York
-- O que foi feito: Expandi fortemente o capítulo 29 para conectar evals com observabilidade e custos de produção, adicionando scorecard operacional, loop pós-deploy, integração com sinais de produção, matriz de decisão, troubleshooting e FAQ prático.
-- Arquivos alterados: `chapters/29-evals-e-benchmarking-de-agentes.html`, `TOPICS.md`, `STATUS.md`
-- Próximo passo sugerido: Expandir o capítulo 31 com playbooks mais profundos para operação em times e ambientes corporativos, cobrindo ownership, fronteiras entre canais e padrões de escalonamento.
+- Rodada: 2026-03-20 12:33 America/New_York
+- O que foi feito: Auditei a navegação do livro inteiro e corrigi a estrutura de links internos dos 34 capítulos. Atualizei sidebars para listar todos os capítulos em todas as páginas de capítulo, corrigi contadores antigos ("Capítulo X de 28" → "Capítulo X de 34"), reescrevi navegação rápida/pager/footer para seguir a sequência real do livro e removi destinos stale que apontavam para índice, about, TOPICS ou capítulos errados. Também adicionei um bloco "Explorar" consistente nas sidebars dos capítulos com atalhos para Trilhas de leitura, Glossário e Sobre, além de estilização própria para esse rótulo.
+- Arquivos alterados: `chapters/*.html`, `styles.css`, `PLAN.md`, `STATUS.md`
+- Próximo passo sugerido: Reforçar páginas-hub como `index.html`, `reading-paths.html` e `glossario.html` com atalhos contextuais mais profundos entre troubleshooting, observabilidade, evals, custos e colaboração.
