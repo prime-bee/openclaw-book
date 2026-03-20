@@ -274,6 +274,10 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - políticas de canal
 - privacidade em contexto de equipe
 - agentes estáveis vs lab
+- ownership entre times
+- handoff e fronteiras entre squads
+- playbooks corporativos de intake, escalonamento e pós-incidente
+- RACI mínimo para adoção saudável
 
 ### 32. Agentes com voz e multimodalidade
 - TTS e ASR
@@ -460,8 +464,8 @@ Esses temas já têm cobertura robusta e, em geral, devem ser expandidos antes d
 
 Temas que ainda podem render capítulos novos ou expansões fortes:
 
-- agents para equipes / ambientes corporativos
-- playbooks mais profundos de operação corporativa, ownership e fronteiras entre times
+- operação corporativa avançada com múltiplos agentes por domínio
+- padrões de chargeback/showback, ownership financeiro e governança de custo por squad
 
 ---
 
