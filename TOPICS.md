@@ -227,6 +227,14 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - observabilidade e erros acionáveis
 - sandbox, tool policy e blast radius
 
+### 26. Múltiplos OpenClaw na mesma máquina
+- múltiplos gateways no mesmo host
+- profiles
+- isolamento de config/state/workspace
+- portas derivadas
+- rescue bot
+- plano de implantação e checklist operacional
+
 ---
 
 ## Índice temático transversal
@@ -237,18 +245,20 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - gateway
 - CLI
 - memória/workspace
+- profiles e múltiplos gateways
 
 Capítulos:
-- 1, 2, 3, 4, 5
+- 1, 2, 3, 4, 5, 26
 
 ### Operação diária
 - rotina de uso
 - canais
 - comandos frequentes
 - troubleshooting inicial
+- múltiplas instâncias no mesmo host
 
 Capítulos:
-- 3, 4, 6, 12, 13
+- 3, 4, 6, 12, 13, 26
 
 ### Modelos, custo e provedores
 - escolha de modelo
@@ -408,6 +418,6 @@ Antes de criar novo conteúdo:
 
 ## Status atual
 
-- capítulos totais: **25**
-- livro já cobre fundamentos, operação, segurança, agentes, prompting, governança, observabilidade, skills, plataformas, personalidade, retrieval e design de ferramentas
+- capítulos totais: **26**
+- livro já cobre fundamentos, operação, segurança, agentes, prompting, governança, observabilidade, skills, plataformas, personalidade, retrieval, design de ferramentas e múltiplos gateways no mesmo host
 - este arquivo deve continuar sendo tratado como **índice editorial vivo**

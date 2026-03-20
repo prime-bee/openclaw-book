@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="#f7f9fc"/>
+  <rect x="40" y="40" width="1120" height="620" rx="24" fill="#ffffff" stroke="#cfd8e3" stroke-width="2"/>
+  <text x="70" y="90" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#1f2937">Múltiplos OpenClaw na mesma máquina</text>
+  <text x="70" y="125" font-family="Arial, sans-serif" font-size="16" fill="#4b5563">Cada instância precisa de config, state, workspace e porta próprios.</text>
+
+  <rect x="90" y="180" width="430" height="340" rx="20" fill="#eef6ff" stroke="#93c5fd" stroke-width="2"/>
+  <text x="120" y="220" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#1d4ed8">Gateway principal</text>
+  <text x="120" y="255" font-family="Arial, sans-serif" font-size="16" fill="#1f2937">profile: main</text>
+  <text x="120" y="285" font-family="Arial, sans-serif" font-size="16" fill="#1f2937">porta base: 18789</text>
+  <text x="120" y="315" font-family="Arial, sans-serif" font-size="16" fill="#1f2937">config: ~/.openclaw/openclaw.json</text>
+  <text x="120" y="345" font-family="Arial, sans-serif" font-size="16" fill="#1f2937">state: ~/.openclaw</text>
+  <text x="120" y="375" font-family="Arial, sans-serif" font-size="16" fill="#1f2937">workspace: ~/.openclaw/workspace</text>
+  <text x="120" y="420" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#111827">Uso típico</text>
+  <text x="120" y="450" font-family="Arial, sans-serif" font-size="16" fill="#1f2937">• bot principal / operação diária</text>
+  <text x="120" y="480" font-family="Arial, sans-serif" font-size="16" fill="#1f2937">• canais principais</text>
+  <text x="120" y="510" font-family="Arial, sans-serif" font-size="16" fill="#1f2937">• modelos e sessões do dia a dia</text>
+
+  <rect x="680" y="180" width="430" height="340" rx="20" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="2"/>
+  <text x="710" y="220" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#6d28d9">Gateway rescue / isolado</text>
+  <text x="710" y="255" font-family="Arial, sans-serif" font-size="16" fill="#1f2937">profile: rescue</text>
+  <text x="710" y="285" font-family="Arial, sans-serif" font-size="16" fill="#1f2937">porta base: 19001 ou 19789</text>
+  <text x="710" y="315" font-family="Arial, sans-serif" font-size="16" fill="#1f2937">config: ~/.openclaw-rescue/openclaw.json</text>
+  <text x="710" y="345" font-family="Arial, sans-serif" font-size="16" fill="#1f2937">state: ~/.openclaw-rescue</text>
+  <text x="710" y="375" font-family="Arial, sans-serif" font-size="16" fill="#1f2937">workspace: ~/.openclaw/workspace-rescue</text>
+  <text x="710" y="420" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#111827">Uso típico</text>
+  <text x="710" y="450" font-family="Arial, sans-serif" font-size="16" fill="#1f2937">• bot de resgate / debug</text>
+  <text x="710" y="480" font-family="Arial, sans-serif" font-size="16" fill="#1f2937">• isolamento forte</text>
+  <text x="710" y="510" font-family="Arial, sans-serif" font-size="16" fill="#1f2937">• testes sem mexer na instância principal</text>
+
+  <line x1="520" y1="350" x2="680" y2="350" stroke="#9ca3af" stroke-width="4" stroke-dasharray="10 8"/>
+  <text x="542" y="335" font-family="Arial, sans-serif" font-size="15" fill="#4b5563">mesma máquina, isolamento lógico forte</text>
+
+  <rect x="120" y="570" width="960" height="55" rx="14" fill="#111827"/>
+  <text x="145" y="605" font-family="Arial, sans-serif" font-size="18" fill="#ffffff">Checklist: porta única + config único + state único + workspace único + margem de portas derivadas</text>
+</svg>
