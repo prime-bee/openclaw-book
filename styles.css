@@ -61,7 +61,8 @@ body.sidebar-open{overflow:hidden}
 .chapter-pager{position:fixed;bottom:0;left:0;right:0;z-index:997;background:rgba(21,25,34,.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);margin:0;padding:8px 16px;gap:8px;justify-content:space-between;flex-wrap:nowrap}
 .chapter-pager .pager-link{font-size:.88rem;padding:8px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:45vw;flex-shrink:1}
 .chapter-pager .pager-center{margin:0;flex-shrink:0}
-/* Hide global search widget title on mobile to save space */
+/* Prefer the compact header search on mobile */
+.global-search-shell{display:none}
 .global-search-shell h2{font-size:.95rem}
 .global-search-shell>p.muted{display:none}
 /* Chapter heading scroll margin accounts for sticky header */

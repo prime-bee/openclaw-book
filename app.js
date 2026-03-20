@@ -140,60 +140,71 @@ function ensureGlobalSearch() {
 }
 
 function setupMobileNav() {
-  if (window.innerWidth > 900) return;
   const sidebar = document.querySelector('.sidebar');
   if (!sidebar || document.querySelector('.mobile-header')) return;
 
-  // Create mobile header bar
+  const isChapter = location.pathname.includes('/chapters/');
+  const homeHref = isChapter ? '../index.html' : 'index.html';
+
   const header = document.createElement('header');
   header.className = 'mobile-header';
   header.setAttribute('role', 'banner');
 
   const menuBtn = document.createElement('button');
   menuBtn.className = 'menu-toggle';
+  menuBtn.type = 'button';
   menuBtn.setAttribute('aria-label', 'Abrir menu de navegação');
   menuBtn.setAttribute('aria-expanded', 'false');
   menuBtn.textContent = '\u2630';
 
   const brandLink = document.createElement('a');
   brandLink.className = 'brand-mini';
-  brandLink.href = sidebar.querySelector('.brand a')?.href || 'index.html';
-  const isChapter = location.pathname.includes('/chapters/');
-  brandLink.href = isChapter ? '../index.html' : 'index.html';
+  brandLink.href = homeHref;
   brandLink.textContent = 'OpenClaw Book';
 
   const searchBtn = document.createElement('button');
   searchBtn.className = 'search-toggle';
+  searchBtn.type = 'button';
   searchBtn.setAttribute('aria-label', 'Abrir busca');
   searchBtn.setAttribute('aria-expanded', 'false');
   searchBtn.textContent = '\uD83D\uDD0D';
 
   header.append(menuBtn, brandLink, searchBtn);
 
-  // Create backdrop
   const backdrop = document.createElement('div');
   backdrop.className = 'sidebar-backdrop';
   backdrop.setAttribute('aria-hidden', 'true');
 
-  // Create mobile search panel
-  const searchPanel = document.createElement('div');
-  searchPanel.className = 'mobile-search-panel';
-  searchPanel.innerHTML = '<input type="text" placeholder="Buscar no livro\u2026" class="search-input js-search-input" autocomplete="off" aria-label="Buscar no livro">' +
-    '<div class="grid search-results js-search-results" style="margin:8px 0 0"></div>';
+  const searchPanel = document.createElement('section');
+  searchPanel.className = 'mobile-search-panel search-widget';
+  searchPanel.setAttribute('aria-label', 'Busca móvel no livro');
+  searchPanel.innerHTML = `
+    <div class="search-toolbar">
+      <input type="text" placeholder="Buscar no livro..." class="search-input js-search-input" autocomplete="off" aria-label="Buscar no livro">
+      <button type="button" class="button-link js-search-clear">Limpar</button>
+    </div>
+    <p class="meta js-search-status" aria-live="polite">Digite um termo para ver resultados.</p>
+    <div class="grid search-results js-search-results"></div>
+  `;
 
   document.body.prepend(searchPanel);
   document.body.prepend(header);
   document.body.appendChild(backdrop);
 
+  function closeSearchPanel() {
+    searchPanel.classList.remove('open');
+    searchBtn.setAttribute('aria-expanded', 'false');
+  }
+
   function openSidebar() {
+    closeSearchPanel();
     sidebar.classList.add('open');
     backdrop.classList.add('open');
     document.body.classList.add('sidebar-open');
     menuBtn.setAttribute('aria-expanded', 'true');
     menuBtn.textContent = '\u2715';
-    // Scroll active nav item into view
     const active = sidebar.querySelector('.nav a.active');
-    if (active) active.scrollIntoView({ block: 'center', behavior: 'instant' });
+    if (active) active.scrollIntoView({ block: 'center', behavior: 'auto' });
   }
 
   function closeSidebar() {
@@ -209,32 +220,26 @@ function setupMobileNav() {
   });
   backdrop.addEventListener('click', closeSidebar);
 
-  // Search toggle
   searchBtn.addEventListener('click', () => {
+    closeSidebar();
     const isOpen = searchPanel.classList.toggle('open');
     searchBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    if (isOpen) searchPanel.querySelector('.js-search-input').focus();
+    if (isOpen) searchPanel.querySelector('.js-search-input')?.focus();
   });
 
-  // Close sidebar on nav link click
   sidebar.querySelectorAll('.nav a').forEach(a => {
-    a.addEventListener('click', closeSidebar);
+    a.addEventListener('click', () => {
+      closeSidebar();
+      closeSearchPanel();
+    });
   });
 
-  // Close sidebar on Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeSidebar();
-      if (searchPanel.classList.contains('open')) {
-        searchPanel.classList.remove('open');
-        searchBtn.setAttribute('aria-expanded', 'false');
-      }
+      closeSearchPanel();
     }
   });
-
-  // Hide the in-page global search widget on mobile since we have the header search
-  const inPageSearch = document.querySelector('.global-search-shell');
-  if (inPageSearch) inPageSearch.style.display = 'none';
 }
 
 document.addEventListener('DOMContentLoaded', () => {

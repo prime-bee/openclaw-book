@@ -124,13 +124,14 @@ function initSearchWidget(root) {
     if (status) status.textContent = `${ranked.length} resultado(s) para “${q}”.`;
     const isChapter = location.pathname.includes('/chapters/');
     function resolvePath(p) {
+      if (/^(https?:|\/)/.test(p)) return p;
       if (!isChapter) return p;
       return p.startsWith('chapters/') ? p.replace('chapters/', '') : '../' + p;
     }
     results.innerHTML = ranked.map(e => `
-      <a class=”card” href=”${resolvePath(e.path)}”>
+      <a class="card" href="${resolvePath(e.path)}">
         <strong>${highlight(e.title, q)}</strong>
-        <p class=”muted”>${e.path}</p>
+        <p class="muted">${resolvePath(e.path)}</p>
         <p>${highlight(excerpt(e), q)}</p>
       </a>
     `).join('');
