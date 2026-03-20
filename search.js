@@ -24,7 +24,10 @@ const SEARCH_INDEX = [
   { title: '18. Engenharia de prompts', path: 'chapters/18-engenharia-de-prompts.html', text: 'engenharia prompts system prompt few-shot chain-of-thought CoT saídas estruturadas JSON markdown anti-padrões instruções vagas escopo iteração template agente operações' },
   { title: '19. Observabilidade e monitoramento', path: 'chapters/19-observabilidade-e-monitoramento.html', text: 'observabilidade monitoramento logs estruturados métricas traces alertas dashboard operadores agentes IA latência P50 P95 tokens trace_id OpenTelemetry auditoria rate limits escalada heartbeat relatório operacional' },
   { title: '20. HITL e Governança', path: 'chapters/20-hitl-e-governanca.html', text: 'human-in-the-loop hitl governança aprovação gates auditoria EU AI Act NIST AI RMF override conformidade políticas revisão humana' },
-  { title: '21. Skills e capacidades', path: 'chapters/21-skills-e-composicao-de-capacidades.html', text: 'skills capacidades tools playbooks agentskills clawhub workspace skills local skills gating env bins config sandbox skill design skill security' }
+  { title: '21. Skills e capacidades', path: 'chapters/21-skills-e-composicao-de-capacidades.html', text: 'skills capacidades tools playbooks agentskills clawhub workspace skills local skills gating env bins config sandbox skill design skill security' },
+  { title: '22. LLMs, plataformas e orquestração', path: 'chapters/22-llms-plataformas-orquestracao-e-openclaw-para-openclaw.html', text: 'llms plataformas orquestração openclaw para openclaw multi-agent modelos provedores brokers openrouter coordenação agentes arquitetura loops custos' },
+  { title: '23. Personalidade de agentes', path: 'chapters/23-personalidade-de-agentes-como-projetar-e-o-que-melhora.html', text: 'personalidade persona identidade tom limites estilo operacional sycophancy antropomorfismo system prompt comportamento consistência agente' },
+  { title: '24. RAG e retrieval', path: 'chapters/24-rag-e-retrieval-para-agentes.html', text: 'rag retrieval grounding memória contexto chunking ranking embeddings busca semântica keyword híbrida vector database prompt injection documentos snippets evidência' }
 ];
 
 function normalizeText(text) {

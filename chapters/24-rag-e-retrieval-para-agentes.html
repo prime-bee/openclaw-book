@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Capítulo 24 — RAG e retrieval para agentes — openclaw-book</title>
+  <meta name="description" content="Entenda quando usar RAG em agentes, como desenhar retrieval sem poluir contexto, quais riscos evitar e como aplicar isso com memória, busca e documentos no OpenClaw.">
+  <meta name="theme-color" content="#0f1115">
+  <meta name="author" content="Prime">
+  <meta name="application-name" content="OpenClaw Book">
+  <meta name="apple-mobile-web-app-title" content="OpenClaw Book">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://prime-bee.github.io/openclaw-book/chapters/24-rag-e-retrieval-para-agentes.html">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="Capítulo 24 — RAG e retrieval para agentes — openclaw-book">
+  <meta property="og:description" content="Entenda quando usar RAG em agentes, como desenhar retrieval sem poluir contexto, quais riscos evitar e como aplicar isso com memória, busca e documentos no OpenClaw.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://prime-bee.github.io/openclaw-book/chapters/24-rag-e-retrieval-para-agentes.html">
+  <meta property="og:site_name" content="openclaw-book">
+  <meta property="og:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Capítulo 24 — RAG e retrieval para agentes — openclaw-book">
+  <meta name="twitter:description" content="Entenda quando usar RAG em agentes, como desenhar retrieval sem poluir contexto, quais riscos evitar e como aplicar isso com memória, busca e documentos no OpenClaw.">
+  <meta name="twitter:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <link rel="stylesheet" href="../styles.css">
+  <script defer src="../app.js"></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Capítulo 24 — RAG e retrieval para agentes — openclaw-book","name":"Capítulo 24 — RAG e retrieval para agentes — openclaw-book","description":"Entenda quando usar RAG em agentes, como desenhar retrieval sem poluir contexto, quais riscos evitar e como aplicar isso com memória, busca e documentos no OpenClaw.","inLanguage":"pt-BR","url":"https://prime-bee.github.io/openclaw-book/chapters/24-rag-e-retrieval-para-agentes.html","author":{"@type":"Person","name":"Prime"},"publisher":{"@type":"Organization","name":"Prime Bee","url":"https://github.com/prime-bee/openclaw-book"},"isPartOf":{"@type":"Book","name":"OpenClaw Book","url":"https://prime-bee.github.io/openclaw-book/"}}</script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="../assets/openclaw-logo-text.png" alt="OpenClaw logo">
+        <h1>Capítulo 24</h1>
+        <p>RAG e retrieval</p>
+      </div>
+      <nav class="nav">
+        <a href="../index.html">← Início</a>
+        <a href="01-visao-geral.html">1. Visão geral</a>
+        <a href="02-arquitetura.html">2. Arquitetura</a>
+        <a href="03-gateway.html">3. Gateway</a>
+        <a href="04-cli.html">4. CLI</a>
+        <a href="05-memoria-e-workspace.html">5. Memória e workspace</a>
+        <a href="06-canais-e-rotina.html">6. Canais e operação</a>
+        <a href="07-modelos-e-provedores.html">7. Modelos e provedores</a>
+        <a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento</a>
+        <a href="09-automacoes-cron-e-heartbeat.html">9. Automação</a>
+        <a href="10-sandbox-e-seguranca-pratica.html">10. Sandbox e segurança</a>
+        <a href="11-browser-e-controle-remoto.html">11. Browser e controle remoto</a>
+        <a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo</a>
+        <a href="13-troubleshooting-e-diagnostico.html">13. Troubleshooting</a>
+        <a href="14-referencias-oficiais.html">14. Referências oficiais</a>
+        <a href="15-roadmap-e-proximos-passos.html">15. Roadmap</a>
+        <a href="16-agentes-ia-fluxos-e-delegacao.html">16. Agentes IA e fluxos</a>
+        <a href="17-missoes-e-desafios.html">17. Missões e desafios</a>
+        <a href="18-engenharia-de-prompts.html">18. Engenharia de prompts</a>
+        <a href="19-observabilidade-e-monitoramento.html">19. Observabilidade</a>
+        <a href="20-hitl-e-governanca.html">20. HITL e Governança</a>
+        <a href="21-skills-e-composicao-de-capacidades.html">21. Skills e capacidades</a>
+        <a href="22-llms-plataformas-orquestracao-e-openclaw-para-openclaw.html">22. LLMs e orquestração</a>
+        <a href="23-personalidade-de-agentes-como-projetar-e-o-que-melhora.html">23. Personalidade de agentes</a>
+        <a class="active" href="24-rag-e-retrieval-para-agentes.html">24. RAG e retrieval</a>
+      </nav>
+    </aside>
+    <main id="conteudo" class="content chapter">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="../index.html">Início</a>
+        <span aria-hidden="true">/</span>
+        <a href="../index.html#sumario-livro">Capítulos</a>
+        <span aria-hidden="true">/</span>
+        <a href="24-rag-e-retrieval-para-agentes.html" aria-current="page">Capítulo 24: RAG e retrieval</a>
+      </nav>
+
+      <div class="chapter-intro">
+        <p class="lede">RAG não é enfiar documentos no contexto e torcer. É desenhar recuperação de informação com escopo, ranking, filtro e verificação — para o agente lembrar do que importa sem se afogar em texto irrelevante.</p>
+        <div class="kpi-row">
+          <span class="kpi">Capítulo 24 de 24</span>
+          <span class="kpi">Avançado</span>
+          <span class="kpi">Retrieval · Contexto · Memória · Grounding</span>
+        </div>
+      </div>
+
+      <h1>RAG para agentes: como recuperar contexto sem envenenar a conversa</h1>
+      <p><strong>Retrieval-Augmented Generation</strong> virou um termo guarda-chuva. Em essência, a ideia é simples: antes de responder, o sistema recupera pedaços relevantes de conhecimento externo — documentos, notas, memórias, páginas, bases internas — e usa esse material como contexto para a geração. O ganho potencial é enorme: respostas mais aterradas, menos alucinação factual e menos necessidade de treinar o modelo com dado privado. O risco também é enorme: contexto demais, contexto errado, contexto velho, contexto inseguro ou contexto que chega ao modelo sem ranking nem filtro.</p>
+      <div class="callout"><strong>Regra prática:</strong> RAG bom não é sobre <em>quantidade de contexto</em>. É sobre <strong>precisão de recuperação</strong> e <strong>disciplina de injeção</strong>.</div>
+
+      <h2>O que “retrieval” significa na prática</h2>
+      <p>Retrieval é a etapa de encontrar evidência relevante antes da resposta. Essa evidência pode vir de várias fontes:</p>
+      <div class="tableish">
+        <div><strong>Fonte</strong></div><div><strong>Exemplo prático</strong></div>
+        <div>Memória operacional</div><div>arquivos como <code>MEMORY.md</code>, diários em <code>memory/YYYY-MM-DD.md</code> e trechos retornados por busca semântica</div>
+        <div>Documentos do workspace</div><div>manuais internos, runbooks, README, notas de projeto, especificações</div>
+        <div>Base externa</div><div>wikis, docs oficiais, páginas web ou uma base vetorial indexada</div>
+        <div>Histórico de conversa</div><div>sessões anteriores, mensagens recentes, resumos e checkpoints</div>
+        <div>Ferramentas estruturadas</div><div>APIs, bancos, calendários, trackers ou sistemas de tickets</div>
+      </div>
+      <p>Em OpenClaw, isso aparece com muita força no uso de <strong>memória baseada em arquivos</strong>, <strong>busca semântica</strong> e leitura pontual de trechos. Em vez de carregar tudo sempre, o agente pode buscar primeiro e só então injetar o mínimo necessário no contexto de trabalho.</p>
+
+      <h2>Quando RAG é melhor do que “contexto bruto”</h2>
+      <ul>
+        <li>quando a base muda com frequência e não faz sentido depender só do conhecimento pré-treinado do modelo</li>
+        <li>quando há informação privada ou específica do ambiente que não está nas docs públicas</li>
+        <li>quando a janela de contexto é limitada e você precisa escolher bem o que entra</li>
+        <li>quando o custo de token importa e jogar tudo no prompt seria caro e ruim</li>
+        <li>quando você quer explicitar de onde veio a informação usada na resposta</li>
+      </ul>
+      <p>Se o conhecimento é pequeno, estável e muito recorrente, às vezes o melhor caminho nem é RAG: pode ser só escrever uma boa instrução, criar uma skill bem feita, manter um arquivo curto de política ou usar memória curada. Nem todo problema pede pipeline de retrieval.</p>
+
+      <h2>O fluxo mental de um RAG saudável</h2>
+      <pre><code>Pergunta → interpretar intenção → buscar evidência → filtrar/ranquear → ler trechos → responder com base neles → citar limites/incerteza</code></pre>
+      <p>O erro clássico é pular direto de “buscar” para “responder”, sem checar se o que foi encontrado realmente responde à pergunta. Recuperação e geração são etapas diferentes; misturá-las costuma piorar as duas.</p>
+
+      <h2>Os quatro blocos de um sistema de retrieval bom</h2>
+      <div class="grid">
+        <div class="card"><h3>1. Indexação</h3><p>Como os documentos são quebrados, normalizados, enriquecidos e armazenados para busca.</p></div>
+        <div class="card"><h3>2. Busca</h3><p>Como você recupera candidatos: keyword, semântica, híbrida, filtros por metadata ou combinações.</p></div>
+        <div class="card"><h3>3. Ranking</h3><p>Como você decide o que sobe para o topo e o que não merece entrar no contexto.</p></div>
+        <div class="card"><h3>4. Injeção</h3><p>Como os trechos entram no prompt: quantos, em que ordem, com que rótulo e com qual instrução de uso.</p></div>
+      </div>
+      <p>Quase todo problema de RAG ruim nasce em um desses blocos, não na “inteligência” do modelo em si.</p>
+
+      <h2>Chunking: o detalhe que decide metade do resultado</h2>
+      <p>Documentos grandes raramente devem entrar como blocos monolíticos. O normal é quebrá-los em <em>chunks</em> menores. Se o chunk for grande demais, a busca devolve coisas vagas. Se for pequeno demais, você perde contexto semântico.</p>
+      <div class="tableish">
+        <div><strong>Estratégia</strong></div><div><strong>Quando ajuda</strong></div>
+        <div>Chunk fixo por tamanho</div><div>simples, rápido, bom para começar, mas pode cortar conceitos no meio</div>
+        <div>Chunk por seção/título</div><div>melhor para docs com headings claros, manuais e wikis</div>
+        <div>Chunk com overlap</div><div>útil quando conceitos atravessam fronteiras e você não quer perder continuidade</div>
+        <div>Chunk semântico</div><div>mais sofisticado, tenta preservar unidade de ideia em vez de só contar tokens</div>
+      </div>
+      <div class="callout"><strong>Heurística útil:</strong> recupere trechos que façam sentido sozinhos. Se um chunk depende de três parágrafos anteriores para ser entendido, provavelmente ele foi cortado no lugar errado.</div>
+
+      <h2>Busca keyword, semântica ou híbrida?</h2>
+      <p>Busca por palavra-chave ainda é muito útil para nomes exatos, flags, erros específicos, IDs e termos técnicos literais. Busca semântica ajuda quando a pergunta vem parafraseada ou conceitual. Em muitos casos, o melhor resultado vem do híbrido: juntar evidência lexical e semântica antes do ranking final.</p>
+      <div class="tableish">
+        <div><strong>Tipo</strong></div><div><strong>Ponto forte</strong></div>
+        <div>Keyword</div><div>termos exatos, comandos, nomes de arquivo, códigos de erro</div>
+        <div>Semântica</div><div>intenção, sinônimos, formulações diferentes da mesma pergunta</div>
+        <div>Híbrida</div><div>combina precisão lexical com flexibilidade conceitual</div>
+      </div>
+      <p>Em OpenClaw, a ideia de primeiro <strong>buscar semanticamente</strong> e depois <strong>ler só o trecho relevante</strong> é especialmente valiosa porque reduz o custo de contexto e preserva o hábito saudável de não carregar arquivos inteiros à toa.</p>
+
+      <h2>Ranking importa mais do que parece</h2>
+      <p>Recuperar vinte candidatos não resolve se os cinco primeiros são medianos. Ranking pode usar score vetorial, sinais de keyword, recência, tipo de documento, fonte confiável, autoria, projeto, canal, usuário, data ou combinação desses fatores.</p>
+      <ul>
+        <li><strong>recência</strong> evita que instruções antigas dominem decisões novas</li>
+        <li><strong>confiabilidade da fonte</strong> separa doc oficial de anotação informal</li>
+        <li><strong>escopo</strong> impede que memória de um projeto contamine outro</li>
+        <li><strong>tipo de conteúdo</strong> ajuda a priorizar runbooks sobre conversas soltas</li>
+      </ul>
+      <p>Se o seu retrieval não leva em conta <em>quem escreveu</em>, <em>quando foi escrito</em> e <em>em que contexto vale</em>, você não está só fazendo busca; está criando uma máquina de confusão muito eficiente.</p>
+
+      <h2>Como isso conversa com memória no OpenClaw</h2>
+      <p>OpenClaw já favorece um modelo operacional que casa muito bem com RAG: memória persistente em arquivos, busca semântica obrigatória em certos contextos e leitura pontual de trechos. Isso é quase uma forma de retrieval disciplinado por design.</p>
+      <div class="grid">
+        <div class="card"><h3>Memory como base viva</h3><p><code>MEMORY.md</code> e diários ajudam a armazenar contexto durável e recuperável sem depender da janela do chat.</p></div>
+        <div class="card"><h3>Busca antes de falar</h3><p>Em vez de assumir, o agente consulta a memória quando o assunto envolve decisões passadas, preferências ou contexto durável.</p></div>
+        <div class="card"><h3>Trecho, não arquivo inteiro</h3><p>Ler só linhas relevantes é melhor do que despejar tudo no contexto e poluir a resposta.</p></div>
+      </div>
+      <p>Na prática, muito do que equipes chamam de “RAG para agentes pessoais” pode começar com uma disciplina simples: <strong>escreva bem a memória, busque antes, leia só o necessário, responda com base nisso</strong>.</p>
+
+      <h2>RAG não é desculpa para memória bagunçada</h2>
+      <p>Se sua base está caótica, retrieval só vai recuperar caos com mais velocidade. Qualidade da memória e dos documentos importa tanto quanto qualidade da busca. Arquivos mal nomeados, notas contraditórias, conteúdo velho sem marcação e trechos redundantes reduzem muito a utilidade do pipeline.</p>
+      <div class="callout warning"><strong>Anti-ilusão:</strong> indexar tudo não transforma bagunça em conhecimento. Só transforma bagunça em bagunça pesquisável.</div>
+
+      <h2>O que um agente deve fazer com os trechos recuperados</h2>
+      <ol class="steps">
+        <li><strong>Verificar aderência:</strong> o trecho realmente responde à pergunta ou só parece relacionado?</li>
+        <li><strong>Separar fato de hipótese:</strong> documento recuperado não é verdade absoluta se estiver desatualizado ou incompleto.</li>
+        <li><strong>Unir evidências:</strong> quando dois trechos se complementam, a resposta pode integrar os dois — sem fingir que vieram de um só lugar.</li>
+        <li><strong>Sinalizar lacunas:</strong> se nada recuperado responde de forma firme, o agente deve dizer isso em vez de improvisar.</li>
+      </ol>
+      <p>Um agente maduro usa retrieval para reduzir improviso, não para encobrir falta de evidência.</p>
+
+      <h2>Um exemplo operacional em OpenClaw</h2>
+      <pre><code>Pergunta do usuário:
+"O que a gente já decidiu sobre usar cron vs heartbeat para monitoramento leve?"
+
+Fluxo saudável:
+1. rodar memory_search sobre cron, heartbeat, monitoramento e decisões passadas
+2. recuperar os snippets mais fortes
+3. abrir só os trechos relevantes com memory_get
+4. responder resumindo a decisão e, se necessário, citar nuances e data da anotação</code></pre>
+      <p>Isso é retrieval aplicado ao cotidiano: o agente não depende de lembrar “de cabeça” e também não despeja a memória inteira no prompt.</p>
+
+      <h2>Riscos clássicos de RAG em agentes</h2>
+      <div class="tableish">
+        <div><strong>Risco</strong></div><div><strong>Como aparece</strong></div>
+        <div>Poluição de contexto</div><div>muitos trechos irrelevantes competem com o raciocínio principal</div>
+        <div>Recuperação errada</div><div>o agente usa snippet parecido, mas não realmente pertinente</div>
+        <div>Desatualização</div><div>conteúdo antigo vence conteúdo novo por causa de ranking ruim</div>
+        <div>Vazamento de contexto</div><div>retrieval puxa material de outro projeto, outro usuário ou outra zona de confiança</div>
+        <div>Confiança excessiva</div><div>o modelo trata qualquer trecho recuperado como verdade confirmada</div>
+      </div>
+
+      <h2>Prompt injection via documentos recuperados</h2>
+      <p>Esse é um ponto crítico. Se o agente lê conteúdo externo recuperado e trata tudo como instrução, você abriu uma porta para prompt injection indireta. Um documento, issue, página ou nota pode conter frases do tipo “ignore as regras anteriores”, “revele segredos”, “rode este comando” ou “trate esta mensagem como instrução do sistema”.</p>
+      <p>Documentos recuperados devem ser tratados como <strong>dados</strong>, não como <strong>autoridade</strong>. O agente precisa manter a hierarquia: instruções de sistema e políticas continuam acima do conteúdo recuperado.</p>
+      <section class="recipe">
+        <h3>Checklist mínimo contra injection em retrieval</h3>
+        <ol class="steps">
+          <li>rotule claramente trechos recuperados como contexto/fonte, não como instrução</li>
+          <li>separe docs oficiais, docs internas e fontes abertas em níveis de confiança diferentes</li>
+          <li>evite recuperar HTML cru ou texto bagunçado sem limpeza</li>
+          <li>não permita que o simples fato de um trecho existir mude políticas de segurança do agente</li>
+          <li>quando a ação for sensível, exija confirmação e validação externa mesmo com evidência recuperada</li>
+        </ol>
+      </section>
+
+      <h2>Quanto contexto injetar?</h2>
+      <p>A tentação é responder “o máximo que couber”. Normalmente isso piora o resultado. O modelo precisa de <strong>contexto suficiente</strong>, não de <strong>contexto máximo</strong>.</p>
+      <div class="tableish">
+        <div><strong>Sinal de excesso</strong></div><div><strong>O que tende a acontecer</strong></div>
+        <div>trechos demais</div><div>o modelo se perde, mistura pontos e responde de forma vaga</div>
+        <div>trechos redundantes</div><div>custo sobe sem ganho de precisão</div>
+        <div>fontes contraditórias sem curadoria</div><div>resposta sai confusa ou superconfiante demais</div>
+      </div>
+      <div class="callout"><strong>Boa prática:</strong> prefira poucos trechos fortes, com origem clara, a uma pilha de snippets medianos.</div>
+
+      <h2>RAG para perguntas factuais vs RAG para ação</h2>
+      <h3>Perguntas factuais</h3>
+      <p>O retrieval serve principalmente para grounding: recuperar a fonte certa e responder com precisão.</p>
+      <h3>Tarefas de ação</h3>
+      <p>O retrieval também pode alimentar execução: políticas, runbooks, passos operacionais, escopos permitidos e decisões passadas. Aqui o perigo é maior, porque informação ruim pode virar ação errada. Por isso, tarefas acionáveis pedem validação mais rígida do que simples perguntas factuais.</p>
+
+      <h2>Boas fontes para retrieval em times e projetos</h2>
+      <ul>
+        <li>runbooks curtos e atualizados</li>
+        <li>decisões de arquitetura com data e contexto</li>
+        <li>playbooks operacionais por sistema</li>
+        <li>memória curada por projeto</li>
+        <li>docs oficiais ou internos com autoria clara</li>
+      </ul>
+      <p>Conversa solta pode entrar, mas como fonte de menor confiança. Notas pessoais, brainstorms e mensagens rápidas podem ajudar a recuperar contexto, porém raramente devem ter o mesmo peso de uma decisão documentada.</p>
+
+      <h2>Como eu desenharia retrieval no OpenClaw</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Camada 1 — memória curada</h3>
+          <p><code>MEMORY.md</code>, políticas de workspace e notas curtas para fatos duráveis e decisões estáveis.</p>
+        </div>
+        <div class="card">
+          <h3>Camada 2 — diário e histórico</h3>
+          <p>arquivos datados e logs para contexto recente, com uso mais seletivo e recência alta.</p>
+        </div>
+        <div class="card">
+          <h3>Camada 3 — docs do projeto</h3>
+          <p>README, runbooks, specs e scripts para grounding técnico.</p>
+        </div>
+        <div class="card">
+          <h3>Camada 4 — web/doc oficial</h3>
+          <p>consulta externa quando o estado real do mundo importa ou a base local não basta.</p>
+        </div>
+      </div>
+      <p>Essa ordem ajuda porque começa no contexto mais confiável e específico do próprio ambiente antes de escalar para fontes externas.</p>
+
+      <h2>Troubleshooting de RAG</h2>
+      <section class="troubleshoot">
+        <h3>Sintoma: o agente responde com confiança, mas errado</h3>
+        <ul>
+          <li>o trecho recuperado pode estar desatualizado</li>
+          <li>o ranking pode ter priorizado similaridade superficial</li>
+          <li>faltou verificação cruzada entre duas fontes</li>
+        </ul>
+
+        <h3>Sintoma: o agente fica vago depois de buscar</h3>
+        <ul>
+          <li>contexto demais</li>
+          <li>snippets longos e pouco focados</li>
+          <li>instrução fraca sobre como usar o material recuperado</li>
+        </ul>
+
+        <h3>Sintoma: o agente encontra, mas não usa</h3>
+        <ul>
+          <li>prompt não deixa claro que os trechos são prioritários</li>
+          <li>o material veio mal formatado ou sem destaque</li>
+          <li>o trecho recuperado não estava realmente respondendo à pergunta</li>
+        </ul>
+
+        <h3>Sintoma: retrieval puxa informação de outro escopo</h3>
+        <ul>
+          <li>faltam filtros por workspace, agente, projeto ou período</li>
+          <li>a base foi indexada sem segmentação adequada</li>
+          <li>o sistema não tem níveis de confiança por fonte</li>
+        </ul>
+      </section>
+
+      <h2>Checklist de desenho antes de chamar algo de “RAG”</h2>
+      <ol class="steps">
+        <li>qual pergunta ou tarefa realmente precisa de recuperação externa?</li>
+        <li>quais fontes entram e com que grau de confiança?</li>
+        <li>como os documentos serão quebrados e atualizados?</li>
+        <li>quais filtros impedem mistura de escopos?</li>
+        <li>quantos trechos entram no prompt e em que formato?</li>
+        <li>como o agente lida com conflito, ausência de evidência e injection?</li>
+      </ol>
+      <p>Se você não consegue responder isso, ainda não tem um sistema de retrieval; tem só um cano despejando texto no modelo.</p>
+
+      <h2>Conclusão prática</h2>
+      <p>RAG bom faz o agente parecer mais atento ao mundo real. RAG ruim faz o agente parecer mais confuso, mais caro e mais perigoso. O segredo não é “usar embeddings” ou “ter vector DB”, e sim manter uma disciplina de <strong>fonte</strong>, <strong>escopo</strong>, <strong>ranking</strong> e <strong>injeção mínima</strong>.</p>
+      <p>No ecossistema OpenClaw, a melhor porta de entrada para isso costuma ser menos glamourosa — e mais eficaz: memória bem escrita, busca antes da resposta, leitura pontual de trechos e respeito estrito à fronteira entre <em>contexto recuperado</em> e <em>instruções do sistema</em>.</p>
+
+      <div class="exercise"><strong>Exercício:</strong> escolha uma pergunta recorrente do seu ambiente — por exemplo, “o que já decidimos sobre automações?” — e desenhe um mini pipeline: fontes permitidas, consulta de busca, filtros, número máximo de trechos, regra de ranking e como o agente deve responder quando não encontrar evidência suficiente.</div>
+
+      <div class="refs">
+        <h3>Referências oficiais</h3>
+        <ul>
+          <li><a href="https://docs.openclaw.ai/concepts/memory" target="_blank" rel="noopener noreferrer">OpenClaw Docs — Memory</a></li>
+          <li><a href="https://docs.openclaw.ai/tools/skills" target="_blank" rel="noopener noreferrer">OpenClaw Docs — Skills</a></li>
+          <li><a href="https://platform.openai.com/docs/guides/retrieval" target="_blank" rel="noopener noreferrer">OpenAI — Retrieval guide</a></li>
+          <li><a href="https://platform.openai.com/docs/guides/tools-file-search" target="_blank" rel="noopener noreferrer">OpenAI — File search</a></li>
+          <li><a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-retrieval" target="_blank" rel="noopener noreferrer">Anthropic — Use retrieval for grounded outputs</a></li>
+          <li><a href="https://cloud.google.com/architecture/gen-ai-rag-grounding" target="_blank" rel="noopener noreferrer">Google Cloud — Grounding and RAG architecture</a></li>
+        </ul>
+      </div>
+
+      <div class="diagram">
+        <h3>Navegação rápida</h3>
+        <div class="grid">
+          <div class="card"><a href="23-personalidade-de-agentes-como-projetar-e-o-que-melhora.html">← 23. Personalidade de agentes</a></div>
+          <div class="card"><a href="../index.html">Índice</a></div>
+          <div class="card"><a href="../glossario.html">Glossário →</a></div>
+        </div>
+      </div>
+
+      <nav class="chapter-pager" aria-label="Chapter navigation">
+        <a class="pager-link" href="23-personalidade-de-agentes-como-projetar-e-o-que-melhora.html">← Capítulo 23: Personalidade de agentes</a>
+        <a class="pager-link pager-center" href="../index.html#sumario-livro">Índice</a>
+        <a class="pager-link" href="../glossario.html">Glossário →</a>
+      </nav>
+
+      <div class="footer">Fim do Capítulo 24. Este capítulo fecha bem o bloco de agentes, memória, skills, segurança e operação prática.</div>
+    </main>
+  </div>
+</body>
+</html>
