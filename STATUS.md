@@ -1,5 +1,5 @@
 # STATUS.md
 
-- Current task: Loop 2 complete — publish chapter 30 on UX for talking to agents.
-- What was done: Added patterns for intent confirmation, milestone updates, approval clarity, and conversational anti-patterns; updated editorial inventory and counts.
-- Next steps: Add team collaboration, multimodality, cost planning, stack comparisons, and consistency passes.
+- Current task: Loop 3 complete — publish chapter 31 on team collaboration patterns.
+- What was done: Added collaboration patterns for squads, escalation, channel policies, stable-vs-lab agents, and team-oriented metrics.
+- Next steps: Cover multimodality and voice, production cost planning, stack comparisons, and navigation/template consistency.
