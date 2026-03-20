@@ -285,6 +285,13 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - revisão mensal de custo
 - tradeoffs entre economia e qualidade
 
+### 34. Comparando frameworks e stacks agentic
+- comparação por forma de operação
+- OpenClaw vs stacks centradas em código
+- encaixe por perfil de time
+- decisão pragmática de stack
+- composição em camadas
+
 ---
 
 ## Índice temático transversal
@@ -398,9 +405,10 @@ Capítulos:
 - AgentSkills
 - ClawHub
 - composição de capacidades
+- comparação com outras stacks agentic
 
 Capítulos:
-- 21
+- 21, 34
 
 ### Ferramentas e interfaces de ação
 - design de tools
@@ -448,8 +456,8 @@ Esses temas já têm cobertura robusta e, em geral, devem ser expandidos antes d
 
 Temas que ainda podem render capítulos novos ou expansões fortes:
 
+- integração mais profunda entre evals e observabilidade
 - agents para equipes / ambientes corporativos
-- comparação mais profunda entre frameworks e stacks agentic
 
 ---
 
@@ -469,6 +477,6 @@ Antes de criar novo conteúdo:
 
 ## Status atual
 
-- capítulos totais: **33**
+- capítulos totais: **34**
 - livro já cobre fundamentos, operação, segurança, agentes, prompting, governança, observabilidade, skills, plataformas, personalidade, retrieval, design de ferramentas, múltiplos gateways no mesmo host, migração segura, arquiteturas de produção e evals/benchmarking, além de UX de interação com agentes
 - este arquivo deve continuar sendo tratado como **índice editorial vivo**

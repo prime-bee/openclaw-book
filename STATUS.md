@@ -1,5 +1,5 @@
 # STATUS.md
 
-- Current task: Loop 5 complete — publish chapter 33 on cost planning in production.
-- What was done: Added production cost framing, model tiering, context optimization, monthly review checklist, and safety-first tradeoff guidance.
-- Next steps: Publish the framework-comparison chapter, then improve navigation, roadmap surfaces, and chapter/template consistency.
+- Current task: Loop 6 complete — publish chapter 34 comparing frameworks and stacks.
+- What was done: Added a pragmatic comparison chapter covering fit, tradeoffs, layered architectures, and stack-selection questions.
+- Next steps: Integrate the six new advanced chapters into navigation-heavy pages and modernize roadmap/older chapter consistency.
