@@ -250,6 +250,39 @@ Atenção: [itens que merecem revisão]</code></pre></li>
 </ol>
 </div>
 
+<h2>SLOs, error budget e sinais que pedem ação</h2>
+
+<p>Métrica solta informa; <strong>SLO</strong> orienta decisão. Depois que seu agente entra em rotina de verdade, vale definir alguns objetivos explícitos de serviço para não discutir saúde só no feeling.</p>
+
+<div class="tableish">
+  <div><strong>SLO</strong></div><div><strong>Como medir</strong></div><div><strong>Exemplo inicial</strong></div><div><strong>Quando agir</strong></div>
+  <div>resposta útil no canal</div><div>% de sessões com resposta aceitável dentro do SLA</div><div>95% das respostas simples em até 12s</div><div>se cair por 2 janelas seguidas, congelar mudanças e investigar latência</div>
+  <div>tool success rate</div><div>% de chamadas de ferramentas sem erro final</div><div>acima de 97%</div><div>abaixo disso, revisar integração e política de retries</div>
+  <div>handoff saudável</div><div>% de escaladas para humano em tarefas simples</div><div>abaixo de 10%</div><div>se subir, avaliar regressão de autonomia ou policy restritiva demais</div>
+  <div>custo por tarefa útil</div><div>tokens/custo por sessão concluída com sucesso</div><div>variação menor que 20% do baseline</div><div>se explodir sem ganho de qualidade, revisar contexto, modelo e fan-out de tools</div>
+</div>
+
+<div class="callout"><strong>Regra prática:</strong> quando o <em>error budget</em> acabar rápido demais, pare de empilhar features. Em produção, a prioridade volta a ser confiabilidade: estabilizar, medir e só então retomar mudança.</div>
+
+<h2>Transformando sinais em backlog de melhoria</h2>
+
+<p>Observabilidade só vira maturidade quando produz mudança editorial e operacional. O caminho saudável é curto:</p>
+
+<ol class="steps">
+  <li><strong>Detecte um padrão</strong>: P95 subiu, retries aumentaram, custo por tarefa explodiu ou handoff ficou frequente.</li>
+  <li><strong>Abra a evidência</strong>: trace, log e amostra de sessão suficiente para reproduzir a dor sem expor conteúdo sensível.</li>
+  <li><strong>Converta em hipótese</strong>: contexto excessivo, prompt vago, tool frágil, política muito restritiva, modelo desalinhado.</li>
+  <li><strong>Promova para eval</strong>: o caso anômalo vira cenário permanente do capítulo 29.</li>
+  <li><strong>Promova para governança ou custo</strong> se o problema for approval gate, adoção por time ou orçamento.</li>
+</ol>
+
+<div class="diagram"><h3>ASCII — da anomalia ao aprendizado permanente</h3><pre><code>alerta/métrica anômala
+  -> trace + contexto resumido
+  -> hipótese operacional
+  -> caso de eval / ajuste de policy
+  -> rollout pequeno
+  -> nova baseline</code></pre></div>
+
 <h2>Observabilidade em sistemas multi-agent</h2>
 
 <p>Em sistemas com múltiplos agentes (veja capítulo 8), a observabilidade é ainda mais crítica porque falhas podem se propagar entre agentes de formas não óbvias.</p>
@@ -271,4 +304,4 @@ Atenção: [itens que merecem revisão]</code></pre></li>
 
 <div class="exercise"><strong>Exercício 4 — Auditoria de incidente:</strong> Simule um incidente: force um erro em uma ferramenta, deixe o agente tentar resolver, e então use apenas os logs produzidos para reconstruir o que aconteceu. Consegue responder: quando começou? quantas tentativas? como terminou? Essa capacidade é o objetivo final da observabilidade.</div>
 
-<div class="refs"><h3>Referências</h3><ul><li><a href="https://docs.openclaw.ai/gateway/troubleshooting" target="_blank" rel="noopener noreferrer">Gateway troubleshooting</a></li><li><a href="https://opentelemetry.io/docs/" target="_blank" rel="noopener noreferrer">OpenTelemetry Documentation</a></li><li><a href="https://docs.anthropic.com/en/docs/build-with-claude/agents" target="_blank" rel="noopener noreferrer">Anthropic: Building Agents</a></li></ul><p class="muted">Ver também: Capítulo 7 (quotas e consumo de tokens), Capítulo 8 (multi-agent e rastreabilidade), Capítulo 10 (segurança e auditoria), Capítulo 13 (troubleshooting e diagnóstico).</p></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="18-engenharia-de-prompts.html">← 18. Engenharia de prompts</a></div><div class="card"><a href="../index.html">Índice do livro</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="18-engenharia-de-prompts.html">← Capítulo 18: Engenharia de prompts</a><a class="pager-link pager-center" href="../reading-paths.html">Trilhas de leitura</a></nav><div class="footer">Continue em <a href="20-hitl-e-governanca.html">HITL e Governança</a>.</div></main></div></body></html>
+<div class="refs"><h3>Referências</h3><ul><li><a href="https://docs.openclaw.ai/gateway/troubleshooting" target="_blank" rel="noopener noreferrer">Gateway troubleshooting</a></li><li><a href="https://opentelemetry.io/docs/" target="_blank" rel="noopener noreferrer">OpenTelemetry Documentation</a></li><li><a href="https://docs.anthropic.com/en/docs/build-with-claude/agents" target="_blank" rel="noopener noreferrer">Anthropic: Building Agents</a></li></ul><p class="muted">Ver também: Capítulo 7 (quotas e consumo de tokens), Capítulo 8 (multi-agent e rastreabilidade), Capítulo 10 (segurança e auditoria), Capítulo 13 (troubleshooting e diagnóstico).</p></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="18-engenharia-de-prompts.html">← 18. Engenharia de prompts</a></div><div class="card"><a href="../reading-paths.html">Trilhas de leitura</a></div><div class="card"><a href="20-hitl-e-governanca.html">20. HITL e Governança →</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="18-engenharia-de-prompts.html">← Capítulo 18: Engenharia de prompts</a><a class="pager-link pager-center" href="../reading-paths.html">Trilhas de leitura</a><a class="pager-link" href="20-hitl-e-governanca.html">Capítulo 20: HITL e Governança →</a></nav><div class="footer">Continue em <a href="20-hitl-e-governanca.html">HITL e Governança</a>.</div></main></div></body></html>
