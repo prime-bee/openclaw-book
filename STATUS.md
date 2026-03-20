@@ -1,6 +1,6 @@
 # STATUS
 
-- Rodada: 2026-03-20 12:52 America/New_York
-- O que foi feito: Loop 1/10 concluído. Corrigi uma lacuna real de discoverability: a busca local só indexava até o capítulo 28. Agora `search.js` inclui os capítulos 29 a 34 com termos úteis para evals, UX, times, multimodalidade, custos e comparação de stacks. Também alinhei o plano para continuar reforçando busca e hubs temáticos.
-- Arquivos alterados: `search.js`, `PLAN.md`, `STATUS.md`
-- Próximo passo sugerido: Reforçar a home com atalhos temáticos entre observabilidade, evals, custos e colaboração para transformar descoberta por busca em descoberta visual.
+- Rodada: 2026-03-20 12:57 America/New_York
+- O que foi feito: Loop 2/10 concluído. Reforcei a home como página-hub: além do bloco avançado existente, ela agora tem uma seção explícita de ciclo operacional conectando observabilidade, evals, colaboração em times e custos. Também adicionei atalhos por objetivo (incidente, adoção em equipe, troca de modelo/policy) para reduzir a necessidade de o leitor montar esse caminho sozinho.
+- Arquivos alterados: `index.html`, `STATUS.md`
+- Próximo passo sugerido: Aplicar a mesma lógica de rotas por objetivo em `reading-paths.html`, com percursos avançados mais explícitos por decisão operacional.
