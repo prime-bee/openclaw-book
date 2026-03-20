@@ -92,8 +92,56 @@ function addReadingProgress() {
   updateProgress();
 }
 
+function ensureGlobalSearch() {
+  const main = document.querySelector('#conteudo') || document.querySelector('.content');
+  if (!main || main.querySelector('.global-search-shell')) return;
+
+  const legacyInput = document.getElementById('search-input');
+  if (legacyInput) {
+    const legacyCard = legacyInput.closest('.card');
+    if (legacyCard) {
+      legacyCard.classList.add('global-search-shell', 'search-widget');
+      legacyCard.setAttribute('aria-labelledby', 'global-search-title');
+      const label = legacyCard.querySelector('label strong');
+      if (label) label.id = 'global-search-title';
+      legacyInput.classList.add('js-search-input');
+      legacyCard.querySelector('#search-clear')?.classList.add('js-search-clear');
+      legacyCard.querySelector('#search-status')?.classList.add('js-search-status');
+      legacyCard.querySelector('#search-results')?.classList.add('js-search-results');
+      const breadcrumbs = main.querySelector('.breadcrumbs');
+      if (breadcrumbs) {
+        breadcrumbs.insertAdjacentElement('afterend', legacyCard);
+      } else {
+        main.prepend(legacyCard);
+      }
+      return;
+    }
+  }
+
+  const shell = document.createElement('section');
+  shell.className = 'global-search-shell card search-widget';
+  shell.setAttribute('aria-labelledby', 'global-search-title');
+  shell.innerHTML = `
+    <h2 id="global-search-title">Busca no livro</h2>
+    <p class="muted">Procure por tema, comando, capítulo ou palavra-chave. Dica: pressione <code>/</code> para focar na busca.</p>
+    <div class="search-toolbar">
+      <input type="text" placeholder="Buscar no livro..." class="search-input js-search-input" autocomplete="off" aria-label="Buscar no livro">
+      <button type="button" class="button-link js-search-clear">Limpar</button>
+    </div>
+    <p class="meta js-search-status" aria-live="polite">Digite um termo para ver resultados.</p>
+    <div class="grid search-results js-search-results"></div>
+  `;
+  const breadcrumbs = main.querySelector('.breadcrumbs');
+  if (breadcrumbs) {
+    breadcrumbs.insertAdjacentElement('afterend', shell);
+  } else {
+    main.prepend(shell);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   enhanceExternalLinks();
+  ensureGlobalSearch();
   addHeadingAnchors();
   buildChapterToc();
   markCurrentNav();
