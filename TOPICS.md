@@ -315,9 +315,13 @@ Capítulos:
 - missões
 - exercícios
 - gamificação
+- percursos por perfil de leitor
 
 Capítulos:
 - 17
+
+Páginas auxiliares:
+- `reading-paths.html`
 
 ---
 
