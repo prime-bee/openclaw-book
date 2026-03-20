@@ -31,7 +31,13 @@ const SEARCH_INDEX = [
   { title: '25. Design de ferramentas para agentes', path: 'chapters/25-design-de-ferramentas-para-agentes.html', text: 'design de ferramentas tools contratos schema entrada saída ergonomia idempotência observabilidade blast radius sandbox tool policy approvals interface tool design agentes openclaw' },
   { title: '26. Múltiplos OpenClaw no host', path: 'chapters/26-multiplos-openclaw-na-mesma-maquina.html', text: 'múltiplos openclaw mesma máquina multiple gateways same host perfis profiles rescue bot state dir config path workspace port mapping cdp browser control derived ports isolation' },
   { title: '27. Migrando com segurança', path: 'chapters/27-migrando-de-um-para-multiplos-gateways-com-seguranca.html', text: 'migração migration multiple gateways rollback parallel run phased rollout cutover rescue lab portas profiles state dir health doctor' },
-  { title: '28. Arquiteturas de produção', path: 'chapters/28-arquiteturas-de-producao-para-openclaw.html', text: 'produção production architecture single host home server tailnet main rescue lab control plane remote ssh tailscale health patterns' }
+  { title: '28. Arquiteturas de produção', path: 'chapters/28-arquiteturas-de-producao-para-openclaw.html', text: 'produção production architecture single host home server tailnet main rescue lab control plane remote ssh tailscale health patterns' },
+  { title: '29. Evals e benchmarking', path: 'chapters/29-evals-e-benchmarking-de-agentes.html', text: 'evals benchmarking golden set regressão benchmark scorecard task success rollout canary shadow traffic observabilidade latência custo handoff rollback qualidade agente' },
+  { title: '30. UX para conversar com agentes', path: 'chapters/30-ux-para-conversar-com-agentes.html', text: 'ux conversa agentes updates aprovações confiança expectativa confirmações mensagens status progressos handoff humano interface conversacional' },
+  { title: '31. OpenClaw para times', path: 'chapters/31-openclaw-para-times-e-colaboracao.html', text: 'times colaboração squads canais políticas handoff escalonamento privacidade onboarding RACI operating model runbook incidentes documentação compartilhada' },
+  { title: '32. Voz e multimodalidade', path: 'chapters/32-agentes-com-voz-e-multimodalidade.html', text: 'voz multimodalidade tts stt áudio imagem câmera interface multimodal latência interrupção acessibilidade segurança' },
+  { title: '33. Custos em produção', path: 'chapters/33-custos-em-producao-e-planejamento.html', text: 'custos produção orçamento budget tiering modelos planejamento finops custo por tarefa limites alertas kill switch contexto retries guardrails capacidade' },
+  { title: '34. Frameworks e stacks', path: 'chapters/34-comparando-frameworks-e-stacks-agenticas.html', text: 'frameworks stacks agenticas comparação openclaw langgraph autogen crewai tradeoffs arquitetura governança ferramentas produção escolha de stack' }
 ];
 
 function normalizeText(text) {
