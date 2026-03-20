@@ -257,6 +257,13 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - latência e custo por tarefa
 - benchmark antes de trocar modelo
 
+### 30. UX para conversar com agentes
+- clareza de intenção
+- atualizações orientadas por marcos
+- aprovações legíveis
+- confiança operacional
+- anti-padrões de conversa
+
 ---
 
 ## Índice temático transversal
@@ -329,9 +336,10 @@ Capítulos:
 - personalidade
 - papel e identidade
 - estilo operacional
+- UX conversacional
 
 Capítulos:
-- 16, 18, 23
+- 16, 18, 23, 30
 
 ### Automação
 - cron
@@ -419,7 +427,6 @@ Esses temas já têm cobertura robusta e, em geral, devem ser expandidos antes d
 Temas que ainda podem render capítulos novos ou expansões fortes:
 
 - planejamento de custos em produção
-- padrões de UX para conversar com agentes
 - agents para equipes / ambientes corporativos
 - agents com voz / multimodalidade
 - comparação mais profunda entre frameworks e stacks agentic
@@ -442,6 +449,6 @@ Antes de criar novo conteúdo:
 
 ## Status atual
 
-- capítulos totais: **29**
-- livro já cobre fundamentos, operação, segurança, agentes, prompting, governança, observabilidade, skills, plataformas, personalidade, retrieval, design de ferramentas, múltiplos gateways no mesmo host, migração segura, arquiteturas de produção e evals/benchmarking
+- capítulos totais: **30**
+- livro já cobre fundamentos, operação, segurança, agentes, prompting, governança, observabilidade, skills, plataformas, personalidade, retrieval, design de ferramentas, múltiplos gateways no mesmo host, migração segura, arquiteturas de produção e evals/benchmarking, além de UX de interação com agentes
 - este arquivo deve continuar sendo tratado como **índice editorial vivo**
