@@ -1,5 +1,5 @@
 # STATUS.md
 
-- Current task: Loop 4 complete — publish chapter 32 on voice and multimodality.
-- What was done: Added guidance for voice UX, ASR/TTS tradeoffs, privacy risks, multimodal context, and safe confirmation patterns.
-- Next steps: Cover production cost planning, stack comparisons, and polish older navigation/template-driven surfaces.
+- Current task: Loop 5 complete — publish chapter 33 on cost planning in production.
+- What was done: Added production cost framing, model tiering, context optimization, monthly review checklist, and safety-first tradeoff guidance.
+- Next steps: Publish the framework-comparison chapter, then improve navigation, roadmap surfaces, and chapter/template consistency.

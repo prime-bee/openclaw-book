@@ -278,6 +278,13 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - latência e privacidade
 - confirmações para ações sensíveis
 
+### 33. Custos em produção e planejamento
+- tiering de modelos
+- custo por tarefa útil
+- otimização de contexto
+- revisão mensal de custo
+- tradeoffs entre economia e qualidade
+
 ---
 
 ## Índice temático transversal
@@ -311,7 +318,7 @@ Capítulos:
 - plataformas/model providers
 
 Capítulos:
-- 7, 22
+- 7, 22, 33
 
 ### Conhecimento, memória e retrieval
 - memória operacional
@@ -441,7 +448,6 @@ Esses temas já têm cobertura robusta e, em geral, devem ser expandidos antes d
 
 Temas que ainda podem render capítulos novos ou expansões fortes:
 
-- planejamento de custos em produção
 - agents para equipes / ambientes corporativos
 - comparação mais profunda entre frameworks e stacks agentic
 
@@ -463,6 +469,6 @@ Antes de criar novo conteúdo:
 
 ## Status atual
 
-- capítulos totais: **32**
+- capítulos totais: **33**
 - livro já cobre fundamentos, operação, segurança, agentes, prompting, governança, observabilidade, skills, plataformas, personalidade, retrieval, design de ferramentas, múltiplos gateways no mesmo host, migração segura, arquiteturas de produção e evals/benchmarking, além de UX de interação com agentes
 - este arquivo deve continuar sendo tratado como **índice editorial vivo**
