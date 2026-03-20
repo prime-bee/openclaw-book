@@ -219,6 +219,14 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - riscos de prompt injection via documentos
 - troubleshooting de retrieval
 
+### 25. Design de ferramentas para agentes
+- design de tools e interfaces para LLMs
+- contratos de entrada e saída
+- ergonomia para modelos
+- idempotência e reexecução segura
+- observabilidade e erros acionáveis
+- sandbox, tool policy e blast radius
+
 ---
 
 ## Índice temático transversal
@@ -329,6 +337,16 @@ Capítulos:
 Capítulos:
 - 21
 
+### Ferramentas e interfaces de ação
+- design de tools
+- contratos de entrada/saída
+- ergonomia para agentes
+- idempotência
+- approvals, sandbox e blast radius
+
+Capítulos:
+- 10, 21, 25
+
 ### Aprendizado guiado
 - trilhas didáticas
 - missões
@@ -366,7 +384,6 @@ Esses temas já têm cobertura robusta e, em geral, devem ser expandidos antes d
 Temas que ainda podem render capítulos novos ou expansões fortes:
 
 - evals e benchmarking de agentes em mais profundidade
-- design de ferramentas para agentes
 - planejamento de custos em produção
 - padrões de UX para conversar com agentes
 - agents para equipes / ambientes corporativos
@@ -391,6 +408,6 @@ Antes de criar novo conteúdo:
 
 ## Status atual
 
-- capítulos totais: **24**
-- livro já cobre fundamentos, operação, segurança, agentes, prompting, governança, observabilidade, skills, plataformas e personalidade
+- capítulos totais: **25**
+- livro já cobre fundamentos, operação, segurança, agentes, prompting, governança, observabilidade, skills, plataformas, personalidade, retrieval e design de ferramentas
 - este arquivo deve continuar sendo tratado como **índice editorial vivo**
