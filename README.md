@@ -46,12 +46,19 @@ openclaw-book/
   about.html
   contributing.html
   glossario.html
+  TOPICS.md
+  MAINTENANCE.md
   styles.css
   app.js
   search.js
   assets/
   chapters/
 ```
+
+Arquivos editoriais importantes:
+
+- `TOPICS.md` — inventário vivo dos temas já cobertos e das lacunas do livro
+- `MAINTENANCE.md` — checklist de validação, regras do template e rotina pré-publicação
 
 ## Principais recursos do site
 
@@ -124,9 +131,17 @@ Contribuições são bem-vindas, especialmente para:
 - ampliar troubleshooting e exemplos práticos
 - revisar consistência editorial
 
+Antes de abrir capítulo novo ou expandir um tema de forma relevante:
+
+1. consulte `TOPICS.md`
+2. decida se a mudança cabe melhor como expansão, capítulo novo ou ajuste localizado
+3. revise `MAINTENANCE.md` para seguir o checklist de validação e template
+
 Veja também:
 
 - `contributing.html`
+- `TOPICS.md`
+- `MAINTENANCE.md`
 - `PULL_REQUEST_TEMPLATE.md`
 
 ## Licença

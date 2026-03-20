@@ -1,5 +1,5 @@
 # PLAN
 
-1. Create a living topics inventory file for the whole book.
-2. Document maintenance rules so it stays updated.
-3. Validate and publish the change.
+1. Integrar o inventário editorial (`TOPICS.md`) ao fluxo de contribuição.
+2. Destacar a rotina de manutenção (`MAINTENANCE.md`) para reduzir mudanças editoriais desalinhadas.
+3. Validar e publicar a melhoria.

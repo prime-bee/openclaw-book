@@ -1,5 +1,5 @@
 # STATUS
 
-- Current task: Add a living topics inventory file for the book.
-- What was done: Created TOPICS.md with chapter-by-chapter and cross-topic coverage, plus editorial guidance.
-- Next steps: Document maintenance rule, validate, commit, merge, push.
+- Current task: Integrate the editorial inventory and maintenance routine into the contributor flow.
+- What was done: Added `TOPICS.md` and `MAINTENANCE.md` guidance to `contributing.html` and documented both files in `README.md`.
+- Next steps: Validate, commit, merge, and push.
