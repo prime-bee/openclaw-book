@@ -1,5 +1,5 @@
-# STATUS
+# STATUS.md
 
-- Current task: Add chapter 26 on running multiple OpenClaw instances on one machine.
-- What was done: Wrote the chapter, added two SVG diagrams, integrated nav/search/index/topics, and normalized counts.
-- Next steps: Regenerate sitemap, validate, commit, merge, and push.
+- Current task: Execute the next two suggested chapters from the continuous plan.
+- What was done: Added chapter 27 on safe migration to multiple gateways and chapter 28 on production architectures, plus diagrams and book integration.
+- Next steps: Validate, publish, and continue the evergreen plan with the next advanced topics.

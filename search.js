@@ -29,7 +29,9 @@ const SEARCH_INDEX = [
   { title: '23. Personalidade de agentes', path: 'chapters/23-personalidade-de-agentes-como-projetar-e-o-que-melhora.html', text: 'personalidade persona identidade tom limites estilo operacional sycophancy antropomorfismo system prompt comportamento consistência agente' },
   { title: '24. RAG e retrieval', path: 'chapters/24-rag-e-retrieval-para-agentes.html', text: 'rag retrieval grounding memória contexto chunking ranking embeddings busca semântica keyword híbrida vector database prompt injection documentos snippets evidência' },
   { title: '25. Design de ferramentas para agentes', path: 'chapters/25-design-de-ferramentas-para-agentes.html', text: 'design de ferramentas tools contratos schema entrada saída ergonomia idempotência observabilidade blast radius sandbox tool policy approvals interface tool design agentes openclaw' },
-  { title: '26. Múltiplos OpenClaw no host', path: 'chapters/26-multiplos-openclaw-na-mesma-maquina.html', text: 'múltiplos openclaw mesma máquina multiple gateways same host perfis profiles rescue bot state dir config path workspace port mapping cdp browser control derived ports isolation' }
+  { title: '26. Múltiplos OpenClaw no host', path: 'chapters/26-multiplos-openclaw-na-mesma-maquina.html', text: 'múltiplos openclaw mesma máquina multiple gateways same host perfis profiles rescue bot state dir config path workspace port mapping cdp browser control derived ports isolation' },
+  { title: '27. Migrando com segurança', path: 'chapters/27-migrando-de-um-para-multiplos-gateways-com-seguranca.html', text: 'migração migration multiple gateways rollback parallel run phased rollout cutover rescue lab portas profiles state dir health doctor' },
+  { title: '28. Arquiteturas de produção', path: 'chapters/28-arquiteturas-de-producao-para-openclaw.html', text: 'produção production architecture single host home server tailnet main rescue lab control plane remote ssh tailscale health patterns' }
 ];
 
 function normalizeText(text) {
