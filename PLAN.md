@@ -30,4 +30,4 @@ Evoluir o livro como referência prática e profissional sobre OpenClaw, agentes
 - ampliar material para times/corporações sem virar genérico
 - reforçar páginas-hub (índice, trilhas, glossário) com mais atalhos contextuais e rotas por objetivo
 - adicionar mais diagramas operacionais e quick-reference tables
-- continuar evoluindo busca local e hubs temáticos para tornar os capítulos avançados mais fáceis de descobrir
+- revisar capítulos antigos contra o template e espalhar links contextuais entre hubs, trilhas e capítulos avançados

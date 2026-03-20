@@ -44,14 +44,33 @@ function normalizeText(text) {
   return text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
+const SEARCH_ALIASES = {
+  eval: ['evals', 'benchmark', 'golden', 'regressao'],
+  benchmark: ['evals', 'latencia', 'custo'],
+  custo: ['custos', 'budget', 'finops', 'tiering'],
+  custos: ['custo', 'budget', 'finops', 'tiering'],
+  time: ['times', 'squad', 'colaboracao', 'raci'],
+  times: ['time', 'squads', 'colaboracao', 'ownership'],
+  incidente: ['troubleshooting', 'diagnostico', 'observabilidade'],
+  observabilidade: ['metricas', 'traces', 'alertas', 'slo']
+};
+
+function expandQueryTokens(query) {
+  const base = normalizeText(query.trim()).split(/\s+/).filter(Boolean);
+  const expanded = new Set(base);
+  base.forEach(token => (SEARCH_ALIASES[token] || []).forEach(alias => expanded.add(alias)));
+  return [...expanded];
+}
+
 function scoreEntry(query, entry) {
   const q = normalizeText(query.trim());
   if (!q) return 0;
+  const title = normalizeText(entry.title);
   const hay = normalizeText(entry.title + ' ' + entry.text + ' ' + entry.path);
-  if (entry.title.toLowerCase() === q) return 100;
+  if (title === q) return 100;
   let score = 0;
-  q.split(/\s+/).forEach(token => {
-    if (entry.title.toLowerCase().includes(token)) score += 12;
+  expandQueryTokens(query).forEach(token => {
+    if (title.includes(token)) score += 12;
     if (hay.includes(token)) score += 5;
   });
   return score;
@@ -97,7 +116,7 @@ function initSearch() {
       .slice(0, 8);
 
     if (!ranked.length) {
-      results.innerHTML = '<div class="card"><strong>Nada encontrado.</strong><p class="muted">Tente termos como gateway, cron, telegram, sandbox, browser, memória ou multi-agent.</p></div>';
+      results.innerHTML = '<div class="card"><strong>Nada encontrado.</strong><p class="muted">Tente termos como gateway, cron, sandbox, observabilidade, evals, custos, times ou multi-agent.</p></div>';
       if (status) status.textContent = `Nenhum resultado para “${q}”.`;
       return;
     }
