@@ -18,16 +18,16 @@ Evoluir o livro como referência prática e profissional sobre OpenClaw, agentes
 
 ## Prioridades ativas
 
-1. integrar observabilidade, evals e custos em uma trilha operacional ainda mais clara
-2. continuar melhorando navegação, consistência e UX do livro
-3. aprofundar padrões de colaboração, governança e adoção em times
-4. expandir guias visuais, diagramas e comparações práticas
-5. revisar capítulos antigos contra `templates/PAGE_TEMPLATE.html`
+1. expandir capítulos avançados sobre operação em produção
+2. melhorar navegação, consistência, busca e UX do livro
+3. enriquecer conteúdo com referências fortes e diagramas úteis
+4. fortalecer manutenção, validação e qualidade editorial
+5. continuar cobrindo cenários reais de uso de agentes
 
 ## Próximo lote sugerido
 
-- conectar capítulos 19, 29 e 33 com exemplos cruzados mais fortes
-- ampliar material para times/corporações sem virar genérico
-- reforçar páginas-hub (índice, trilhas, glossário) com mais atalhos contextuais e rotas por objetivo
-- adicionar mais diagramas operacionais e quick-reference tables
-- revisar capítulos antigos contra o template e espalhar links contextuais entre hubs, trilhas e capítulos avançados
+- aprofundar evals/benchmarking de agentes
+- aprofundar UX de interação com agentes
+- adicionar padrões de equipes/collaboration com OpenClaw
+- comparar stacks e estratégias agentic com mais profundidade
+- revisar capítulos antigos contra `templates/PAGE_TEMPLATE.html`

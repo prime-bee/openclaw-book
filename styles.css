@@ -27,4 +27,7 @@ a.chapter-meta-card{color:inherit;transition:transform .2s ease,border-color .2s
 a.chapter-meta-card:hover{text-decoration:none;transform:translateY(-2px);border-color:#43536f}
 /* Progress hub */
 .progress-hub{margin:24px 0}
-.progress-hub h3{margin-bottom:12px}
+.progress-hub h3{margin-bottom:12px}/* Global top search */
+.global-search-shell{margin:0 0 24px}
+.global-search-shell h2{margin:0 0 8px}
+.global-search-shell .meta{margin:10px 0 0}
