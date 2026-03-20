@@ -1,5 +1,5 @@
 # STATUS.md
 
-- Current task: Loop 6 complete — publish chapter 34 comparing frameworks and stacks.
-- What was done: Added a pragmatic comparison chapter covering fit, tradeoffs, layered architectures, and stack-selection questions.
-- Next steps: Integrate the six new advanced chapters into navigation-heavy pages and modernize roadmap/older chapter consistency.
+- Current task: Loop 7 complete — expand reading paths with the new advanced material.
+- What was done: Updated reading-paths.html with two advanced tracks, guidance on when to read chapters 29–34, and direct utility links.
+- Next steps: Refresh chapter 14 and chapter 15 to reflect the new maturity of the book, then improve the homepage navigation surfaces.
