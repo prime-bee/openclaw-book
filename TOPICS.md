@@ -235,6 +235,21 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - rescue bot
 - plano de implantação e checklist operacional
 
+### 27. Migrando de um para múltiplos gateways com segurança
+- estratégia de migração em fases
+- parallel run
+- rollback
+- validação e cutover
+- anti-padrões de migração
+
+### 28. Arquiteturas de produção para OpenClaw
+- padrões de produção
+- single host
+- home server + tailnet
+- main + rescue
+- stable + lab
+- critérios de escolha arquitetural
+
 ---
 
 ## Índice temático transversal
@@ -256,9 +271,10 @@ Capítulos:
 - comandos frequentes
 - troubleshooting inicial
 - múltiplas instâncias no mesmo host
+- migração operacional segura
 
 Capítulos:
-- 3, 4, 6, 12, 13, 26
+- 3, 4, 6, 12, 13, 26, 27
 
 ### Modelos, custo e provedores
 - escolha de modelo
@@ -334,9 +350,10 @@ Capítulos:
 - traces
 - dashboards
 - manutenção editorial e publicação
+- padrões de produção
 
 Capítulos:
-- 14, 15, 19
+- 14, 15, 19, 28
 
 ### Skills e extensibilidade
 - skills
@@ -418,6 +435,6 @@ Antes de criar novo conteúdo:
 
 ## Status atual
 
-- capítulos totais: **26**
-- livro já cobre fundamentos, operação, segurança, agentes, prompting, governança, observabilidade, skills, plataformas, personalidade, retrieval, design de ferramentas e múltiplos gateways no mesmo host
+- capítulos totais: **28**
+- livro já cobre fundamentos, operação, segurança, agentes, prompting, governança, observabilidade, skills, plataformas, personalidade, retrieval, design de ferramentas, múltiplos gateways no mesmo host, migração segura e arquiteturas de produção
 - este arquivo deve continuar sendo tratado como **índice editorial vivo**
