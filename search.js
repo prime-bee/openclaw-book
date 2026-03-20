@@ -1,6 +1,7 @@
 const SEARCH_INDEX = [
   { title: 'Início', path: 'index.html', text: 'openclaw book livro didático html guia portugues gateway cli memória canais modelos multi-agent automação sandbox browser troubleshooting referências trilhas leitura' },
   { title: 'Glossário', path: 'glossario.html', text: 'glossário termos conceitos definições gateway sessão workspace agente provedor canal sandbox' },
+  { title: 'Trilhas de leitura', path: 'reading-paths.html', text: 'trilhas de leitura perfis iniciante operador builder mantenedor ordem de capítulos roteiro estudo onboarding operação automação segurança troubleshooting governança' },
   { title: 'Sobre', path: 'about.html', text: 'sobre projeto filosofia editorial objetivo escopo didática documentação oficial' },
   { title: 'Contribuindo', path: 'contributing.html', text: 'contribuição contribuir issues melhorias revisão editorial links consistência pull request' },
   { title: '1. Visão geral', path: 'chapters/01-visao-geral.html', text: 'o que é openclaw gateway self-hosted agentes ia canais workspace modelo sessão' },
