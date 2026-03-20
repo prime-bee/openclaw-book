@@ -134,6 +134,10 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - roadmap editorial
 - próximos passos do livro
 - critérios para aceitar melhorias
+- matriz de priorização editorial
+- horizontes de evolução (curto, médio e longo prazo)
+- anti-padrões de manutenção
+- checklist para decidir a próxima rodada
 
 ### 16. Agentes IA, fluxos e delegação
 - workflows vs agents
