@@ -186,6 +186,83 @@ async function chamadaComRetry(payload, maxTentativas = 5) {
 
 <div class="callout"><strong>Dica operacional:</strong> um spike inesperado de tokens geralmente aponta para um loop de agente sem condição de parada, um arquivo muito grande sendo injetado no contexto em toda chamada, ou um cron job mal configurado que dispara com frequência excessiva. Cheque essas causas primeiro.</div>
 
+<h2>Famílias de modelos: antes de falar em nomes, entenda os papéis</h2>
+
+<p>Uma confusão comum quando alguém começa a estudar LLMs é tratar todo sistema de IA como se fosse apenas “um modelo de chat”. Na prática, o ecossistema é composto por <strong>famílias de modelos com funções diferentes</strong>. Entender essa diferença ajuda a escolher melhor o que usar no OpenClaw e evita comparar peças que cumprem papéis distintos.</p>
+
+<h3>Modelos generativos de linguagem</h3>
+<p>São os mais conhecidos. Recebem texto e geram texto. Dentro deles existem modelos base, modelos ajustados para seguir instruções e modelos otimizados para chat, código, raciocínio ou multimodalidade. Em OpenClaw, normalmente é essa família que responde ao usuário, produz planos, chama ferramentas e escreve saídas longas.</p>
+
+<h3>Modelos de embedding</h3>
+<p>Esses não existem para conversar, mas para transformar texto em vetores numéricos. São fundamentais para busca semântica, RAG, memória recuperável, clustering e ranking inicial. Se um sistema “parece lembrar” algo, muitas vezes o mérito não é só do modelo gerador, mas também do modelo de embedding que ajudou a recuperar o contexto certo.</p>
+
+<h3>Modelos de rerank, score e classificação</h3>
+<p>Servem para ordenar resultados, pontuar relevância ou decidir rótulos. São especialmente úteis quando você já recuperou vários documentos e precisa descobrir quais devem entrar no contexto final. Eles tendem a ser menos chamativos que um chat model, mas frequentemente melhoram muito a qualidade da resposta final.</p>
+
+<h3>Modelos multimodais</h3>
+<p>São os que lidam com mais de uma modalidade: texto e imagem, texto e áudio, ou até vídeo. Em alguns casos são realmente unificados; em outros, a multimodalidade é o resultado de um pipeline com codificador visual, adaptador e modelo textual. Para o operador, pouco importa se é uma peça só ou um conjunto de peças: o importante é saber que custo, latência e requisitos de contexto costumam crescer bastante.</p>
+
+<h3>Modelos pequenos, médios e grandes</h3>
+<p>Essa distinção continua prática. Modelos pequenos e médios costumam ser excelentes para tarefas repetitivas, classificação, triagem, automações baratas e respostas rápidas. Modelos grandes brilham em tarefas ambíguas, código crítico, coordenação e raciocínio mais pesado. O erro comum é usar modelo gigante para tudo ou modelo barato demais para tarefa delicada.</p>
+
+<div class="callout"><strong>Ponto-chave:</strong> “qual modelo usar?” quase nunca é uma pergunta isolada. Na prática, você também precisa perguntar: qual é a tarefa, qual é o risco do erro, qual é o volume, qual é a latência aceitável e que infraestrutura vai servir esse modelo?</div>
+
+<h2>vLLM: não é um modelo, é a máquina de servir modelos</h2>
+
+<p>Quando o assunto é rodar modelos abertos em produção, uma distinção fica indispensável: <strong>o modelo não é a mesma coisa que o sistema de inferência e serving</strong>. O vLLM entra exatamente aqui. Ele não é um modelo como Llama, Qwen ou Mistral. Ele é uma biblioteca e runtime de inferência voltada a servir LLMs de forma rápida, eficiente e com alto throughput.</p>
+
+<p>A documentação do vLLM o descreve como uma biblioteca rápida e fácil de usar para <em>LLM inference and serving</em>, destacando recursos como <strong>PagedAttention</strong>, <strong>continuous batching</strong>, quantização, <strong>speculative decoding</strong>, <strong>chunked prefill</strong>, streaming e servidor compatível com a API da OpenAI.</p>
+
+<h3>Por que o vLLM importa</h3>
+<p>Em produção, o problema raramente é apenas “o modelo responde bem?”. O problema real costuma ser: ele cabe na GPU? Responde com latência aceitável? Aguenta várias requisições simultâneas? Usa memória de forma inteligente? O vLLM ficou importante porque resolve boa parte desses problemas práticos para modelos abertos.</p>
+
+<ul>
+  <li><strong>alto throughput:</strong> melhor aproveitamento de GPU sob carga real</li>
+  <li><strong>servidor compatível com OpenAI:</strong> facilita trocar um endpoint fechado por um servidor próprio</li>
+  <li><strong>integração com Hugging Face:</strong> simplifica servir modelos populares</li>
+  <li><strong>suporte a quantização e paralelismo:</strong> ajuda a fazer modelos maiores caberem e escalarem</li>
+</ul>
+
+<h3>PagedAttention: a ideia central</h3>
+<p>Uma das contribuições mais conhecidas do vLLM é o <strong>PagedAttention</strong>. A ideia, em termos práticos, é tratar o KV cache de forma mais parecida com memória paginada, dividindo o cache em blocos para reduzir fragmentação e desperdício. Isso melhora o uso da memória e permite servir mais requisições de maneira eficiente.</p>
+
+<p>A própria documentação histórica explica que o cache de chaves e valores é dividido em <em>blocks</em>, e que o kernel foi desenhado com layout e padrões de acesso à memória voltados para alto desempenho. Em outras palavras: parte importante da velocidade do vLLM vem menos de “mágica algorítmica” e mais de <strong>engenharia muito cuidadosa de memória e kernel</strong>.</p>
+
+<h3>Continuous batching: a fila nunca para</h3>
+<p>Outro diferencial importante é o <strong>continuous batching</strong>. Em vez de montar lotes rígidos e esperar o lote inteiro terminar para aceitar novas requisições, o vLLM consegue ir acomodando novas entradas enquanto outras ainda estão em andamento. Isso reduz ociosidade de GPU e melhora bastante o throughput em cenários reais.</p>
+
+<p>Essa diferença é enorme em sistemas multiusuário, bots de chat, gateways agentic e qualquer workload irregular — que é justamente o tipo de carga mais comum em produção.</p>
+
+<h3>Servidor compatível com OpenAI</h3>
+<p>A documentação do vLLM também destaca um ponto que ajudou muito sua adoção: ele oferece um servidor HTTP compatível com APIs como <code>/v1/completions</code>, <code>/v1/chat/completions</code>, <code>/v1/responses</code> e <code>/v1/embeddings</code>. Isso reduz o custo de migração. Em muitos casos, a aplicação precisa mudar pouco mais que o <code>base_url</code>.</p>
+
+<pre><code>vllm serve NousResearch/Meta-Llama-3-8B-Instruct \
+  --dtype auto \
+  --api-key token-abc123</code></pre>
+
+<p>Na prática, isso significa que uma stack desenhada para provedores fechados pode ser adaptada para usar modelos abertos servidos localmente ou em infraestrutura própria, com impacto relativamente pequeno no cliente.</p>
+
+<h3>Chat templates e compatibilidade real</h3>
+<p>Outro ponto importante na documentação do vLLM é a necessidade de <strong>chat templates</strong>. Um modelo de chat não “entende” automaticamente uma lista de mensagens com papéis como <code>system</code>, <code>user</code> e <code>assistant</code>. É preciso converter isso para o formato textual que aquele tokenizer e aquele modelo esperam. O vLLM depende desse template para processar corretamente requisições de chat.</p>
+
+<p>Esse detalhe parece pequeno, mas na prática explica por que dois modelos supostamente “instruction-tuned” podem se comportar de forma muito diferente sob o mesmo cliente.</p>
+
+<h3>Quantização, prefix caching e Multi-LoRA</h3>
+<p>A página inicial do vLLM também destaca suporte a quantização como GPTQ, AWQ, INT4, INT8 e FP8, além de <strong>prefix caching</strong> e <strong>Multi-LoRA</strong>.</p>
+
+<ul>
+  <li><strong>Quantização:</strong> reduz uso de memória e pode acelerar serving, com algum tradeoff potencial de qualidade.</li>
+  <li><strong>Prefix caching:</strong> reaproveita partes comuns de prompts, útil quando muitas requisições compartilham o mesmo começo.</li>
+  <li><strong>Multi-LoRA:</strong> permite servir adaptações de um mesmo modelo base sem duplicar pesos inteiros para cada variante.</li>
+</ul>
+
+<h3>Onde o vLLM entra no ecossistema do OpenClaw</h3>
+<p>O OpenClaw pode conversar com múltiplos provedores e modelos. Quando você usa APIs fechadas, o serving fica “do outro lado”. Quando escolhe modelos abertos, alguém precisa hospedar, servir e escalar esse modelo. O vLLM é uma das respostas mais fortes para essa camada operacional.</p>
+
+<p>Em outras palavras: no OpenClaw, você pensa em <strong>modelo, fallback, custo, qualidade e comportamento do agente</strong>. Com vLLM, entra mais uma camada de engenharia: <strong>como esses modelos serão efetivamente executados, expostos por API e sustentados sob carga</strong>.</p>
+
+<div class="callout"><strong>Correção conceitual importante:</strong> vLLM não compete com Llama, Qwen ou Claude. Ele compete no plano da infraestrutura de inferência. O papel dele é tornar modelos utilizáveis em produção com mais eficiência.</div>
+
 <h2>Exercícios</h2>
 
 <div class="exercise"><strong>Exercício 1:</strong> Por que faz sentido ter fallbacks em um sistema que depende de APIs externas? Pense em dois cenários concretos onde um fallback evita indisponibilidade.</div>
@@ -194,4 +271,4 @@ async function chamadaComRetry(payload, maxTentativas = 5) {
 
 <div class="exercise"><strong>Exercício 3:</strong> Calcule o custo mensal estimado do seu heartbeat. Se ele roda a cada 30 minutos, com contexto de 1.000 tokens de entrada e 200 de saída, quantos tokens são consumidos por dia? Por mês? Qual seria a economia ao usar um modelo 10× mais barato para essa tarefa?</div>
 
-<section class="troubleshoot"><h3>Checklist antes de trocar provedor</h3><ol class="steps"><li>confirme se o modelo desejado está permitido na allowlist</li><li>verifique credenciais, limites e região do provedor</li><li>teste um prompt curto antes de migrar fluxos críticos</li><li>deixe fallback explícito para evitar quedas silenciosas</li><li>valide os limites de RPM/TPM do novo provedor contra o volume esperado</li><li>revise o custo estimado por tarefa no novo provedor antes da migração</li></ol></section><div class="refs"><h3>Referências oficiais</h3><ul><li><a href="https://docs.openclaw.ai/concepts/models" target="_blank" rel="noopener noreferrer">Models CLI</a></li><li><a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching" target="_blank" rel="noopener noreferrer">Anthropic Prompt Caching</a></li><li><a href="https://docs.anthropic.com/en/api/rate-limits" target="_blank" rel="noopener noreferrer">Anthropic Rate Limits</a></li></ul></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="06-canais-e-rotina.html">← 6. Canais e rotina</a></div><div class="card"><a href="../reading-paths.html">Trilhas de leitura</a></div><div class="card"><a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento →</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="06-canais-e-rotina.html">← Capítulo 6: Canais e rotina</a><a class="pager-link pager-center" href="../reading-paths.html">Trilhas de leitura</a><a class="pager-link" href="08-multi-agent-e-roteamento.html">Capítulo 8: Multi-agent e roteamento →</a></nav><div class="footer">Continue em <a href="08-multi-agent-e-roteamento.html">Multi-agent e roteamento</a>.</div></main></div></body></html>
+<section class="troubleshoot"><h3>Checklist antes de trocar provedor</h3><ol class="steps"><li>confirme se o modelo desejado está permitido na allowlist</li><li>verifique credenciais, limites e região do provedor</li><li>teste um prompt curto antes de migrar fluxos críticos</li><li>deixe fallback explícito para evitar quedas silenciosas</li><li>valide os limites de RPM/TPM do novo provedor contra o volume esperado</li><li>revise o custo estimado por tarefa no novo provedor antes da migração</li></ol></section><div class="refs"><h3>Referências oficiais</h3><ul><li><a href="https://docs.openclaw.ai/concepts/models" target="_blank" rel="noopener noreferrer">Models CLI</a></li><li><a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching" target="_blank" rel="noopener noreferrer">Anthropic Prompt Caching</a></li><li><a href="https://docs.anthropic.com/en/api/rate-limits" target="_blank" rel="noopener noreferrer">Anthropic Rate Limits</a></li><li><a href="https://docs.vllm.ai/en/latest/" target="_blank" rel="noopener noreferrer">vLLM Documentation</a></li><li><a href="https://docs.vllm.ai/en/latest/design/paged_attention.html" target="_blank" rel="noopener noreferrer">vLLM — Paged Attention</a></li><li><a href="https://docs.vllm.ai/en/latest/serving/openai_compatible_server.html" target="_blank" rel="noopener noreferrer">vLLM — OpenAI-Compatible Server</a></li></ul></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="06-canais-e-rotina.html">← 6. Canais e rotina</a></div><div class="card"><a href="../reading-paths.html">Trilhas de leitura</a></div><div class="card"><a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento →</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="06-canais-e-rotina.html">← Capítulo 6: Canais e rotina</a><a class="pager-link pager-center" href="../reading-paths.html">Trilhas de leitura</a><a class="pager-link" href="08-multi-agent-e-roteamento.html">Capítulo 8: Multi-agent e roteamento →</a></nav><div class="footer">Continue em <a href="08-multi-agent-e-roteamento.html">Multi-agent e roteamento</a>.</div></main></div></body></html>

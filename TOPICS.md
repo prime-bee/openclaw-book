@@ -81,6 +81,9 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - custo e tokens
 - otimização de uso
 - critérios de escolha por tarefa
+- famílias de modelos (generativos, embedding, rerank, multimodais)
+- infraestrutura de inferência e serving
+- vLLM, PagedAttention e continuous batching
 
 ### 8. Multi-agent e roteamento
 - bindings
