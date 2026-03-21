@@ -165,14 +165,19 @@ execute diretamente sem aprovação.
 
 <h2>Auditoria e rastreabilidade de decisões HITL</h2>
 
-<p>A decisão humana de aprovar ou rejeitar uma ação do agente é um dado operacional de primeira ordem. Deve ser registrada com o mesmo rigor que uma transação financeira.</p>
+<p>A decisão humana de aprovar ou rejeitar uma ação do agente é um dado operacional de primeira ordem. Deve ser registrada com o mesmo rigor que uma transação financeira. Em produção, isso significa conectar <strong>governança</strong> ao mesmo pipeline de observabilidade do capítulo 19: <code>trace_id</code> consistente, eventos estruturados, métricas agregadas e promoção dos casos anômalos para evals recorrentes no capítulo 29.</p>
 
 <pre><code># Estrutura de log de decisão HITL
 {
   "event": "hitl_decision",
   "timestamp": "2026-03-19T14:32:00Z",
+  "trace_id": "trace_91fd",
+  "span_name": "policy.approval_gate",
   "agent_id": "finance-automation-v2",
+  "agent_version": "2026.03.19",
   "session_id": "sess_abc123",
+  "policy_id": "payments-over-500-v3",
+  "risk_tier": "high",
   "action_requested": {
     "tool": "execute_payment",
     "params": {"amount": 1200.00, "recipient": "vendor_xyz"},
@@ -183,18 +188,101 @@ execute diretamente sem aprovação.
   "review_latency_seconds": 47,
   "reviewer_comment": "Fatura verificada no sistema ERP",
   "result": "executed",
-  "result_reference": "payment_id_987654"
+  "result_reference": "payment_id_987654",
+  "eval_candidate": false
 }
 </code></pre>
 
-<h3>Métricas de governança para monitorar</h3>
+<h3>O envelope mínimo de auditoria</h3>
+
+<p>Se o seu log de aprovação não permite reconstruir <em>quem pediu</em>, <em>qual policy disparou</em>, <em>quem aprovou</em> e <em>qual foi o efeito externo</em>, você ainda não tem auditoria — tem apenas um recibo incompleto. Os campos abaixo costumam ser suficientes para começar sem excesso de burocracia:</p>
+
+<div class="tableish">
+  <div class="row header"><div>Campo</div><div>Função operacional</div><div>Pergunta que responde</div></div>
+  <div class="row"><div><code>trace_id</code> / <code>session_id</code></div><div>correlação com logs, spans e resposta final</div><div>qual conversa gerou esta decisão?</div></div>
+  <div class="row"><div><code>policy_id</code> / <code>policy_version</code></div><div>versão exata da regra que disparou o gate</div><div>esta aprovação seguia qual policy?</div></div>
+  <div class="row"><div><code>risk_tier</code></div><div>classificação de impacto</div><div>era ação de baixo, médio ou alto risco?</div></div>
+  <div class="row"><div><code>reviewer</code> / <code>reviewer_role</code></div><div>accountability humana</div><div>quem tinha autoridade para aprovar?</div></div>
+  <div class="row"><div><code>decision_reason_code</code></div><div>motivo categorizado da aprovação ou rejeição</div><div>por que o gate bloqueou ou liberou?</div></div>
+  <div class="row"><div><code>result_reference</code></div><div>ponte para o efeito externo</div><div>qual deploy, ticket, pagamento ou e-mail saiu daqui?</div></div>
+  <div class="row"><div><code>eval_candidate</code></div><div>marca casos que devem virar benchmark</div><div>vale transformar este incidente em teste permanente?</div></div>
+</div>
+
+<div class="callout"><strong>Regra de ouro:</strong> comentário livre do revisor ajuda, mas não substitui <code>reason codes</code>. Texto aberto é ótimo para contexto; códigos padronizados são o que permitem medir padrões de erro ao longo do tempo.</div>
+
+<h3>Matriz prática de approval gates</h3>
+
+<p>Nem toda ação merece o mesmo tipo de revisão. Uma matriz explícita reduz arbitrariedade e acelera a operação, porque cada operador já sabe qual trilho seguir.</p>
+
+<div class="tableish">
+  <div class="row header"><div>Tier de risco</div><div>Exemplos</div><div>Gate recomendado</div><div>Evidência exigida</div></div>
+  <div class="row"><div>baixo</div><div>leitura, relatório interno, resumo sem envio externo</div><div>execução automática + auditoria post-hoc por amostra</div><div>trace completo e output resumido</div></div>
+  <div class="row"><div>médio</div><div>edição reversível, comentário interno, abertura de issue</div><div>gate por exceção ou aprovação de revisor único</div><div>justificativa do agente + diff/preview</div></div>
+  <div class="row"><div>alto</div><div>deploy, e-mail externo, alteração de produção, pagamento</div><div>aprovação pré-execução obrigatória</div><div>plano, impacto esperado, rollback e reviewer identificado</div></div>
+  <div class="row"><div>crítico</div><div>acesso a dados sensíveis, mudança financeira relevante, ação regulada</div><div>dupla aprovação + janela operacional definida</div><div>evidência documental, ticket vinculado e logging reforçado</div></div>
+</div>
+
+<h3>Scorecard operacional de governança</h3>
+
+<p>Os números do gate precisam fechar a história contada pela observabilidade. Se o capítulo 19 mede latência, retries e incidentes, o capítulo 20 precisa mostrar <em>como interpretar esses sinais do ponto de vista de governança</em>. Um scorecard simples costuma bastar:</p>
+
+<div class="tableish">
+  <div class="row header"><div>Métrica</div><div>Leitura saudável</div><div>Sinal de alerta</div><div>Ação recomendada</div></div>
+  <div class="row"><div>approval latency P95</div><div>dentro do SLA do canal e da criticidade</div><div>fila crescendo ou pedidos expirando</div><div>escalar cobertura, melhorar notificação, revisar janelas</div></div>
+  <div class="row"><div>rejeição por policy</div><div>concentrada em poucas políticas novas</div><div>rejeições espalhadas sem padrão</div><div>revisar prompt, escopo de tools e taxonomia de risco</div></div>
+  <div class="row"><div>gates acionados por tarefa</div><div>alto em fluxos sensíveis, baixo em rotina simples</div><div>gates demais em tarefas banais</div><div>descer tier de baixo risco ou automatizar prechecks</div></div>
+  <div class="row"><div>override manual</div><div>raro e bem justificado</div><div>frequente ou concentrado em um agente</div><div>congelar rollout e investigar regressão</div></div>
+  <div class="row"><div>casos promovidos para eval</div><div>poucos, porém de alto valor</div><div>nenhum caso promovido por meses</div><div>fortalecer review semanal e post-mortem</div></div>
+</div>
+
+<p>Observe o padrão: métricas de governança não existem para punir revisores. Elas servem para calibrar o sistema. Rejeição alta demais normalmente fala mais sobre o desenho do agente e das políticas do que sobre “falta de confiança humana”.</p>
+
+<h3>Playbook de auditoria semanal</h3>
+
+<p>Governança madura não é só reagir a incidentes. É manter uma cadência curta de revisão operacional. Um ritual semanal de 20 a 30 minutos já muda bastante a qualidade do sistema:</p>
+
+<ol>
+  <li><strong>Separar os 10 gates mais caros ou lentos</strong> da semana por latência, impacto e número de escaladas.</li>
+  <li><strong>Agrupar por <code>policy_id</code>, agente e tipo de tarefa</strong> para distinguir problema localizado de padrão sistêmico.</li>
+  <li><strong>Revisar rejeições e overrides</strong> perguntando: era erro do agente, policy mal calibrada ou evidência insuficiente?</li>
+  <li><strong>Promover 1 a 3 casos para evals</strong> quando o evento revelar regressão repetível, ambiguidade perigosa ou custo excessivo.</li>
+  <li><strong>Atualizar a policy ou o prompt</strong> apenas depois de entender a causa-raiz; evitar remendo impulsivo após um caso isolado.</li>
+</ol>
+
+<div class="diagram"><h3>ASCII — loop curto entre produção, auditoria e evals</h3><pre><code>trace de produção
+  -> approval gate acionado
+  -> auditoria semanal agrupa padrões
+  -> caso relevante vira eval_candidate
+  -> golden set / teste de regressão é atualizado
+  -> policy e prompt são ajustados
+  -> novo rollout volta a ser observado</code></pre></div>
+
+<h3>Reason codes que valem a pena padronizar</h3>
+
+<p>Não invente cem categorias. Uma taxonomia pequena já permite muita análise:</p>
 
 <ul>
-  <li><strong>Taxa de aprovação:</strong> % de ações aprovadas vs rejeitadas. Taxa de aprovação &gt; 99% pode indicar gate muito frouxo; &lt; 70% indica agente mal calibrado.</li>
-  <li><strong>Latência de revisão P95:</strong> tempo até a decisão humana. Alta latência causa abandono de tarefas; monitore e escale automação de notificação.</li>
-  <li><strong>Taxa de escalação:</strong> % de pedidos que sobem de nível. Alta taxa indica problemas de triagem ou política muito conservadora.</li>
-  <li><strong>Rejeições por categoria:</strong> quais tipos de ação são mais frequentemente rejeitados — dado diagnóstico para refinar o comportamento do agente.</li>
+  <li><code>insufficient_context</code> — contexto insuficiente para aprovar com segurança.</li>
+  <li><code>policy_violation</code> — ação pretendida colide com policy explícita.</li>
+  <li><code>needs_dual_control</code> — requer segunda aprovação por tier crítico.</li>
+  <li><code>tool_scope_mismatch</code> — agente tentou usar ferramenta fora do escopo esperado.</li>
+  <li><code>user_confirmation_required</code> — falta confirmação final do humano dono da ação.</li>
+  <li><code>false_positive_gate</code> — gate disparou, mas a ação poderia ser automatizada no futuro.</li>
 </ul>
+
+<h3>Quando um evento de governança precisa virar eval</h3>
+
+<p>Nem todo gate merece virar benchmark. Mas alguns casos são valiosos demais para depender só de memória humana. Promova para o golden set quando ocorrer pelo menos um dos seguintes sinais:</p>
+
+<ul>
+  <li><strong>rejeição repetida</strong> da mesma categoria de tarefa em menos de duas semanas;</li>
+  <li><strong>override manual</strong> para impedir ação potencialmente irreversível;</li>
+  <li><strong>latência de aprovação</strong> incompatível com o SLA de um fluxo importante;</li>
+  <li><strong>gate inesperado</strong> em tarefa que deveria ser totalmente rotineira;</li>
+  <li><strong>diferença material entre revisores</strong>, sugerindo policy ambígua demais.</li>
+</ul>
+
+<p>Essa ponte com o capítulo 29 é o que evita o anti-padrão clássico: corrigir o comportamento do agente uma vez, celebrar, e redescobrir o mesmo problema um mês depois.</p>
 
 <h2>HITL em sistemas multi-agente</h2>
 

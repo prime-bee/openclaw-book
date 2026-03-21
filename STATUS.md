@@ -1,6 +1,6 @@
 # STATUS
 
-- Rodada: 2026-03-21 12:28 America/New_York
-- O que foi feito: expansão profunda do capítulo 19 sobre observabilidade e monitoramento, adicionando um blueprint prático de instrumentação com OpenTelemetry para agentes, taxonomia de spans e atributos críticos para incidentes, scorecards operacionais diários e reviews semanais, além da ligação explícita entre telemetria de produção e o loop de evals contínuos do capítulo 29.
-- Arquivos alterados: `chapters/19-observabilidade-e-monitoramento.html`, `TOPICS.md`, `STATUS.md`
-- Próximo passo sugerido: expandir o capítulo 20 com um playbook de approval gates e auditoria operacional, conectando decisões de governança aos sinais de observabilidade e aos scorecards definidos no capítulo 19.
+- Rodada: 2026-03-21 14:18 America/New_York
+- O que foi feito: expansão do capítulo 20 sobre HITL e governança, conectando approval gates à observabilidade do capítulo 19 e ao loop de evals do capítulo 29; adicionei um envelope mínimo de auditoria, matriz prática de approval gates por tier de risco, scorecard operacional de governança, playbook de auditoria semanal e critérios claros para promover incidentes de governança a evals permanentes.
+- Arquivos alterados: `chapters/20-hitl-e-governanca.html`, `TOPICS.md`, `STATUS.md`
+- Próximo passo sugerido: expandir o capítulo 21 com governança e lifecycle de skills, cobrindo versionamento, distribuição segura, revisão de permissões e critérios de composição sem criar dívida operacional.
