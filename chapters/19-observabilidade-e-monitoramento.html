@@ -182,7 +182,141 @@ grep "trace_7f3a9b2c" logs/agent-2026-03-19.log</code></pre>
   <li><strong>Exporters:</strong> plugins que enviam os dados para backends de observabilidade (Jaeger, Zipkin, Prometheus, Grafana, Datadog, etc.).</li>
 </ul>
 
-<p>Para operações pessoais ou de pequena escala, não é necessário implantar a stack completa de OTel. Logs estruturados em JSON com trace IDs manuais são suficientes e muito mais simples de manter.</p>
+<p>Para operações pessoais ou de pequena escala, não é necessário implantar a stack completa de OTel no primeiro dia. Mas vale projetar seus eventos como se eles pudessem crescer para isso: nomes consistentes, atributos padronizados, trace IDs estáveis e separação clara entre sessão, chamada de modelo, tool call e handoff humano. Assim, você começa leve sem criar dívida de telemetria.</p>
+
+<h3>Blueprint prático de instrumentação com OpenTelemetry</h3>
+
+<p>Se o capítulo 29 fala sobre <em>como avaliar</em> agentes continuamente, este capítulo precisa mostrar <em>como instrumentar</em> o sistema para que essas avaliações sejam explicáveis. O blueprint abaixo é deliberadamente simples: ele cabe em um operador solo, mas já escala para times pequenos.</p>
+
+<div class="diagram"><h3>ASCII — pipeline mínimo de observabilidade</h3><pre><code>mensagem recebida
+  -> span raiz da sessão
+  -> spans filhos por decisão / modelo / tool
+  -> logs estruturados por evento relevante
+  -> métricas agregadas por agente, canal e fluxo
+  -> scorecard diário/semanal
+  -> casos anômalos promovidos para evals do cap. 29</code></pre></div>
+
+<div class="tableish">
+  <div><strong>Camada</strong></div><div><strong>O que registrar</strong></div><div><strong>Campos mínimos</strong></div><div><strong>Por que importa</strong></div>
+  <div>Sessão</div><div>início, fim, canal, agente, resultado</div><div><code>trace_id</code>, <code>session_id</code>, <code>channel</code>, <code>agent</code>, <code>outcome</code></div><div>base para custo, latência e taxa de conclusão</div>
+  <div>Modelo</div><div>cada chamada LLM</div><div><code>model</code>, <code>provider</code>, <code>tokens_in</code>, <code>tokens_out</code>, <code>latency_ms</code></div><div>diagnostica custo e regressão de qualidade/performance</div>
+  <div>Ferramenta</div><div>tool calls e retries</div><div><code>tool</code>, <code>status</code>, <code>duration_ms</code>, <code>retry_count</code></div><div>mostra onde o fluxo quebra de verdade</div>
+  <div>Governança</div><div>approval gates, bloqueios, handoffs</div><div><code>policy</code>, <code>decision</code>, <code>reason_code</code></div><div>separa falha técnica de bloqueio intencional</div>
+  <div>Avaliação</div><div>tag de cenário, severidade e promoção para eval</div><div><code>scenario</code>, <code>severity</code>, <code>eval_candidate</code></div><div>fecha o loop entre produção e benchmark</div>
+</div>
+
+<h3>Taxonomia de spans para agentes OpenClaw</h3>
+
+<p>Um erro comum é tratar a sessão inteira como um bloco único. Isso destrói a capacidade de responder <em>onde</em> a latência ou a falha aconteceu. Uma taxonomia simples de spans já resolve muito:</p>
+
+<pre><code>session.receive
+session.plan
+llm.generate
+tool.read
+tool.exec
+tool.web_fetch
+policy.approval_gate
+agent.delegate
+session.respond</code></pre>
+
+<ul>
+  <li><strong><code>session.receive</code></strong>: entrada inicial, canal, tipo de pedido, tamanho do contexto.</li>
+  <li><strong><code>session.plan</code></strong>: decisão de rota, escolha de agente, escolha de ferramentas.</li>
+  <li><strong><code>llm.generate</code></strong>: cada inferência relevante, sempre com modelo, provedor, latência e tokens.</li>
+  <li><strong><code>tool.*</code></strong>: uma família por tipo de ação; padronize o prefixo para facilitar filtros.</li>
+  <li><strong><code>policy.approval_gate</code></strong>: quando o sistema para por segurança ou pede supervisão.</li>
+  <li><strong><code>agent.delegate</code></strong>: delegação para subagente, com vínculo entre o trace pai e o filho.</li>
+  <li><strong><code>session.respond</code></strong>: resposta entregue, com status final e resumo do resultado.</li>
+</ul>
+
+<div class="callout"><strong>Heurística útil:</strong> se um operador não consegue olhar um trace e responder em menos de dois minutos onde a sessão ficou cara, lenta ou arriscada, sua instrumentação ainda está rasa demais.</div>
+
+<h3>Atributos que valem ouro em incidentes</h3>
+
+<p>Nem todo atributo precisa estar em todos os spans. Mas alguns poucos campos pagam o investimento repetidamente:</p>
+
+<ul>
+  <li><code>agent.role</code> e <code>agent.version</code> para separar regressão de comportamento por release.</li>
+  <li><code>task.type</code> para distinguir atendimento simples, automação, triagem, debugging e pesquisa.</li>
+  <li><code>user.impact</code> com valores como <code>none</code>, <code>minor</code>, <code>high</code>, <code>sensitive</code>.</li>
+  <li><code>context.bytes</code> ou <code>context.tokens_estimate</code> para capturar inchaço de contexto.</li>
+  <li><code>failure.kind</code> com taxonomia pequena: <code>timeout</code>, <code>tool_error</code>, <code>policy_block</code>, <code>bad_answer</code>, <code>handoff_required</code>.</li>
+  <li><code>eval_candidate=true</code> quando o caso merece virar cenário permanente do benchmark.</li>
+</ul>
+
+<h3>Exemplo de instrumentação de uma sessão com spans filhos</h3>
+
+<pre><code>{
+  "trace_id": "trace_91fd",
+  "span_id": "sess_root",
+  "parent_span_id": null,
+  "name": "session.receive",
+  "agent": "prime-main",
+  "channel": "telegram",
+  "task.type": "troubleshooting",
+  "context.tokens_estimate": 4200,
+  "start_time": "2026-03-21T15:00:00Z",
+  "end_time": "2026-03-21T15:00:01Z",
+  "status": "ok"
+}
+{
+  "trace_id": "trace_91fd",
+  "span_id": "tool_01",
+  "parent_span_id": "sess_root",
+  "name": "tool.web_fetch",
+  "tool": "web_fetch",
+  "duration_ms": 880,
+  "status": "ok"
+}
+{
+  "trace_id": "trace_91fd",
+  "span_id": "llm_02",
+  "parent_span_id": "sess_root",
+  "name": "llm.generate",
+  "model": "gpt-5.4",
+  "tokens_in": 5120,
+  "tokens_out": 640,
+  "latency_ms": 5400,
+  "status": "ok"
+}</code></pre>
+
+<h3>Scorecards operacionais: o painel que realmente orienta decisão</h3>
+
+<p>Dashboard bonito não basta. O operador precisa de um <strong>scorecard</strong> curto, comparável ao longo do tempo e orientado a decisão. Pense nele como um boletim operacional com poucas linhas que dizem se o sistema está saudável, degradado ou em regressão.</p>
+
+<div class="tableish">
+  <div><strong>Bloco do scorecard</strong></div><div><strong>Pergunta</strong></div><div><strong>Métrica sugerida</strong></div><div><strong>Ação típica</strong></div>
+  <div>Confiabilidade</div><div>o agente concluiu o trabalho?</div><div>% de sessões concluídas sem erro final</div><div>corrigir tools, prompts ou fallback antes de expandir escopo</div>
+  <div>Velocidade</div><div>está rápido o bastante para o canal?</div><div>P50/P95 por tipo de tarefa</div><div>otimizar contexto, paralelismo e escolha de modelo</div>
+  <div>Custo</div><div>o preço por tarefa útil continua saudável?</div><div>tokens e custo por sessão útil</div><div>revisar contexto, modelo e fan-out de ferramentas</div>
+  <div>Segurança</div><div>houve bloqueios, approvals ou eventos auditáveis fora do normal?</div><div>contagem de <code>AUDIT</code>, approvals e policy blocks</div><div>revisar políticas e incidentes sensíveis</div>
+  <div>Qualidade</div><div>o comportamento real segue aceitável?</div><div>handoff rate, retrabalho e flags de má resposta</div><div>promover cenários ruins para eval permanente</div>
+</div>
+
+<p>Um scorecard diário pode ser textual. O formato abaixo já é suficiente para operar bem sem virar escravo da ferramenta:</p>
+
+<pre><code>STATUS OPERACIONAL — 2026-03-21
+Saúde geral: DEGRADADO
+Confiabilidade: 94,8% (meta: &gt;97%)
+Latência P95: 18,2s (baseline: 11,0s)
+Custo por sessão útil: +26% vs média de 14 dias
+Policy blocks: 3 (esperado: 0-1)
+Cenários candidatos a eval: 2
+Ação recomendada: revisar sessions longas com tool.exec + contexto acima de 8k tokens</code></pre>
+
+<h3>Ligando observabilidade ao loop de evals do capítulo 29</h3>
+
+<p>Métrica sem benchmark vira opinião; benchmark sem telemetria vira caixa-preta. O ponto de contato entre os capítulos 19 e 29 é este: <strong>toda anomalia recorrente deve virar candidata a eval</strong>, e todo eval reprovado deve apontar quais sinais operacionais o denunciam cedo em produção.</p>
+
+<ol class="steps">
+  <li><strong>Detecte o desvio em produção</strong>: latência anômala, resposta ruim, custo inflado, excesso de handoff.</li>
+  <li><strong>Isole o trace representativo</strong>: escolha uma ou duas sessões com evidência forte.</li>
+  <li><strong>Rotule o cenário</strong>: por exemplo <code>tool-timeout-com-retry</code>, <code>resposta-longa-sem-objetividade</code> ou <code>contexto-estourado-em-triagem</code>.</li>
+  <li><strong>Promova para a suíte de eval</strong>: o caso sai do incidente e vira teste permanente.</li>
+  <li><strong>Acompanhe no scorecard</strong>: após corrigir, observe por alguns dias se o indicador realmente voltou ao baseline.</li>
+</ol>
+
+<div class="callout"><strong>Sinal maduro de operação:</strong> suas piores sessões não morrem no log. Elas reaparecem como benchmark, alerta, checklist de rollout ou ajuste explícito de política.</div>
 
 <h3>Armazenando traces no workspace para auditoria</h3>
 
@@ -247,6 +381,28 @@ Anomalias: [Nenhuma | lista]
 Atenção: [itens que merecem revisão]</code></pre></li>
   <li><strong>Configure o <code>target</code></strong> do heartbeat como <code>last</code> para que o relatório sempre seja entregue ao último canal ativo.</li>
   <li><strong>Revise o relatório</strong> por 2 semanas e ajuste os limiares e o formato conforme o que é realmente útil vs barulho.</li>
+</ol>
+</div>
+
+<h2>Scorecard semanal: review operacional sem autoengano</h2>
+
+<p>O scorecard diário ajuda a detectar fumaça; a revisão semanal ajuda a não contar história para si mesmo. Em vez de olhar apenas médias gerais, separe por tipo de tarefa e procure deslocamentos persistentes.</p>
+
+<ul>
+  <li><strong>Quais fluxos ficaram mais lentos?</strong> Não compare só o agregado; compare triagem, automação, pesquisa e troubleshooting separadamente.</li>
+  <li><strong>Quais spans mais cresceram?</strong> A piora veio do modelo, da ferramenta ou do approval gate?</li>
+  <li><strong>Quais incidentes viraram eval?</strong> Se nenhum caso ruim foi promovido, provavelmente você está desperdiçando aprendizado real.</li>
+  <li><strong>Houve regressão mascarada por fallback?</strong> Às vezes a taxa de erro parece boa porque o sistema só está gastando mais e mais para se salvar.</li>
+</ul>
+
+<div class="recipe">
+<h3>Checklist de review semanal</h3>
+<ol class="steps">
+  <li>Compare o scorecard da semana com a baseline das 4 semanas anteriores.</li>
+  <li>Abra as 5 sessões mais longas e as 5 mais caras.</li>
+  <li>Classifique cada uma em: problema de contexto, modelo, tool, policy ou expectativa do usuário.</li>
+  <li>Escolha no máximo 2 correções para a semana seguinte.</li>
+  <li>Promova pelo menos 1 caso real para a suíte de evals contínuos.</li>
 </ol>
 </div>
 

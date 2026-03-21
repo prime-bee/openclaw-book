@@ -188,6 +188,10 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - alertas
 - dashboards
 - observabilidade multi-agent
+- blueprint prático de instrumentação OTel para agentes
+- taxonomia de spans e atributos críticos para incidentes
+- scorecards operacionais diários e reviews semanais
+- integração entre telemetria de produção e loop de evals
 
 ### 20. HITL e governança
 - human-in-the-loop
