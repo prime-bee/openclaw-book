@@ -1,8 +1,611 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Capítulo 29 — Evals e benchmarking de agentes — openclaw-book</title><meta name="description" content="Como avaliar agentes em OpenClaw com golden sets, observabilidade, custo, latência e benchmark operacional de verdade."><meta name="theme-color" content="#0f1115"><meta name="author" content="Prime"><meta name="application-name" content="OpenClaw Book"><meta name="apple-mobile-web-app-title" content="OpenClaw Book"><meta name="robots" content="index,follow"><link rel="canonical" href="https://prime-bee.github.io/openclaw-book/chapters/29-evals-e-benchmarking-de-agentes.html"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Capítulo 29 — Evals e benchmarking de agentes — openclaw-book"><meta property="og:description" content="Como avaliar agentes em OpenClaw com golden sets, observabilidade, custo, latência e benchmark operacional de verdade."><meta property="og:type" content="website"><meta property="og:url" content="https://prime-bee.github.io/openclaw-book/chapters/29-evals-e-benchmarking-de-agentes.html"><meta property="og:site_name" content="openclaw-book"><meta property="og:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Capítulo 29 — Evals e benchmarking de agentes — openclaw-book"><meta name="twitter:description" content="Como avaliar agentes em OpenClaw com golden sets, observabilidade, custo, latência e benchmark operacional de verdade."><meta name="twitter:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><link rel="manifest" href="../site.webmanifest"><link rel="stylesheet" href="../styles.css"><script defer src="../app.js"></script><script defer src="../search.js"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Capítulo 29 — Evals e benchmarking de agentes — openclaw-book","name":"Capítulo 29 — Evals e benchmarking de agentes — openclaw-book","description":"Como avaliar agentes em OpenClaw com golden sets, observabilidade, custo, latência e benchmark operacional de verdade.","inLanguage":"pt-BR","url":"https://prime-bee.github.io/openclaw-book/chapters/29-evals-e-benchmarking-de-agentes.html","author":{"@type":"Person","name":"Prime"},"publisher":{"@type":"Organization","name":"Prime Bee","url":"https://github.com/prime-bee/openclaw-book"},"isPartOf":{"@type":"Book","name":"OpenClaw Book","url":"https://prime-bee.github.io/openclaw-book/"}}</script></head><body><a class="skip-link" href="#conteudo">Pular para o conteúdo</a><div class="layout"><aside class="sidebar"><div class="brand"><img src="../assets/openclaw-logo-text.png" alt="OpenClaw logo"><h1>Capítulo 29</h1><p>Evals e benchmarking</p></div><nav class="nav"><a href="../index.html">← Início</a><a href="01-visao-geral.html">1. Visão geral</a><a href="02-arquitetura.html">2. Arquitetura</a><a href="03-gateway.html">3. Gateway</a><a href="04-cli.html">4. CLI</a><a href="05-memoria-e-workspace.html">5. Memória e workspace</a><a href="06-canais-e-rotina.html">6. Canais e operação</a><a href="07-modelos-e-provedores.html">7. Modelos e provedores</a><a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento</a><a href="09-automacoes-cron-e-heartbeat.html">9. Automação</a><a href="10-sandbox-e-seguranca-pratica.html">10. Sandbox e segurança</a><a href="11-browser-e-controle-remoto.html">11. Browser e controle remoto</a><a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo</a><a href="13-troubleshooting-e-diagnostico.html">13. Troubleshooting</a><a href="14-referencias-oficiais.html">14. Referências oficiais</a><a href="15-roadmap-e-proximos-passos.html">15. Roadmap</a><a href="16-agentes-ia-fluxos-e-delegacao.html">16. Agentes IA e fluxos</a><a href="17-missoes-e-desafios.html">17. Missões e desafios</a><a href="18-engenharia-de-prompts.html">18. Engenharia de prompts</a><a href="19-observabilidade-e-monitoramento.html">19. Observabilidade</a><a href="20-hitl-e-governanca.html">20. HITL e Governança</a><a href="21-skills-e-composicao-de-capacidades.html">21. Skills e capacidades</a><a href="22-llms-plataformas-orquestracao-e-openclaw-para-openclaw.html">22. LLMs e orquestração</a><a href="23-personalidade-de-agentes-como-projetar-e-o-que-melhora.html">23. Personalidade de agentes</a><a href="24-rag-e-retrieval-para-agentes.html">24. RAG e retrieval</a><a href="25-design-de-ferramentas-para-agentes.html">25. Design de ferramentas</a><a href="26-multiplos-openclaw-na-mesma-maquina.html">26. Múltiplos OpenClaw no host</a><a href="27-migrando-de-um-para-multiplos-gateways-com-seguranca.html">27. Migrando com segurança</a><a href="28-arquiteturas-de-producao-para-openclaw.html">28. Arquiteturas de produção</a><a class="active" href="29-evals-e-benchmarking-de-agentes.html">29. Evals e benchmarking</a><a href="30-ux-para-conversar-com-agentes.html">30. UX para conversar com agentes</a><a href="31-openclaw-para-times-e-colaboracao.html">31. OpenClaw para times</a><a href="32-agentes-com-voz-e-multimodalidade.html">32. Voz e multimodalidade</a><a href="33-custos-em-producao-e-planejamento.html">33. Custos em produção</a><a href="34-comparando-frameworks-e-stacks-agenticas.html">34. Frameworks e stacks</a><div class="nav-section-label">Explorar</div><a href="../reading-paths.html">Trilhas de leitura</a><a href="../glossario.html">Glossário</a><a href="../about.html">Sobre</a></nav></aside><main id="conteudo" class="content chapter"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../index.html">Início</a><span aria-hidden="true">/</span><a href="../index.html#sumario-livro">Capítulos</a><span aria-hidden="true">/</span><a href="29-evals-e-benchmarking-de-agentes.html" aria-current="page">Capítulo 29: Evals e benchmarking</a></nav><div class="chapter-intro"><p class="lede">Sem eval, você só percebe regressão quando o usuário sente. Em OpenClaw, eval bom conecta qualidade, observabilidade e custo — não só uma nota abstrata.</p><div class="kpi-row"><span class="kpi">Capítulo 29 de 34</span><span class="kpi">Avançado</span><span class="kpi">Golden sets · regressão · latência · custo</span></div></div><h1>Evals e benchmarking de agentes</h1><p>Depois que o OpenClaw entra no dia a dia, a pergunta muda de <em>"funciona?"</em> para <em>"continua funcionando bem depois de cada mudança?"</em>. Este capítulo mostra como responder isso de forma leve, prática e repetível, com um foco que costuma faltar em discussões sobre benchmark: a ligação direta entre <strong>qualidade percebida</strong>, <strong>sinais operacionais</strong> e <strong>custo de produção</strong>.</p><div class="diagram"><h3>Diagrama — ciclo operacional de evals</h3><img src="../assets/openclaw-evals-loop.svg" alt="Loop de evals e benchmarking para agentes"></div><div class="callout"><strong>Ideia central:</strong> benchmark útil não serve para ganhar discussão em rede social; serve para impedir que uma mudança de prompt, modelo, skill ou fluxo piore a operação sem que ninguém note.</div><h2>O que é um eval útil em OpenClaw</h2><p>Eval útil não é prova acadêmica. É um mecanismo para detectar regressão <strong>antes</strong> que ela chegue ao usuário. Em OpenClaw, isso normalmente significa escolher tarefas repetíveis, com entrada conhecida, e comparar saída, latência, custo, uso de ferramenta e necessidade de intervenção humana.</p><p>O erro clássico é medir apenas "qualidade da resposta final". Um agente pode escrever bem e ainda assim:</p><ul><li>chamar ferramentas demais</li><li>gastar contexto em excesso</li><li>escalar para humano mais do que deveria</li><li>demorar muito em fluxos que pareciam rápidos no teste manual</li><li>passar em cenários artificiais e falhar em situações reais de rotina</li></ul><p>Por isso, eval de OpenClaw é melhor pensado como um <strong>scorecard operacional</strong>, não como uma única nota.</p><h2>Quatro níveis de benchmark</h2><div class="tableish"><div><strong>Nível</strong></div><div><strong>O que medir</strong></div><div><strong>Pergunta prática</strong></div><div>sanidade</div><div>se o fluxo ainda funciona fim a fim</div><div>o agente terminou a tarefa sem quebrar nada?</div><div>qualidade</div><div>se a resposta continua correta, útil e segura</div><div>o resultado ainda ajuda um humano de verdade?</div><div>performance</div><div>latência, número de turnos, uso de ferramentas e retries</div><div>ficou mais lento, verboso ou instável?</div><div>economia</div><div>custo por tarefa, contexto consumido e taxa de escalonamento</div><div>o ganho de qualidade justifica o custo extra?</div></div><p>Os quatro níveis precisam andar juntos. Melhorar qualidade degradando custo em 4× pode ser aceitável para incidentes e segurança, mas péssimo para triagem diária. Melhorar custo destruindo confiabilidade quase sempre é um falso ganho.</p><h2>Como montar um golden set pequeno e honesto</h2><p>Comece pequeno. Um golden set com 8 a 20 cenários reais bem escolhidos vale mais do que 200 prompts genéricos. O conjunto deve representar o trabalho que realmente aparece na sua operação.</p><ol class="steps"><li><strong>Liste tarefas frequentes e dolorosas.</strong> Exemplo: onboarding de novo workspace, busca em memória, delegação para subagente, revisão de logs, aprovação sensível, troubleshooting de gateway e automação simples.</li><li><strong>Descreva o resultado esperado em linguagem de operador.</strong> Em vez de "resposta boa", escreva "resumo em 6 bullets, citar próximos passos, não inventar comando inexistente".</li><li><strong>Marque o grau de tolerância à variação.</strong> Alguns cenários aceitam criatividade; outros exigem formato estrito.</li><li><strong>Anote o que torna a tarefa cara.</strong> Tokens, múltiplas tools, longos contextos, retries, necessidade de humano.</li><li><strong>Reexecute após qualquer mudança relevante.</strong> Prompt, modelo, skill, política de ferramentas, estratégia de contexto ou automação.</li></ol><div class="recipe"><h3>Receita — template mínimo de caso de eval</h3><pre><code>Cenário: Triagem de erro no gateway
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Capítulo 29 — Evals e benchmarking de agentes — openclaw-book</title>
+  <meta name="description" content="Como avaliar agentes em OpenClaw com golden sets, regressão por tarefa, rollout, critérios de aprovação e métricas que evitam vanity metrics.">
+  <meta name="theme-color" content="#0f1115">
+  <meta name="author" content="Prime">
+  <meta name="application-name" content="OpenClaw Book">
+  <meta name="apple-mobile-web-app-title" content="OpenClaw Book">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://prime-bee.github.io/openclaw-book/chapters/29-evals-e-benchmarking-de-agentes.html">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="Capítulo 29 — Evals e benchmarking de agentes — openclaw-book">
+  <meta property="og:description" content="Como avaliar agentes em OpenClaw com golden sets, regressão por tarefa, rollout, critérios de aprovação e métricas que evitam vanity metrics.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://prime-bee.github.io/openclaw-book/chapters/29-evals-e-benchmarking-de-agentes.html">
+  <meta property="og:site_name" content="openclaw-book">
+  <meta property="og:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Capítulo 29 — Evals e benchmarking de agentes — openclaw-book">
+  <meta name="twitter:description" content="Como avaliar agentes em OpenClaw com golden sets, regressão por tarefa, rollout, critérios de aprovação e métricas que evitam vanity metrics.">
+  <meta name="twitter:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <link rel="stylesheet" href="../styles.css">
+  <script defer src="../app.js"></script>
+  <script defer src="../search.js"></script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Capítulo 29 — Evals e benchmarking de agentes — openclaw-book",
+      "name": "Capítulo 29 — Evals e benchmarking de agentes — openclaw-book",
+      "description": "Como avaliar agentes em OpenClaw com golden sets, regressão por tarefa, rollout, critérios de aprovação e métricas que evitam vanity metrics.",
+      "inLanguage": "pt-BR",
+      "url": "https://prime-bee.github.io/openclaw-book/chapters/29-evals-e-benchmarking-de-agentes.html",
+      "author": {"@type": "Person", "name": "Prime"},
+      "publisher": {"@type": "Organization", "name": "Prime Bee", "url": "https://github.com/prime-bee/openclaw-book"},
+      "isPartOf": {"@type": "Book", "name": "OpenClaw Book", "url": "https://prime-bee.github.io/openclaw-book/"}
+    }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="../assets/openclaw-logo-text.png" alt="OpenClaw logo">
+        <h1>Capítulo 29</h1>
+        <p>Evals e benchmarking</p>
+      </div>
+      <nav class="nav">
+        <a href="../index.html">← Início</a>
+        <a href="01-visao-geral.html">1. Visão geral</a>
+        <a href="02-arquitetura.html">2. Arquitetura</a>
+        <a href="03-gateway.html">3. Gateway</a>
+        <a href="04-cli.html">4. CLI</a>
+        <a href="05-memoria-e-workspace.html">5. Memória e workspace</a>
+        <a href="06-canais-e-rotina.html">6. Canais e operação</a>
+        <a href="07-modelos-e-provedores.html">7. Modelos e provedores</a>
+        <a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento</a>
+        <a href="09-automacoes-cron-e-heartbeat.html">9. Automação</a>
+        <a href="10-sandbox-e-seguranca-pratica.html">10. Sandbox e segurança</a>
+        <a href="11-browser-e-controle-remoto.html">11. Browser e controle remoto</a>
+        <a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo</a>
+        <a href="13-troubleshooting-e-diagnostico.html">13. Troubleshooting</a>
+        <a href="14-referencias-oficiais.html">14. Referências oficiais</a>
+        <a href="15-roadmap-e-proximos-passos.html">15. Roadmap</a>
+        <a href="16-agentes-ia-fluxos-e-delegacao.html">16. Agentes IA e fluxos</a>
+        <a href="17-missoes-e-desafios.html">17. Missões e desafios</a>
+        <a href="18-engenharia-de-prompts.html">18. Engenharia de prompts</a>
+        <a href="19-observabilidade-e-monitoramento.html">19. Observabilidade</a>
+        <a href="20-hitl-e-governanca.html">20. HITL e Governança</a>
+        <a href="21-skills-e-composicao-de-capacidades.html">21. Skills e capacidades</a>
+        <a href="22-llms-plataformas-orquestracao-e-openclaw-para-openclaw.html">22. LLMs e orquestração</a>
+        <a href="23-personalidade-de-agentes-como-projetar-e-o-que-melhora.html">23. Personalidade de agentes</a>
+        <a href="24-rag-e-retrieval-para-agentes.html">24. RAG e retrieval</a>
+        <a href="25-design-de-ferramentas-para-agentes.html">25. Design de ferramentas</a>
+        <a href="26-multiplos-openclaw-na-mesma-maquina.html">26. Múltiplos OpenClaw no host</a>
+        <a href="27-migrando-de-um-para-multiplos-gateways-com-seguranca.html">27. Migrando com segurança</a>
+        <a href="28-arquiteturas-de-producao-para-openclaw.html">28. Arquiteturas de produção</a>
+        <a class="active" href="29-evals-e-benchmarking-de-agentes.html">29. Evals e benchmarking</a>
+        <a href="30-ux-para-conversar-com-agentes.html">30. UX para conversar com agentes</a>
+        <a href="31-openclaw-para-times-e-colaboracao.html">31. OpenClaw para times</a>
+        <a href="32-agentes-com-voz-e-multimodalidade.html">32. Voz e multimodalidade</a>
+        <a href="33-custos-em-producao-e-planejamento.html">33. Custos em produção</a>
+        <a href="34-comparando-frameworks-e-stacks-agenticas.html">34. Frameworks e stacks</a>
+        <a href="35-estudos-de-caso-corporativos-multiagente.html">35. Estudos de caso</a>
+        <div class="nav-section-label">Explorar</div>
+        <a href="../reading-paths.html">Trilhas de leitura</a>
+        <a href="../glossario.html">Glossário</a>
+        <a href="../about.html">Sobre</a>
+      </nav>
+    </aside>
+
+    <main id="conteudo" class="content chapter">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="../index.html">Início</a>
+        <span aria-hidden="true">/</span>
+        <a href="../index.html#sumario-livro">Capítulos</a>
+        <span aria-hidden="true">/</span>
+        <a href="29-evals-e-benchmarking-de-agentes.html" aria-current="page">Capítulo 29: Evals e benchmarking</a>
+      </nav>
+
+      <div class="chapter-intro">
+        <p class="lede">Sem eval, você só percebe regressão quando o usuário percebe primeiro. Em OpenClaw, eval maduro conecta qualidade, observabilidade, rollout e custo por tarefa útil.</p>
+        <div class="kpi-row">
+          <span class="kpi">Capítulo 29 de 35</span>
+          <span class="kpi">Avançado</span>
+          <span class="kpi">Golden sets · regressão · rollout · custo</span>
+        </div>
+      </div>
+
+      <h1>Evals e benchmarking de agentes</h1>
+      <p>Depois que o OpenClaw entra no dia a dia, a pergunta muda de <em>"funciona?"</em> para <em>"continua funcionando bem depois de cada mudança?"</em>. Este capítulo mostra como responder isso sem cair em dois extremos ruins: benchmark teatral e processo pesado demais para caber na rotina.</p>
+      <p>O objetivo aqui não é provar superioridade abstrata de um modelo. É construir um sistema de decisão que diga, com honestidade operacional, se um prompt, uma policy de tools, uma skill ou um modelo novo merece promoção para produção.</p>
+
+      <div class="diagram">
+        <h3>Diagrama — ciclo operacional de evals</h3>
+        <img src="../assets/openclaw-evals-loop.svg" alt="Loop de evals e benchmarking para agentes">
+      </div>
+
+      <div class="callout">
+        <strong>Ideia central:</strong> benchmark útil não existe para ganhar argumento em rede social. Ele existe para impedir regressão silenciosa e para separar ganho real de melhoria cosmética.
+      </div>
+
+      <h2>O que é um eval útil em OpenClaw</h2>
+      <p>Eval útil não é prova acadêmica. É um mecanismo para detectar regressão <strong>antes</strong> que ela chegue ao usuário. Em OpenClaw, isso normalmente significa escolher tarefas repetíveis, com entrada conhecida, e comparar saída, latência, custo, uso de ferramenta e necessidade de intervenção humana.</p>
+      <p>O erro clássico é medir apenas “qualidade da resposta final”. Um agente pode escrever bem e ainda assim:</p>
+      <ul>
+        <li>chamar ferramentas demais</li>
+        <li>gastar contexto em excesso</li>
+        <li>escalar para humano mais do que deveria</li>
+        <li>demorar muito em fluxos que pareciam rápidos no teste manual</li>
+        <li>passar em cenários artificiais e falhar em situações reais de rotina</li>
+      </ul>
+      <p>Por isso, eval de OpenClaw é melhor pensado como um <strong>scorecard operacional</strong>, não como uma única nota.</p>
+
+      <h2>Quatro níveis de benchmark</h2>
+      <div class="tableish">
+        <div><strong>Nível</strong></div>
+        <div><strong>O que medir</strong></div>
+        <div><strong>Pergunta prática</strong></div>
+
+        <div>sanidade</div>
+        <div>se o fluxo ainda funciona fim a fim</div>
+        <div>o agente terminou a tarefa sem quebrar nada?</div>
+
+        <div>qualidade</div>
+        <div>se a resposta continua correta, útil e segura</div>
+        <div>o resultado ainda ajuda um humano de verdade?</div>
+
+        <div>performance</div>
+        <div>latência, número de turnos, uso de ferramentas e retries</div>
+        <div>ficou mais lento, verboso ou instável?</div>
+
+        <div>economia</div>
+        <div>custo por tarefa, contexto consumido e taxa de escalonamento</div>
+        <div>o ganho de qualidade justifica o custo extra?</div>
+      </div>
+      <p>Os quatro níveis precisam andar juntos. Melhorar qualidade degradando custo em 4× pode ser aceitável para incidentes e segurança, mas péssimo para triagem diária. Melhorar custo destruindo confiabilidade quase sempre é um falso ganho.</p>
+
+      <h2>Como montar um golden set pequeno e honesto</h2>
+      <p>Comece pequeno. Um golden set com 8 a 20 cenários reais bem escolhidos vale mais do que 200 prompts genéricos. O conjunto deve representar o trabalho que realmente aparece na sua operação.</p>
+      <ol class="steps">
+        <li><strong>Liste tarefas frequentes e dolorosas.</strong> Exemplo: onboarding de novo workspace, busca em memória, delegação para subagente, revisão de logs, aprovação sensível, troubleshooting de gateway e automação simples.</li>
+        <li><strong>Descreva o resultado esperado em linguagem de operador.</strong> Em vez de “resposta boa”, escreva “resumo em 6 bullets, citar próximos passos, não inventar comando inexistente”.</li>
+        <li><strong>Marque o grau de tolerância à variação.</strong> Alguns cenários aceitam criatividade; outros exigem formato estrito.</li>
+        <li><strong>Anote o que torna a tarefa cara.</strong> Tokens, múltiplas tools, contextos longos, retries, necessidade de humano.</li>
+        <li><strong>Reexecute após qualquer mudança relevante.</strong> Prompt, modelo, skill, política de ferramentas, estratégia de contexto ou automação.</li>
+      </ol>
+
+      <div class="recipe">
+        <h3>Receita — template mínimo de caso de eval</h3>
+        <pre><code>Cenário: Triagem de erro no gateway
 Entrada: log curto + pergunta do operador
 Resultado aceitável: identificar hipótese principal, pedir dado faltante se necessário,
 citar comando válido, não sugerir ação destrutiva sem aviso
 Sinais operacionais: até 2 tool calls, latência abaixo de 12s,
 sem escalada para humano em caso simples
-Custo esperado: baixo a médio</code></pre></div><h2>Scorecard operacional: o que medir de verdade</h2><p>Um bom scorecard mistura sinais qualitativos e quantitativos. A tabela abaixo ajuda a sair do "pareceu melhor" e entrar em comparação repetível.</p><div class="tableish"><div><strong>Dimensão</strong></div><div><strong>Métrica</strong></div><div><strong>Por que importa</strong></div><div><strong>Exemplo de limite</strong></div><div>qualidade</div><div>task success rate</div><div>mede se a tarefa termina de forma aceitável</div><div>&gt;= 90% para rotinas maduras</div><div>segurança</div><div>violação de política / ação indevida</div><div>erro raro, mas gravíssimo</div><div>0 tolerado em fluxos sensíveis</div><div>latência</div><div>P50 e P95 por tarefa</div><div>captura experiência típica e pior caso</div><div>P95 abaixo do SLA do canal</div><div>ferramentas</div><div>tool success rate e retries</div><div>separa falha do modelo de falha do ambiente</div><div>retries &lt; 10% em rotina estável</div><div>custo</div><div>tokens e custo por resultado útil</div><div>mede eficiência real, não só preço por chamada</div><div>variação &lt; 20% sem ganho claro</div><div>governança</div><div>handoff / escalada para humano</div><div>mostra onde a automação ainda não amadureceu</div><div>baixo em fluxo simples, maior em fluxo crítico</div></div><div class="callout"><strong>Cuidado:</strong> custo por chamada é uma métrica preguiçosa. O que importa é <strong>custo por tarefa concluída com qualidade aceitável</strong>. Modelo barato que falha e precisa de retrabalho humano pode sair mais caro no total.</div><h2>Conectando evals com observabilidade</h2><p>É aqui que muita operação melhora de verdade. Evals não devem viver isolados em uma planilha estática. Eles devem conversar com os sinais que você já coleta em produção.</p><h3>O loop saudável</h3><ol class="steps"><li><strong>Produção emite sinais operacionais</strong> — latência, retries, tool errors, consumo de tokens, handoffs.</li><li><strong>Você detecta uma anomalia</strong> — por exemplo, aumento de P95 ou salto no custo por sessão.</li><li><strong>Transforma a anomalia em cenário de eval</strong> — para impedir que o problema reapareça.</li><li><strong>Executa benchmark antes e depois da correção</strong> — prompt, modelo ou workflow.</li><li><strong>Promove a correção</strong> só se qualidade, observabilidade e custo fizerem sentido juntos.</li></ol><p>Na prática, o capítulo 19 dá a matéria-prima para o capítulo 29: logs estruturados, traces e métricas viram combustível para criar casos de regressão mais realistas.</p><h3>Exemplos de sinais que viram casos de eval</h3><ul><li><strong>P95 subiu muito:</strong> crie um caso com o mesmo tipo de input que hoje dispara sessões longas.</li><li><strong>Tool call falha com frequência:</strong> avalie se o agente degrada com elegância ou entra em loop.</li><li><strong>Custo por tarefa aumentou:</strong> compare se houve ganho proporcional de qualidade ou apenas desperdício.</li><li><strong>Escalada para humano disparou:</strong> transforme isso em benchmark de autonomia segura.</li></ul><div class="diagram"><h3>ASCII — produção alimentando evals</h3><pre><code>produção -> métricas/traces -> hipótese de regressão
-         -> novo caso de eval -> correção -> benchmark -> deploy</code></pre></div><h2>Benchmark antes de trocar modelo, prompt ou skill</h2><p>Toda troca relevante deveria responder três perguntas:</p><ol class="steps"><li><strong>Ficou melhor?</strong> — qualidade, formato, clareza, segurança.</li><li><strong>Ficou mais estável?</strong> — menos retries, menos handoff, menos variação.</li><li><strong>Vale o preço?</strong> — mais custo só se houver ganho líquido claro.</li></ol><section class="recipe"><h3>Receita — benchmark antes de trocar modelo</h3><ol class="steps"><li>Escolha 10 tarefas reais do seu uso.</li><li>Rode com o modelo atual e capture notas de qualidade + latência + custo.</li><li>Rode com o modelo candidato nas mesmas condições.</li><li>Compare regressão de segurança, clareza, formato, uso de ferramentas e necessidade de humano.</li><li>Troque só se o ganho líquido fizer sentido para o seu contexto, e não só para um demo bonito.</li></ol></section><h3>Matriz simples de decisão</h3><div class="tableish"><div><strong>Resultado</strong></div><div><strong>Leitura</strong></div><div><strong>Ação</strong></div><div>melhor qualidade, mesmo custo</div><div>ganho limpo</div><div>promover</div><div>melhor qualidade, custo maior</div><div>pode valer em fluxos críticos</div><div>promover seletivamente</div><div>mesma qualidade, custo menor</div><div>eficiência real</div><div>promover</div><div>pior qualidade, custo menor</div><div>economia suspeita</div><div>rejeitar na maioria dos casos</div><div>melhor qualidade, muito mais lento</div><div>risco para UX e SLA</div><div>avaliar por canal/tarefa</div></div><h2>Custos: o lado que benchmarks ignoram quando são ruins</h2><p>Capítulo 33 aprofunda orçamento e planejamento, mas aqui vale a regra operacional: <strong>todo eval deveria carregar contexto econômico mínimo</strong>. Sem isso, você otimiza a métrica errada.</p><h3>O que colocar no benchmark sobre custo</h3><ul><li>tokens de entrada e saída por tarefa</li><li>número de turnos</li><li>quantidade de tool calls</li><li>tempo total até resposta útil</li><li>necessidade de reexecução ou intervenção humana</li></ul><p>Isso permite comparar cenários como:</p><ul><li><strong>modelo A</strong> responde melhor, mas usa 2× mais tokens e 30% mais tool calls</li><li><strong>modelo B</strong> é mais barato, mas aumenta handoff em tarefas medianas</li><li><strong>prompt C</strong> melhora formato, porém adiciona contexto fixo demais e piora custo em todo fluxo</li></ul><div class="callout"><strong>Heurística prática:</strong> se o benchmark mostra ganho pequeno de qualidade com salto forte de custo e latência, a mudança provavelmente não pertence ao default global — no máximo a um fluxo premium ou crítico.</div><h2>Um pipeline simples de evals pós-deploy</h2><p>Você não precisa de uma plataforma gigantesca para trabalhar bem. Um pipeline enxuto já cria disciplina suficiente:</p><ol class="steps"><li><strong>Antes da mudança:</strong> rode o golden set básico.</li><li><strong>Logo após deploy:</strong> monitore 24h de sinais operacionais críticos.</li><li><strong>Se aparecer anomalia:</strong> extraia um caso real anonimizado e transforme em eval permanente.</li><li><strong>Na revisão semanal:</strong> compare tendência de latência, custo e escalada.</li><li><strong>Na revisão mensal:</strong> limpe casos irrelevantes e adicione os novos padrões dolorosos.</li></ol><div class="recipe"><h3>Receita — loop leve usando workspace + cron</h3><ol class="steps"><li>Mantenha um diretório <code>workspace/evals/</code> com os casos mais importantes.</li><li>Versione junto o resultado esperado, limites de latência e notas de custo.</li><li>Agende um cron semanal para reexecutar o conjunto mínimo e produzir um resumo com: casos que pioraram, custo médio por tarefa e top anomalias.</li><li>Sempre que um incidente real acontecer, promova um recorte dele para o pacote de regressão.</li></ol></section><h2>Rubrica leve para decidir promoção ou rollback</h2><p>Benchmark bom precisa terminar em decisão clara. Uma rubrica simples evita cair no "pareceu melhor" sem consenso entre operador, tech lead e quem paga a conta.</p><div class="tableish"><div><strong>Sinal</strong></div><div><strong>Leitura</strong></div><div><strong>Ação sugerida</strong></div><div>qualidade subiu e custo ficou estável</div><div>ganho limpo</div><div>promover como default com monitoramento de 24h</div><div>qualidade subiu pouco, mas custo e latência dispararam</div><div>ganho provavelmente premium</div><div>limitar a fluxos críticos ou usuários específicos</div><div>qualidade estável, custo caiu</div><div>eficiência real</div><div>promover e atualizar baseline de orçamento</div><div>resultado mais volátil entre execuções</div><div>critério ainda frágil</div><div>rejeitar até melhorar prompt, tool policy ou critérios de aceitação</div></div><section class="recipe"><h3>Checklist — rollout de mudança validada</h3><ol class="steps"><li>Rode o golden set e registre baseline de qualidade, latência, tool calls e custo.</li><li>Promova a mudança primeiro em canary: um canal, um time ou uma classe pequena de tarefas.</li><li>Monitore por 24 a 72 horas os sinais do capítulo 19: P95, retries, handoff e custo por tarefa útil.</li><li>Se houver anomalia, faça rollback rápido e preserve o caso como regressão permanente.</li><li>Só depois amplie para o default global.</li></ol></section><div class="callout"><strong>Ponto de maturidade:</strong> mudar modelo, prompt ou skill sem plano de rollout é tratar benchmark como peça de teatro. Em produção, benchmark sem rollout controlado ainda é risco.</div><h2>Troubleshooting de evals</h2><div class="grid"><div class="card"><h3>"O benchmark diz que melhorou, mas produção piorou"</h3><p>Seu golden set provavelmente está limpo demais. Falta ruído real: contexto imperfeito, ferramentas lentas, ambiguidades e inputs incompletos.</p></div><div class="card"><h3>"O custo caiu, mas o time reclama"</h3><p>Você economizou em uma etapa onde qualidade era parte do produto. Reavalie por tipo de tarefa, não no agregado bruto.</p></div><div class="card"><h3>"Os resultados variam muito entre execuções"</h3><p>Faltam critérios de aceitação melhores. Troque "pareceu bom" por checklist observável, formato esperado e limites de operação.</p></div><div class="card"><h3>"Tudo passa, mas incidentes continuam"</h3><p>Seu conjunto de testes não está aprendendo com produção. Incidente repetido deveria virar caso permanente de regressão.</p></div></div><h2>FAQ rápido</h2><h3>Preciso de dezenas de benchmarks antes de usar OpenClaw em produção?</h3><p>Não. Precisa de poucos cenários bons e disciplina para expandi-los com base no que a operação revela.</p><h3>Benchmark manual ainda vale?</h3><p>Vale, especialmente no começo. O problema é confiar só em impressão subjetiva. Mesmo benchmark manual melhora muito quando você registra qualidade, latência, custo e handoff.</p><h3>Quando um benchmark deve bloquear deploy?</h3><p>Quando houver regressão clara em segurança, formatos críticos, autonomia esperada, SLA de canal ou custo injustificável em fluxo essencial.</p><h3>Vale separar benchmarks por perfil de tarefa?</h3><p>Sim. Triagem, troubleshooting, escrita operacional, delegação e automação têm critérios bem diferentes. Misturar tudo em uma nota só apaga nuance importante.</p><h2>Checklist de maturidade</h2><ul><li>você consegue reexecutar um conjunto pequeno de tarefas reais sempre que muda prompt, modelo ou skill</li><li>cada caso tem resultado aceitável descrito em linguagem de operador</li><li>latência, custo e uso de ferramentas entram no julgamento</li><li>anomalias de produção viram novos casos de eval</li><li>trocas de modelo são decididas por ganho líquido, não por hype</li><li>o benchmark ajuda a dizer "não" a mudanças bonitas, porém caras ou frágeis</li></ul><div class="exercise"><strong>Exercício 1:</strong> pegue uma automação recorrente sua e defina três sinais de sucesso que um humano conseguiria auditar em menos de 2 minutos.</div><div class="exercise"><strong>Exercício 2:</strong> escolha um incidente ou quase-incidente real das últimas semanas e transforme-o em um caso de regressão com critérios claros de aceitação.</div><div class="exercise"><strong>Exercício 3:</strong> compare duas configurações do mesmo fluxo e registre não só qualidade, mas também latência, handoff, tool calls e custo por resultado útil.</div><div class="refs"><h3>Referências oficiais</h3><ul><li><a href="https://docs.openclaw.ai/concepts/models" target="_blank" rel="noopener noreferrer">OpenClaw Docs — Models</a></li><li><a href="https://docs.openclaw.ai/concepts/memory" target="_blank" rel="noopener noreferrer">OpenClaw Docs — Memory</a></li><li><a href="https://docs.openclaw.ai/concepts/multi-agent" target="_blank" rel="noopener noreferrer">OpenClaw Docs — Multi-agent</a></li><li><a href="https://docs.openclaw.ai/tools/skills" target="_blank" rel="noopener noreferrer">OpenClaw Docs — Skills</a></li><li><a href="https://opentelemetry.io/docs/" target="_blank" rel="noopener noreferrer">OpenTelemetry Documentation</a></li></ul><p class="muted">Ver também: Capítulo 19 (observabilidade e monitoramento), Capítulo 20 (governança e approval gates), Capítulo 31 (operação em times), Capítulo 30 (UX de interação com agentes) e Capítulo 33 (custos em produção e planejamento).</p></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="28-arquiteturas-de-producao-para-openclaw.html">← 28. Arquiteturas de produção</a></div><div class="card"><a href="../reading-paths.html">Trilhas de leitura</a></div><div class="card"><a href="30-ux-para-conversar-com-agentes.html">30. UX para conversar com agentes →</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="28-arquiteturas-de-producao-para-openclaw.html">← Capítulo 28: Arquiteturas de produção</a><a class="pager-link pager-center" href="../reading-paths.html">Trilhas de leitura</a><a class="pager-link" href="30-ux-para-conversar-com-agentes.html">Capítulo 30: UX para conversar com agentes →</a></nav><div class="footer">Continue em <a href="30-ux-para-conversar-com-agentes.html">UX para conversar com agentes</a>.</div></main></div></body></html>
+Custo esperado: baixo a médio</code></pre>
+      </div>
+
+      <h3>Desenho por tarefa, não por glamour</h3>
+      <p>O melhor golden set é balanceado por <strong>tipo de tarefa</strong>, porque tarefas diferentes pedem critérios diferentes. Se você mistura tudo em um placar só, acaba premiando o modelo que parece eloquente, e não o que resolve melhor cada classe de trabalho.</p>
+      <div class="tableish">
+        <div><strong>Tipo de tarefa</strong></div>
+        <div><strong>O que costuma importar mais</strong></div>
+        <div><strong>Sinal de regressão típico</strong></div>
+
+        <div>triagem e suporte</div>
+        <div>hipótese correta, próximos passos claros, comando válido</div>
+        <div>resposta bonita, mas sem ação útil</div>
+
+        <div>automação</div>
+        <div>confiabilidade, idempotência, baixo retry</div>
+        <div>mais tool calls e mais falhas transitórias</div>
+
+        <div>pesquisa e síntese</div>
+        <div>fidelidade ao material, boa citação, pouca invenção</div>
+        <div>resumo convincente porém não ancorado</div>
+
+        <div>governança e segurança</div>
+        <div>prudência, escalada correta, respeito às políticas</div>
+        <div>autonomia excessiva em ação sensível</div>
+
+        <div>delegação multi-agent</div>
+        <div>bom handoff, contexto suficiente, fechamento claro</div>
+        <div>handoff confuso ou perda de contexto</div>
+      </div>
+      <p>Uma prática útil é dividir o golden set em <strong>must-pass</strong>, <strong>importantes</strong> e <strong>exploratórios</strong>. Os primeiros bloqueiam promoção. Os segundos influenciam a decisão. Os terceiros ajudam a descobrir novas fragilidades sem travar tudo.</p>
+
+      <h2>Scorecard operacional: o que medir de verdade</h2>
+      <p>Um bom scorecard mistura sinais qualitativos e quantitativos. A tabela abaixo ajuda a sair do “pareceu melhor” e entrar em comparação repetível.</p>
+      <div class="tableish">
+        <div><strong>Dimensão</strong></div>
+        <div><strong>Métrica</strong></div>
+        <div><strong>Por que importa</strong></div>
+        <div><strong>Exemplo de limite</strong></div>
+
+        <div>qualidade</div>
+        <div>task success rate</div>
+        <div>mede se a tarefa termina de forma aceitável</div>
+        <div>&gt;= 90% para rotinas maduras</div>
+
+        <div>segurança</div>
+        <div>violação de política / ação indevida</div>
+        <div>erro raro, mas gravíssimo</div>
+        <div>0 tolerado em fluxos sensíveis</div>
+
+        <div>latência</div>
+        <div>P50 e P95 por tarefa</div>
+        <div>captura experiência típica e pior caso</div>
+        <div>P95 abaixo do SLA do canal</div>
+
+        <div>ferramentas</div>
+        <div>tool success rate e retries</div>
+        <div>separa falha do modelo de falha do ambiente</div>
+        <div>retries &lt; 10% em rotina estável</div>
+
+        <div>custo</div>
+        <div>tokens e custo por resultado útil</div>
+        <div>mede eficiência real, não só preço por chamada</div>
+        <div>variação &lt; 20% sem ganho claro</div>
+
+        <div>governança</div>
+        <div>handoff / escalada para humano</div>
+        <div>mostra onde a automação ainda não amadureceu</div>
+        <div>baixo em fluxo simples, maior em fluxo crítico</div>
+      </div>
+
+      <div class="callout">
+        <strong>Cuidado:</strong> custo por chamada é uma métrica preguiçosa. O que importa é <strong>custo por tarefa concluída com qualidade aceitável</strong>. Modelo barato que falha e precisa de retrabalho humano pode sair mais caro no total.
+      </div>
+
+      <h2>Critérios de aprovação: quando promover, segurar ou fazer rollback</h2>
+      <p>Benchmark bom termina em decisão operacional, não em apresentação bonita. Para isso, vale definir critérios explícitos de promoção antes do teste começar.</p>
+      <div class="tableish">
+        <div><strong>Classe de cenário</strong></div>
+        <div><strong>Critério mínimo</strong></div>
+        <div><strong>Decisão padrão</strong></div>
+
+        <div>must-pass</div>
+        <div>sem regressão de qualidade ou segurança</div>
+        <div>qualquer falha bloqueia promoção</div>
+
+        <div>rotina crítica</div>
+        <div>qualidade estável, P95 dentro do SLA, custo aceitável</div>
+        <div>promover só com canary e observação curta</div>
+
+        <div>rotina não crítica</div>
+        <div>ganho líquido claro ou economia relevante</div>
+        <div>promover seletivamente se fizer sentido</div>
+
+        <div>exploratórios</div>
+        <div>aprendizado e descoberta de bordas</div>
+        <div>não bloquear deploy sozinhos</div>
+      </div>
+      <p>Uma regra madura é separar três respostas possíveis:</p>
+      <ul>
+        <li><strong>promover:</strong> melhora qualidade ou eficiência sem introduzir risco indevido</li>
+        <li><strong>promover parcialmente:</strong> boa mudança, mas só para um perfil de tarefa, um canal ou um grupo de usuários</li>
+        <li><strong>rejeitar / rollback:</strong> custo, latência, instabilidade ou risco de segurança não compensam o ganho</li>
+      </ul>
+
+      <div class="recipe">
+        <h3>Checklist — critérios práticos de aprovação</h3>
+        <ol class="steps">
+          <li>nenhum caso <em>must-pass</em> falhou</li>
+          <li>não houve piora relevante em P95 ou em taxa de retry</li>
+          <li>custo por tarefa útil ficou estável ou subiu com justificativa clara</li>
+          <li>handoff para humano não aumentou sem motivo operacional</li>
+          <li>a equipe sabe exatamente em que fluxo a mudança entra como default</li>
+        </ol>
+      </div>
+
+      <h2>Conectando evals com observabilidade</h2>
+      <p>É aqui que muita operação melhora de verdade. Evals não devem viver isolados em uma planilha estática. Eles devem conversar com os sinais que você já coleta em produção.</p>
+      <h3>O loop saudável</h3>
+      <ol class="steps">
+        <li><strong>Produção emite sinais operacionais</strong> — latência, retries, tool errors, consumo de tokens, handoffs.</li>
+        <li><strong>Você detecta uma anomalia</strong> — por exemplo, aumento de P95 ou salto no custo por sessão.</li>
+        <li><strong>Transforma a anomalia em cenário de eval</strong> — para impedir que o problema reapareça.</li>
+        <li><strong>Executa benchmark antes e depois da correção</strong> — prompt, modelo ou workflow.</li>
+        <li><strong>Promove a correção</strong> só se qualidade, observabilidade e custo fizerem sentido juntos.</li>
+      </ol>
+      <p>Na prática, o capítulo 19 dá a matéria-prima para o capítulo 29: logs estruturados, traces e métricas viram combustível para criar casos de regressão mais realistas.</p>
+
+      <h3>Exemplos de sinais que viram casos de eval</h3>
+      <ul>
+        <li><strong>P95 subiu muito:</strong> crie um caso com o mesmo tipo de input que hoje dispara sessões longas.</li>
+        <li><strong>Tool call falha com frequência:</strong> avalie se o agente degrada com elegância ou entra em loop.</li>
+        <li><strong>Custo por tarefa aumentou:</strong> compare se houve ganho proporcional de qualidade ou apenas desperdício.</li>
+        <li><strong>Escalada para humano disparou:</strong> transforme isso em benchmark de autonomia segura.</li>
+      </ul>
+
+      <div class="diagram">
+        <h3>ASCII — produção alimentando evals</h3>
+        <pre><code>produção -> métricas/traces -> hipótese de regressão
+         -> novo caso de eval -> correção -> benchmark -> deploy</code></pre>
+      </div>
+
+      <h2>Playbook de evals contínuos</h2>
+      <p>Evals contínuos funcionam melhor como cadência, não como ritual esporádico. Em vez de um grande benchmark trimestral, pense em camadas leves de proteção distribuídas ao longo do ciclo de mudança.</p>
+      <div class="tableish">
+        <div><strong>Momento</strong></div>
+        <div><strong>Objetivo</strong></div>
+        <div><strong>Conjunto ideal</strong></div>
+
+        <div>antes do merge</div>
+        <div>pegar regressão óbvia e barata</div>
+        <div>golden set mínimo com casos must-pass</div>
+
+        <div>antes do deploy</div>
+        <div>comparar baseline antigo vs candidato</div>
+        <div>casos críticos + amostra por tarefa</div>
+
+        <div>canary pós-deploy</div>
+        <div>medir comportamento em tráfego real</div>
+        <div>monitoramento de 24h a 72h</div>
+
+        <div>revisão semanal</div>
+        <div>detectar drift e custos escondidos</div>
+        <div>top tarefas, top anomalias, top regressões</div>
+
+        <div>revisão mensal</div>
+        <div>limpar suite e incorporar aprendizado</div>
+        <div>remoção de casos mortos e adição de incidentes reais</div>
+      </div>
+
+      <div class="recipe">
+        <h3>Receita — pipeline leve e sustentável</h3>
+        <ol class="steps">
+          <li>mantenha um diretório <code>evals/</code> versionado com casos, notas de aceitação e orçamento esperado</li>
+          <li>tenha um baseline salvo para a versão estável atual</li>
+          <li>sempre compare candidato contra baseline, e não contra memória humana</li>
+          <li>depois do deploy, olhe sinais reais de produção antes de declarar vitória</li>
+          <li>todo incidente relevante vira novo caso de regressão permanente</li>
+        </ol>
+      </div>
+
+      <h3>Estrutura simples de workspace para evals</h3>
+      <pre><code>evals/
+├── golden/
+│   ├── triagem-gateway-001.md
+│   ├── delegacao-subagente-002.md
+│   └── memoria-recall-003.md
+├── baselines/
+│   ├── 2026-03-estavel.json
+│   └── 2026-03-candidato-a.json
+├── rubricas/
+│   ├── suporte.md
+│   ├── automacao.md
+│   └── governanca.md
+└── reports/
+    ├── semanal-2026-03-20.md
+    └── pos-deploy-2026-03-21.md</code></pre>
+      <p>Essa estrutura é simples de propósito. O objetivo é reduzir fricção para que o processo aconteça toda semana, não só em apresentações especiais.</p>
+
+      <h2>Benchmark antes de trocar modelo, prompt ou skill</h2>
+      <p>Toda troca relevante deveria responder três perguntas:</p>
+      <ol class="steps">
+        <li><strong>Ficou melhor?</strong> — qualidade, formato, clareza, segurança.</li>
+        <li><strong>Ficou mais estável?</strong> — menos retries, menos handoff, menos variação.</li>
+        <li><strong>Vale o preço?</strong> — mais custo só se houver ganho líquido claro.</li>
+      </ol>
+
+      <section class="recipe">
+        <h3>Receita — benchmark antes de trocar modelo</h3>
+        <ol class="steps">
+          <li>Escolha 10 tarefas reais do seu uso.</li>
+          <li>Rode com o modelo atual e capture notas de qualidade + latência + custo.</li>
+          <li>Rode com o modelo candidato nas mesmas condições.</li>
+          <li>Compare regressão de segurança, clareza, formato, uso de ferramentas e necessidade de humano.</li>
+          <li>Troque só se o ganho líquido fizer sentido para o seu contexto, e não só para um demo bonito.</li>
+        </ol>
+      </section>
+
+      <h3>Matriz simples de decisão</h3>
+      <div class="tableish">
+        <div><strong>Resultado</strong></div>
+        <div><strong>Leitura</strong></div>
+        <div><strong>Ação</strong></div>
+
+        <div>melhor qualidade, mesmo custo</div>
+        <div>ganho limpo</div>
+        <div>promover</div>
+
+        <div>melhor qualidade, custo maior</div>
+        <div>pode valer em fluxos críticos</div>
+        <div>promover seletivamente</div>
+
+        <div>mesma qualidade, custo menor</div>
+        <div>eficiência real</div>
+        <div>promover</div>
+
+        <div>pior qualidade, custo menor</div>
+        <div>economia suspeita</div>
+        <div>rejeitar na maioria dos casos</div>
+
+        <div>melhor qualidade, muito mais lento</div>
+        <div>risco para UX e SLA</div>
+        <div>avaliar por canal/tarefa</div>
+      </div>
+
+      <h2>Vanity metrics: o que parece científico e quase sempre engana</h2>
+      <p>Parte do problema em evals de agentes é que números fáceis de apresentar nem sempre são os mais úteis para decidir. Vanity metric é qualquer sinal que parece objetivo, mas não muda a qualidade da sua decisão.</p>
+      <div class="grid">
+        <div class="card">
+          <h3>“Nossa nota média subiu”</h3>
+          <p>Se a rubrica é vaga ou muda a cada avaliador, a média só mascara ruído. Defina critérios observáveis por tarefa.</p>
+        </div>
+        <div class="card">
+          <h3>“O modelo usa menos tokens”</h3>
+          <p>Ótimo, mas só importa se continua entregando resultado útil. Menos tokens com mais handoff pode ser pior negócio.</p>
+        </div>
+        <div class="card">
+          <h3>“Passamos em 97% dos casos”</h3>
+          <p>Se os 3% que falham são fluxos críticos, a taxa global esconde o risco real. Segmente por severidade e tipo de tarefa.</p>
+        </div>
+        <div class="card">
+          <h3>“A latência média caiu”</h3>
+          <p>Média sozinha costuma esconder cauda ruim. Para operação real, P95 quase sempre importa mais que a média.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Boa pergunta para toda métrica:</strong> se este número melhorar ou piorar, eu tomaria uma decisão diferente? Se a resposta for “não”, provavelmente é vanity metric.
+      </div>
+
+      <h2>Custos: o lado que benchmarks ignoram quando são ruins</h2>
+      <p>Capítulo 33 aprofunda orçamento e planejamento, mas aqui vale a regra operacional: <strong>todo eval deveria carregar contexto econômico mínimo</strong>. Sem isso, você otimiza a métrica errada.</p>
+      <h3>O que colocar no benchmark sobre custo</h3>
+      <ul>
+        <li>tokens de entrada e saída por tarefa</li>
+        <li>número de turnos</li>
+        <li>quantidade de tool calls</li>
+        <li>tempo total até resposta útil</li>
+        <li>necessidade de reexecução ou intervenção humana</li>
+      </ul>
+      <p>Isso permite comparar cenários como:</p>
+      <ul>
+        <li><strong>modelo A</strong> responde melhor, mas usa 2× mais tokens e 30% mais tool calls</li>
+        <li><strong>modelo B</strong> é mais barato, mas aumenta handoff em tarefas medianas</li>
+        <li><strong>prompt C</strong> melhora formato, porém adiciona contexto fixo demais e piora custo em todo fluxo</li>
+      </ul>
+
+      <div class="callout">
+        <strong>Heurística prática:</strong> se o benchmark mostra ganho pequeno de qualidade com salto forte de custo e latência, a mudança provavelmente não pertence ao default global — no máximo a um fluxo premium ou crítico.
+      </div>
+
+      <h2>Um pipeline simples de evals pós-deploy</h2>
+      <p>Você não precisa de uma plataforma gigantesca para trabalhar bem. Um pipeline enxuto já cria disciplina suficiente:</p>
+      <ol class="steps">
+        <li><strong>Antes da mudança:</strong> rode o golden set básico.</li>
+        <li><strong>Logo após deploy:</strong> monitore 24h de sinais operacionais críticos.</li>
+        <li><strong>Se aparecer anomalia:</strong> extraia um caso real anonimizado e transforme em eval permanente.</li>
+        <li><strong>Na revisão semanal:</strong> compare tendência de latência, custo e escalada.</li>
+        <li><strong>Na revisão mensal:</strong> limpe casos irrelevantes e adicione os novos padrões dolorosos.</li>
+      </ol>
+
+      <div class="recipe">
+        <h3>Receita — loop leve usando workspace + cron</h3>
+        <ol class="steps">
+          <li>Mantenha um diretório <code>workspace/evals/</code> com os casos mais importantes.</li>
+          <li>Versione junto o resultado esperado, limites de latência e notas de custo.</li>
+          <li>Agende um cron semanal para reexecutar o conjunto mínimo e produzir um resumo com: casos que pioraram, custo médio por tarefa e top anomalias.</li>
+          <li>Sempre que um incidente real acontecer, promova um recorte dele para o pacote de regressão.</li>
+        </ol>
+      </div>
+
+      <h2>Rubrica leve para decidir promoção ou rollback</h2>
+      <p>Benchmark bom precisa terminar em decisão clara. Uma rubrica simples evita cair no “pareceu melhor” sem consenso entre operador, tech lead e quem paga a conta.</p>
+      <div class="tableish">
+        <div><strong>Sinal</strong></div>
+        <div><strong>Leitura</strong></div>
+        <div><strong>Ação sugerida</strong></div>
+
+        <div>qualidade subiu e custo ficou estável</div>
+        <div>ganho limpo</div>
+        <div>promover como default com monitoramento de 24h</div>
+
+        <div>qualidade subiu pouco, mas custo e latência dispararam</div>
+        <div>ganho provavelmente premium</div>
+        <div>limitar a fluxos críticos ou usuários específicos</div>
+
+        <div>qualidade estável, custo caiu</div>
+        <div>eficiência real</div>
+        <div>promover e atualizar baseline de orçamento</div>
+
+        <div>resultado mais volátil entre execuções</div>
+        <div>critério ainda frágil</div>
+        <div>rejeitar até melhorar prompt, tool policy ou critérios de aceitação</div>
+      </div>
+
+      <section class="recipe">
+        <h3>Checklist — rollout de mudança validada</h3>
+        <ol class="steps">
+          <li>Rode o golden set e registre baseline de qualidade, latência, tool calls e custo.</li>
+          <li>Promova a mudança primeiro em canary: um canal, um time ou uma classe pequena de tarefas.</li>
+          <li>Monitore por 24 a 72 horas os sinais do capítulo 19: P95, retries, handoff e custo por tarefa útil.</li>
+          <li>Se houver anomalia, faça rollback rápido e preserve o caso como regressão permanente.</li>
+          <li>Só depois amplie para o default global.</li>
+        </ol>
+      </section>
+
+      <div class="callout">
+        <strong>Ponto de maturidade:</strong> mudar modelo, prompt ou skill sem plano de rollout é tratar benchmark como peça de teatro. Em produção, benchmark sem rollout controlado ainda é risco.
+      </div>
+
+      <h2>Troubleshooting de evals</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>“O benchmark diz que melhorou, mas produção piorou”</h3>
+          <p>Seu golden set provavelmente está limpo demais. Falta ruído real: contexto imperfeito, ferramentas lentas, ambiguidades e inputs incompletos.</p>
+        </div>
+        <div class="card">
+          <h3>“O custo caiu, mas o time reclama”</h3>
+          <p>Você economizou em uma etapa onde qualidade era parte do produto. Reavalie por tipo de tarefa, não no agregado bruto.</p>
+        </div>
+        <div class="card">
+          <h3>“Os resultados variam muito entre execuções”</h3>
+          <p>Faltam critérios de aceitação melhores. Troque “pareceu bom” por checklist observável, formato esperado e limites de operação.</p>
+        </div>
+        <div class="card">
+          <h3>“Tudo passa, mas incidentes continuam”</h3>
+          <p>Seu conjunto de testes não está aprendendo com produção. Incidente repetido deveria virar caso permanente de regressão.</p>
+        </div>
+      </div>
+
+      <h2>FAQ rápido</h2>
+      <h3>Preciso de dezenas de benchmarks antes de usar OpenClaw em produção?</h3>
+      <p>Não. Precisa de poucos cenários bons e disciplina para expandi-los com base no que a operação revela.</p>
+
+      <h3>Benchmark manual ainda vale?</h3>
+      <p>Vale, especialmente no começo. O problema é confiar só em impressão subjetiva. Mesmo benchmark manual melhora muito quando você registra qualidade, latência, custo e handoff.</p>
+
+      <h3>Quando um benchmark deve bloquear deploy?</h3>
+      <p>Quando houver regressão clara em segurança, formatos críticos, autonomia esperada, SLA de canal ou custo injustificável em fluxo essencial.</p>
+
+      <h3>Vale separar benchmarks por perfil de tarefa?</h3>
+      <p>Sim. Triagem, troubleshooting, escrita operacional, delegação e automação têm critérios bem diferentes. Misturar tudo em uma nota só apaga nuance importante.</p>
+
+      <h2>Checklist de maturidade</h2>
+      <ul>
+        <li>você consegue reexecutar um conjunto pequeno de tarefas reais sempre que muda prompt, modelo ou skill</li>
+        <li>cada caso tem resultado aceitável descrito em linguagem de operador</li>
+        <li>há divisão entre casos must-pass, importantes e exploratórios</li>
+        <li>latência, custo e uso de ferramentas entram no julgamento</li>
+        <li>anomalias de produção viram novos casos de eval</li>
+        <li>trocas de modelo são decididas por ganho líquido, não por hype</li>
+        <li>o benchmark ajuda a dizer “não” a mudanças bonitas, porém caras ou frágeis</li>
+      </ul>
+
+      <div class="exercise"><strong>Exercício 1:</strong> pegue uma automação recorrente sua e defina três sinais de sucesso que um humano conseguiria auditar em menos de 2 minutos.</div>
+      <div class="exercise"><strong>Exercício 2:</strong> escolha um incidente ou quase-incidente real das últimas semanas e transforme-o em um caso de regressão com critérios claros de aceitação.</div>
+      <div class="exercise"><strong>Exercício 3:</strong> compare duas configurações do mesmo fluxo e registre não só qualidade, mas também latência, handoff, tool calls e custo por resultado útil.</div>
+
+      <div class="refs">
+        <h3>Referências oficiais</h3>
+        <ul>
+          <li><a href="https://docs.openclaw.ai/concepts/models" target="_blank" rel="noopener noreferrer">OpenClaw Docs — Models</a></li>
+          <li><a href="https://docs.openclaw.ai/concepts/memory" target="_blank" rel="noopener noreferrer">OpenClaw Docs — Memory</a></li>
+          <li><a href="https://docs.openclaw.ai/concepts/multi-agent" target="_blank" rel="noopener noreferrer">OpenClaw Docs — Multi-agent</a></li>
+          <li><a href="https://docs.openclaw.ai/tools/skills" target="_blank" rel="noopener noreferrer">OpenClaw Docs — Skills</a></li>
+          <li><a href="https://opentelemetry.io/docs/" target="_blank" rel="noopener noreferrer">OpenTelemetry Documentation</a></li>
+        </ul>
+        <p class="muted">Ver também: Capítulo 19 (observabilidade e monitoramento), Capítulo 20 (governança e approval gates), Capítulo 30 (UX de interação com agentes), Capítulo 31 (operação em times) e Capítulo 33 (custos em produção e planejamento).</p>
+      </div>
+
+      <div class="diagram">
+        <h3>Navegação rápida</h3>
+        <div class="grid">
+          <div class="card"><a href="28-arquiteturas-de-producao-para-openclaw.html">← 28. Arquiteturas de produção</a></div>
+          <div class="card"><a href="../reading-paths.html">Trilhas de leitura</a></div>
+          <div class="card"><a href="30-ux-para-conversar-com-agentes.html">30. UX para conversar com agentes →</a></div>
+        </div>
+      </div>
+
+      <nav class="chapter-pager" aria-label="Navegação entre capítulos">
+        <a class="pager-link" href="28-arquiteturas-de-producao-para-openclaw.html">← Capítulo 28: Arquiteturas de produção</a>
+        <a class="pager-link pager-center" href="../reading-paths.html">Trilhas de leitura</a>
+        <a class="pager-link" href="30-ux-para-conversar-com-agentes.html">Capítulo 30: UX para conversar com agentes →</a>
+      </nav>
+
+      <div class="footer">Continue em <a href="30-ux-para-conversar-com-agentes.html">UX para conversar com agentes</a>.</div>
+    </main>
+  </div>
+</body>
+</html>
