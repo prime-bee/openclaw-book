@@ -283,7 +283,11 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - TTS e ASR
 - UX falada
 - imagens e screenshots como contexto
-- latência e privacidade
+- latência ponta a ponta e orçamento de resposta
+- barge-in, interrupções e chunking de fala
+- fallback texto↔voz e canal híbrido
+- privacidade de áudio, retenção e minimização
+- observabilidade por estágio e troubleshooting de ASR/TTS
 - confirmações para ações sensíveis
 
 ### 33. Custos em produção e planejamento
