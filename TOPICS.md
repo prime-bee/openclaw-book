@@ -300,8 +300,11 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 ### 34. Comparando frameworks e stacks agentic
 - comparação por forma de operação
 - OpenClaw vs stacks centradas em código
+- OpenClaw vs stacks centradas em RAG
 - encaixe por perfil de time
-- decisão pragmática de stack
+- governança, ownership e custo de coordenação
+- custo previsível por domínio ao comparar stacks
+- scorecard pragmático de decisão
 - composição em camadas
 
 ---
