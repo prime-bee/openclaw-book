@@ -43,6 +43,10 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - comandos principais
 - serviço persistente
 - porta, bind, auth e troubleshooting inicial
+- padrões de deploy (local, serviço, VPS/home server)
+- playbooks de diagnóstico por sintoma
+- checklists de restart seguro e validação pós-incidente
+- exemplos concretos de operação diária
 
 ### 4. CLI
 - comandos principais do OpenClaw
