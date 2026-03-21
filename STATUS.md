@@ -1,6 +1,6 @@
 # STATUS.md
 
-- Rodada: 2026-03-21 04:18 America/New_York
-- O que foi feito: expansão forte do capítulo 32 com foco em operação de voz em produção, cobrindo orçamento de latência ponta a ponta, barge-in/interrupções, fallback texto↔voz, privacidade de áudio, arquitetura prática, métricas operacionais e troubleshooting de ASR/TTS.
-- Arquivos alterados: `chapters/32-agentes-com-voz-e-multimodalidade.html`, `search.js`, `TOPICS.md`, `STATUS.md`
-- Próximo passo sugerido: expandir o capítulo 33 com exemplos quantitativos de showback/chargeback, budget por squad, guardrails financeiros e trade-offs entre custo, latência e qualidade em portfólios multiagente.
+- Rodada: 2026-03-21 04:35 America/New_York
+- O que foi feito: criação do capítulo 35 com estudos de caso corporativos multiagente, cobrindo topologias por domínio, handoffs, incidentes/SRE, finanças, people ops, métricas e critérios para evitar fragmentação excessiva. Também atualizei navegação, busca, sitemap e inventário editorial para publicar o novo capítulo com consistência.
+- Arquivos alterados: `chapters/35-estudos-de-caso-corporativos-multiagente.html`, `chapters/34-comparando-frameworks-e-stacks-agenticas.html`, `index.html`, `search.js`, `sitemap.xml`, `TOPICS.md`, `STATUS.md`
+- Próximo passo sugerido: revisar capítulos antigos (1–5) para elevar a densidade técnica e alinhar o mesmo nível de profundidade do bloco avançado recém-fechado, começando por exemplos mais concretos de gateway e workspace.

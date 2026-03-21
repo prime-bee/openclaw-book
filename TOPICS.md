@@ -311,6 +311,16 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - scorecard pragmático de decisão
 - composição em camadas
 
+### 35. Estudos de caso corporativos multiagente
+- topologias por domínio em empresas
+- front-door agent e triagem operacional
+- handoffs estruturados entre agentes
+- separação entre investigador, executor e comunicador em incidentes
+- finanças, showback e ownership por domínio
+- people ops, fluxos sensíveis e retenção mínima
+- métricas para validar a topologia multiagente
+- critérios para não fragmentar demais
+
 ---
 
 ## Índice temático transversal
@@ -363,9 +373,10 @@ Capítulos:
 - coordinator-worker patterns
 - OpenClaw ↔ OpenClaw
 - colaboração em times
+- estudos de caso por domínio
 
 Capítulos:
-- 8, 16, 22, 31
+- 8, 16, 22, 31, 35
 
 ### Segurança e risco
 - sandbox
@@ -496,6 +507,7 @@ Antes de criar novo conteúdo:
 
 ## Status atual
 
-- capítulos totais: **34**
+- capítulos totais: **35**
 - livro já cobre fundamentos, operação, segurança, agentes, prompting, governança, observabilidade, skills, plataformas, personalidade, retrieval, design de ferramentas, múltiplos gateways no mesmo host, migração segura, arquiteturas de produção e evals/benchmarking, além de UX de interação com agentes
 - este arquivo deve continuar sendo tratado como **índice editorial vivo**
+- lacuna de estudos de caso corporativos avançados agora tem um capítulo dedicado, abrindo espaço para futuras expansões orientadas a setores específicos
