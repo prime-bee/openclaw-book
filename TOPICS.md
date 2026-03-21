@@ -292,6 +292,10 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - otimização de contexto
 - revisão mensal de custo
 - tradeoffs entre economia e qualidade
+- showback e chargeback por squad
+- portfólio de agentes por domínio
+- ownership financeiro e budget por fluxo
+- SLOs de custo e review quinzenal
 
 ### 34. Comparando frameworks e stacks agentic
 - comparação por forma de operação
@@ -464,8 +468,8 @@ Esses temas já têm cobertura robusta e, em geral, devem ser expandidos antes d
 
 Temas que ainda podem render capítulos novos ou expansões fortes:
 
-- operação corporativa avançada com múltiplos agentes por domínio
-- padrões de chargeback/showback, ownership financeiro e governança de custo por squad
+- aprofundar estudos de caso de operação corporativa avançada com múltiplos agentes por domínio
+- ampliar exemplos quantitativos de chargeback/showback, ownership financeiro e governança de custo por squad
 
 ---
 

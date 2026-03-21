@@ -36,7 +36,7 @@ const SEARCH_INDEX = [
   { title: '30. UX para conversar com agentes', path: 'chapters/30-ux-para-conversar-com-agentes.html', text: 'ux conversa agentes updates aprovações confiança expectativa confirmações mensagens status progressos handoff humano interface conversacional' },
   { title: '31. OpenClaw para times', path: 'chapters/31-openclaw-para-times-e-colaboracao.html', text: 'times colaboração squads canais políticas handoff escalonamento privacidade onboarding RACI operating model runbook incidentes documentação compartilhada' },
   { title: '32. Voz e multimodalidade', path: 'chapters/32-agentes-com-voz-e-multimodalidade.html', text: 'voz multimodalidade tts stt áudio imagem câmera interface multimodal latência interrupção acessibilidade segurança' },
-  { title: '33. Custos em produção', path: 'chapters/33-custos-em-producao-e-planejamento.html', text: 'custos produção orçamento budget tiering modelos planejamento finops custo por tarefa limites alertas kill switch contexto retries guardrails capacidade' },
+  { title: '33. Custos em produção', path: 'chapters/33-custos-em-producao-e-planejamento.html', text: 'custos produção orçamento budget tiering modelos planejamento finops custo por tarefa limites alertas kill switch contexto retries guardrails capacidade squads showback chargeback portfolio dominios ownership financeiro agentes por dominio' },
   { title: '34. Frameworks e stacks', path: 'chapters/34-comparando-frameworks-e-stacks-agenticas.html', text: 'frameworks stacks agenticas comparação openclaw langgraph autogen crewai tradeoffs arquitetura governança ferramentas produção escolha de stack' }
 ];
 
