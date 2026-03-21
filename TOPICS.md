@@ -201,6 +201,11 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - audit logging
 - NIST AI RMF
 - EU AI Act
+- scorecard operacional de governança
+- matriz prática de approval gates por tier de risco
+- playbook de auditoria semanal
+- reason codes para aprovações/rejeições
+- integração entre observabilidade, auditoria e evals
 
 ### 21. Skills e composição de capacidades
 - skills
