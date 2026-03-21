@@ -37,7 +37,8 @@ const SEARCH_INDEX = [
   { title: '31. OpenClaw para times', path: 'chapters/31-openclaw-para-times-e-colaboracao.html', text: 'times colaboração squads canais políticas handoff escalonamento privacidade onboarding RACI operating model runbook incidentes documentação compartilhada' },
   { title: '32. Voz e multimodalidade', path: 'chapters/32-agentes-com-voz-e-multimodalidade.html', text: 'voz multimodalidade tts stt asr áudio imagem câmera interface multimodal latência barge-in interrupção fallback texto voz privacidade áudio observabilidade streaming player vad produção' },
   { title: '33. Custos em produção', path: 'chapters/33-custos-em-producao-e-planejamento.html', text: 'custos produção orçamento budget tiering modelos planejamento finops custo por tarefa limites alertas kill switch contexto retries guardrails capacidade squads showback chargeback portfolio dominios ownership financeiro agentes por dominio' },
-  { title: '34. Frameworks e stacks', path: 'chapters/34-comparando-frameworks-e-stacks-agenticas.html', text: 'frameworks stacks agenticas comparação openclaw langgraph autogen crewai rag retrieval governança ownership custo previsivel times operação composição em camadas escolha de stack' }
+  { title: '34. Frameworks e stacks', path: 'chapters/34-comparando-frameworks-e-stacks-agenticas.html', text: 'frameworks stacks agenticas comparação openclaw langgraph autogen crewai rag retrieval governança ownership custo previsivel times operação composição em camadas escolha de stack' },
+  { title: '35. Estudos de caso corporativos', path: 'chapters/35-estudos-de-caso-corporativos-multiagente.html', text: 'estudos de caso corporativos multiagente dominios suporte sre incidentes people ops finanças handoff ownership filas follow-up governance custo por dominio topologia corporativa agentes especializados' }
 ];
 
 function normalizeText(text) {
