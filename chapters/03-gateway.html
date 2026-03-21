@@ -1,11 +1,328 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Capítulo 3 — Gateway — openclaw-book</title><meta name="description" content="Aprenda o papel do gateway, como operá-lo no dia a dia e quais comandos ajudam a diagnosticar problemas rapidamente."><meta name="theme-color" content="#0f1115"><meta name="author" content="Prime"><meta name="application-name" content="OpenClaw Book"><meta name="apple-mobile-web-app-title" content="OpenClaw Book"><meta name="robots" content="index,follow"><link rel="canonical" href="https://prime-bee.github.io/openclaw-book/chapters/03-gateway.html"><meta property="og:locale" content="pt_BR"><meta property="og:title" content="Capítulo 3 — Gateway — openclaw-book"><meta property="og:description" content="Aprenda o papel do gateway, como operá-lo no dia a dia e quais comandos ajudam a diagnosticar problemas rapidamente."><meta property="og:type" content="website"><meta property="og:url" content="https://prime-bee.github.io/openclaw-book/chapters/03-gateway.html"><meta property="og:site_name" content="openclaw-book"><meta property="og:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Capítulo 3 — Gateway — openclaw-book"><meta name="twitter:description" content="Aprenda o papel do gateway, como operá-lo no dia a dia e quais comandos ajudam a diagnosticar problemas rapidamente."><meta name="twitter:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png"><link rel="manifest" href="../site.webmanifest"><link rel="stylesheet" href="../styles.css"><script defer src="../app.js"></script><script defer src="../search.js"></script><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Capítulo 3 — Gateway — openclaw-book","name":"Capítulo 3 — Gateway — openclaw-book","description":"Aprenda o papel do gateway, como operá-lo no dia a dia e quais comandos ajudam a diagnosticar problemas rapidamente.","inLanguage":"pt-BR","url":"https://prime-bee.github.io/openclaw-book/chapters/03-gateway.html","author":{"@type":"Person","name":"Prime"},"publisher":{"@type":"Organization","name":"Prime Bee","url":"https://github.com/prime-bee/openclaw-book"},"isPartOf":{"@type":"Book","name":"OpenClaw Book","url":"https://prime-bee.github.io/openclaw-book/"}}</script></head><body><a class="skip-link" href="#conteudo">Pular para o conteúdo</a><div class="layout"><aside class="sidebar"><div class="brand"><img src="../assets/openclaw-logo-text.png" alt="OpenClaw logo"><h1>Capítulo 3</h1><p>Gateway</p></div><nav class="nav"><a href="../index.html">← Início</a><a href="01-visao-geral.html">1. Visão geral</a><a href="02-arquitetura.html">2. Arquitetura</a><a class="active" href="03-gateway.html">3. Gateway</a><a href="04-cli.html">4. CLI</a><a href="05-memoria-e-workspace.html">5. Memória e workspace</a><a href="06-canais-e-rotina.html">6. Canais e operação</a><a href="07-modelos-e-provedores.html">7. Modelos e provedores</a><a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento</a><a href="09-automacoes-cron-e-heartbeat.html">9. Automação</a><a href="10-sandbox-e-seguranca-pratica.html">10. Sandbox e segurança</a><a href="11-browser-e-controle-remoto.html">11. Browser e controle remoto</a><a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo</a><a href="13-troubleshooting-e-diagnostico.html">13. Troubleshooting</a><a href="14-referencias-oficiais.html">14. Referências oficiais</a><a href="15-roadmap-e-proximos-passos.html">15. Roadmap</a><a href="16-agentes-ia-fluxos-e-delegacao.html">16. Agentes IA e fluxos</a><a href="17-missoes-e-desafios.html">17. Missões e desafios</a><a href="18-engenharia-de-prompts.html">18. Engenharia de prompts</a><a href="19-observabilidade-e-monitoramento.html">19. Observabilidade</a><a href="20-hitl-e-governanca.html">20. HITL e Governança</a><a href="21-skills-e-composicao-de-capacidades.html">21. Skills e capacidades</a><a href="22-llms-plataformas-orquestracao-e-openclaw-para-openclaw.html">22. LLMs e orquestração</a><a href="23-personalidade-de-agentes-como-projetar-e-o-que-melhora.html">23. Personalidade de agentes</a><a href="24-rag-e-retrieval-para-agentes.html">24. RAG e retrieval</a><a href="25-design-de-ferramentas-para-agentes.html">25. Design de ferramentas</a><a href="26-multiplos-openclaw-na-mesma-maquina.html">26. Múltiplos OpenClaw no host</a><a href="27-migrando-de-um-para-multiplos-gateways-com-seguranca.html">27. Migrando com segurança</a><a href="28-arquiteturas-de-producao-para-openclaw.html">28. Arquiteturas de produção</a><a href="29-evals-e-benchmarking-de-agentes.html">29. Evals e benchmarking</a><a href="30-ux-para-conversar-com-agentes.html">30. UX para conversar com agentes</a><a href="31-openclaw-para-times-e-colaboracao.html">31. OpenClaw para times</a><a href="32-agentes-com-voz-e-multimodalidade.html">32. Voz e multimodalidade</a><a href="33-custos-em-producao-e-planejamento.html">33. Custos em produção</a><a href="34-comparando-frameworks-e-stacks-agenticas.html">34. Frameworks e stacks</a><div class="nav-section-label">Explorar</div><a href="../reading-paths.html">Trilhas de leitura</a><a href="../glossario.html">Glossário</a><a href="../about.html">Sobre</a></nav></aside><main id="conteudo" class="content chapter"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../index.html">Início</a><span aria-hidden="true">/</span><a href="../index.html#sumario-livro">Capítulos</a><span aria-hidden="true">/</span><a href="03-gateway.html" aria-current="page">Capítulo 3: Gateway</a></nav><div class="chapter-intro"><p class="lede">Aprenda o papel do gateway, como operá-lo no dia a dia e quais comandos ajudam a diagnosticar problemas rapidamente.</p><div class="kpi-row"><span class="kpi">Capítulo 3 de 34</span><span class="kpi">Leitura guiada</span><span class="kpi">Referências oficiais ao final</span></div></div><h1>Gateway: o coração do OpenClaw</h1><p>Segundo a runbook oficial, o Gateway é o processo sempre ligado que faz roteamento, RPC, HTTP, UI e conexões de canais.</p><h2>Comandos essenciais</h2><pre><code>openclaw gateway --port 18789
-openclaw gateway status
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Capítulo 3 — Gateway — openclaw-book</title>
+  <meta name="description" content="Aprenda o papel do gateway, como operá-lo no dia a dia, quais padrões de deploy funcionam melhor e como diagnosticar incidentes com um playbook concreto.">
+  <meta name="theme-color" content="#0f1115">
+  <meta name="author" content="Prime">
+  <meta name="application-name" content="OpenClaw Book">
+  <meta name="apple-mobile-web-app-title" content="OpenClaw Book">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://prime-bee.github.io/openclaw-book/chapters/03-gateway.html">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="Capítulo 3 — Gateway — openclaw-book">
+  <meta property="og:description" content="Aprenda o papel do gateway, como operá-lo no dia a dia, quais padrões de deploy funcionam melhor e como diagnosticar incidentes com um playbook concreto.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://prime-bee.github.io/openclaw-book/chapters/03-gateway.html">
+  <meta property="og:site_name" content="openclaw-book">
+  <meta property="og:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Capítulo 3 — Gateway — openclaw-book">
+  <meta name="twitter:description" content="Aprenda o papel do gateway, como operá-lo no dia a dia, quais padrões de deploy funcionam melhor e como diagnosticar incidentes com um playbook concreto.">
+  <meta name="twitter:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <link rel="stylesheet" href="../styles.css">
+  <script defer src="../app.js"></script>
+  <script defer src="../search.js"></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Capítulo 3 — Gateway — openclaw-book","name":"Capítulo 3 — Gateway — openclaw-book","description":"Aprenda o papel do gateway, como operá-lo no dia a dia, quais padrões de deploy funcionam melhor e como diagnosticar incidentes com um playbook concreto.","inLanguage":"pt-BR","url":"https://prime-bee.github.io/openclaw-book/chapters/03-gateway.html","author":{"@type":"Person","name":"Prime"},"publisher":{"@type":"Organization","name":"Prime Bee","url":"https://github.com/prime-bee/openclaw-book"},"isPartOf":{"@type":"Book","name":"OpenClaw Book","url":"https://prime-bee.github.io/openclaw-book/"}}</script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <img src="../assets/openclaw-logo-text.png" alt="OpenClaw logo">
+        <h1>Capítulo 3</h1>
+        <p>Gateway</p>
+      </div>
+      <nav class="nav">
+        <a href="../index.html">← Início</a>
+        <a href="01-visao-geral.html">1. Visão geral</a>
+        <a href="02-arquitetura.html">2. Arquitetura</a>
+        <a class="active" href="03-gateway.html">3. Gateway</a>
+        <a href="04-cli.html">4. CLI</a>
+        <a href="05-memoria-e-workspace.html">5. Memória e workspace</a>
+        <a href="06-canais-e-rotina.html">6. Canais e operação</a>
+        <a href="07-modelos-e-provedores.html">7. Modelos e provedores</a>
+        <a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento</a>
+        <a href="09-automacoes-cron-e-heartbeat.html">9. Automação</a>
+        <a href="10-sandbox-e-seguranca-pratica.html">10. Sandbox e segurança</a>
+        <a href="11-browser-e-controle-remoto.html">11. Browser e controle remoto</a>
+        <a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo</a>
+        <a href="13-troubleshooting-e-diagnostico.html">13. Troubleshooting</a>
+        <a href="14-referencias-oficiais.html">14. Referências oficiais</a>
+        <a href="15-roadmap-e-proximos-passos.html">15. Roadmap</a>
+        <a href="16-agentes-ia-fluxos-e-delegacao.html">16. Agentes IA e fluxos</a>
+        <a href="17-missoes-e-desafios.html">17. Missões e desafios</a>
+        <a href="18-engenharia-de-prompts.html">18. Engenharia de prompts</a>
+        <a href="19-observabilidade-e-monitoramento.html">19. Observabilidade</a>
+        <a href="20-hitl-e-governanca.html">20. HITL e Governança</a>
+        <a href="21-skills-e-composicao-de-capacidades.html">21. Skills e capacidades</a>
+        <a href="22-llms-plataformas-orquestracao-e-openclaw-para-openclaw.html">22. LLMs e orquestração</a>
+        <a href="23-personalidade-de-agentes-como-projetar-e-o-que-melhora.html">23. Personalidade de agentes</a>
+        <a href="24-rag-e-retrieval-para-agentes.html">24. RAG e retrieval</a>
+        <a href="25-design-de-ferramentas-para-agentes.html">25. Design de ferramentas</a>
+        <a href="26-multiplos-openclaw-na-mesma-maquina.html">26. Múltiplos OpenClaw no host</a>
+        <a href="27-migrando-de-um-para-multiplos-gateways-com-seguranca.html">27. Migrando com segurança</a>
+        <a href="28-arquiteturas-de-producao-para-openclaw.html">28. Arquiteturas de produção</a>
+        <a href="29-evals-e-benchmarking-de-agentes.html">29. Evals e benchmarking</a>
+        <a href="30-ux-para-conversar-com-agentes.html">30. UX para conversar com agentes</a>
+        <a href="31-openclaw-para-times-e-colaboracao.html">31. OpenClaw para times</a>
+        <a href="32-agentes-com-voz-e-multimodalidade.html">32. Voz e multimodalidade</a>
+        <a href="33-custos-em-producao-e-planejamento.html">33. Custos em produção</a>
+        <a href="34-comparando-frameworks-e-stacks-agenticas.html">34. Frameworks e stacks</a>
+        <a href="35-estudos-de-caso-corporativos-multiagente.html">35. Estudos de caso corporativos</a>
+        <div class="nav-section-label">Explorar</div>
+        <a href="../reading-paths.html">Trilhas de leitura</a>
+        <a href="../glossario.html">Glossário</a>
+        <a href="../about.html">Sobre</a>
+      </nav>
+    </aside>
+
+    <main id="conteudo" class="content chapter">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="../index.html">Início</a>
+        <span aria-hidden="true">/</span>
+        <a href="../index.html#sumario-livro">Capítulos</a>
+        <span aria-hidden="true">/</span>
+        <a href="03-gateway.html" aria-current="page">Capítulo 3: Gateway</a>
+      </nav>
+
+      <div class="chapter-intro">
+        <p class="lede">O gateway é o processo que mantém o OpenClaw vivo: sobe a API, centraliza sessões, expõe a UI, fala com canais e vira o ponto de observabilidade da operação.</p>
+        <div class="kpi-row">
+          <span class="kpi">Capítulo 3 de 35</span>
+          <span class="kpi">Operação prática</span>
+          <span class="kpi">Playbooks e troubleshooting</span>
+        </div>
+      </div>
+
+      <h1>Gateway: o coração operacional do OpenClaw</h1>
+      <p>Se você precisar resumir o OpenClaw em uma única peça de infraestrutura, essa peça é o gateway. É ele que coordena o tráfego entre clientes, sessões, ferramentas, canais e nós remotos. Quando o gateway está saudável, o sistema parece “mágico”. Quando ele degrada, quase tudo fica com sintomas confusos: mensagens não chegam, sessões travam, a UI some, automações param e o diagnóstico vira ruído.</p>
+      <p>Por isso, operar OpenClaw bem não começa por prompts; começa por <strong>entender o ciclo de vida do gateway</strong>, o que ele concentra e como isolar falhas de forma metódica.</p>
+
+      <div class="callout"><strong>Atalho mental:</strong> trate o gateway como a combinação de <em>plano de controle</em>, <em>superfície HTTP</em> e <em>ponto de observabilidade</em>. Ele não é só “o servidor”; é o hub que faz o resto conversar.</div>
+
+      <h2>O que o gateway concentra na prática</h2>
+      <ul>
+        <li>API HTTP e endpoints de controle</li>
+        <li>estado das sessões e do roteamento</li>
+        <li>UI operacional</li>
+        <li>conexões com canais e integrações</li>
+        <li>logs e sinais de saúde úteis para diagnóstico</li>
+        <li>coordenação com nodes e componentes remotos</li>
+      </ul>
+
+      <div class="diagram">
+        <h3>Fluxo mental simplificado</h3>
+        <pre><code>usuário/cliente
+    ↓
+ canal / app / UI
+    ↓
+  gateway  ←→  sessões
+    ↓            ↓
+ ferramentas   memória/workspace
+    ↓
+  resposta / evento / automação</code></pre>
+      </div>
+
+      <h2>Comandos essenciais do dia a dia</h2>
+      <pre><code>openclaw gateway status
 openclaw gateway status --deep
-openclaw status
-openclaw logs --follow</code></pre><div class="callout"><strong>Atalho mental:</strong> pense no gateway como o ponto onde "transporte, controle e observabilidade" se encontram. Se ele falha, quase todo o resto parece quebrado.</div><h2>O que ele concentra</h2><ul><li>WebSocket de controle</li><li>APIs HTTP</li><li>UI de controle</li><li>canais conectados</li><li>estado de sessões</li><li>saúde operacional</li></ul><h2>Porta e bind</h2><p>A doc destaca uma precedência clara para porta e bind. Em geral, a porta padrão é <code>18789</code> e o bind padrão é <code>loopback</code>, o que reduz exposição acidental.</p><div class="callout"><strong>Regra prática:</strong> expor o gateway para fora exige mais cuidado com autenticação. A doc enfatiza token/senha, Tailscale ou túnel SSH.</div><h2>Operação do serviço</h2><p>Você pode rodar em foreground durante testes ou instalar como serviço para ficar sempre disponível.</p><pre><code>openclaw gateway install
 openclaw gateway start
 openclaw gateway restart
-openclaw gateway stop</code></pre><h3>Checklist de operação saudável</h3><ol class="steps"><li>Confirme que o processo subiu e responde em <code>openclaw gateway status</code>.</li><li>Verifique se o bind e a porta estão coerentes com o nível de exposição desejado.</li><li>Cheque logs logo após restart para capturar erros precoces de auth, config ou porta.</li><li>Se houver canais/nós, valide-os antes de declarar o ambiente "ok".</li></ol><h3>Quando usar foreground vs serviço</h3><div class="tableish"><div><strong>Cenário</strong></div><div><strong>Escolha recomendada</strong></div><div>Teste rápido, ajuste de config, leitura de logs em tempo real</div><div>Foreground, para observar comportamento imediatamente</div><div>Uso contínuo, reinício automático, operação diária</div><div>Serviço instalado, com monitoramento e rotina de restart consciente</div><div>Diagnóstico após incidente</div><div>Comece pelo status/logs; só reinicie depois de formular hipótese</div></div><h2>Verificações úteis</h2><ul><li><code>openclaw gateway status --deep</code></li><li><code>openclaw channels status --probe</code></li><li><code>openclaw health</code></li></ul><h2>Falhas comuns</h2><ul><li><strong>EADDRINUSE:</strong> porta em uso</li><li><strong>unauthorized:</strong> token/senha incorretos</li><li><strong>bind inseguro:</strong> tentativa de bind fora de loopback sem auth adequada</li></ul><h3>Sequência curta de diagnóstico</h3><pre><code>openclaw gateway status --deep
+openclaw gateway stop
+openclaw status
+openclaw logs --follow
+openclaw health
+openclaw channels status --probe</code></pre>
+
+      <p>Esses comandos cobrem 80% da rotina operacional. O erro comum é reiniciar cedo demais. Primeiro <strong>observe</strong>, depois formule uma hipótese, só então reinicie se isso fizer sentido.</p>
+
+      <h2>Foreground, serviço e padrões de deploy</h2>
+      <p>O gateway pode rodar em primeiro plano durante testes ou como serviço persistente em uso contínuo. A escolha muda a experiência de operação e o tipo de erro que você vai enxergar primeiro.</p>
+
+      <div class="tableish">
+        <div><strong>Cenário</strong></div><div><strong>Modo recomendado</strong></div><div><strong>Por quê</strong></div>
+        <div>Teste local e ajustes rápidos</div><div>Foreground</div><div>Você vê logs imediatamente e itera sem esconder sintomas.</div>
+        <div>Uso diário estável</div><div>Serviço instalado</div><div>Dá restart previsível, integra melhor com boot e rotina da máquina.</div>
+        <div>Investigação de incidente</div><div>Status + logs antes de restart</div><div>Evita apagar evidências úteis e reduz “debug por superstição”.</div>
+        <div>VPS ou host remoto</div><div>Serviço + rede privada/Tailscale</div><div>Minimiza exposição direta e facilita operação segura.</div>
+      </div>
+
+      <h3>Bootstrap mínimo de operação</h3>
+      <pre><code># instalar e subir como serviço
+openclaw gateway install
+openclaw gateway start
+
+# verificar estado
+openclaw gateway status --deep
+openclaw status
+
+# acompanhar comportamento
+openclaw logs --follow</code></pre>
+
+      <h2>Porta, bind e superfície de exposição</h2>
+      <p>Na configuração padrão, o gateway tende a usar a porta <code>18789</code> e bind em loopback. Isso é ótimo para desenvolvimento local porque reduz exposição acidental. O problema começa quando alguém decide “abrir para a rede” sem tratar autenticação, segmentação e o caminho de acesso.</p>
+
+      <div class="callout warning"><strong>Regra prática:</strong> se o gateway precisa ser acessado remotamente, prefira uma rede privada como Tailscale, um túnel controlado ou outro mecanismo com autenticação forte. “Só expor a porta” costuma ser o começo de uma história ruim.</div>
+
+      <h3>Decisão rápida de exposição</h3>
+      <ol class="steps">
+        <li><strong>Uso só local?</strong> mantenha loopback.</li>
+        <li><strong>Uso remoto pessoal?</strong> prefira tailnet/VPN.</li>
+        <li><strong>Uso por time?</strong> adicione auth, observabilidade e política explícita de acesso.</li>
+        <li><strong>Ambiente crítico?</strong> trate o gateway como serviço de produção: credenciais, backup de config, logs e runbook.</li>
+      </ol>
+
+      <h2>Três cenários concretos de operação</h2>
+
+      <section class="recipe">
+        <h3>Cenário 1 — Primeira subida em máquina local</h3>
+        <ol class="steps">
+          <li>suba o gateway e confirme o processo com <code>openclaw gateway status</code></li>
+          <li>rode <code>openclaw gateway status --deep</code> para ver informações mais detalhadas</li>
+          <li>abra a UI ou faça um teste mínimo de uso real</li>
+          <li>acompanhe logs por alguns minutos para capturar erro de config, porta ou auth</li>
+        </ol>
+        <p><strong>Sinal de sucesso:</strong> status consistente, sem erros recorrentes nos logs e pelo menos um fluxo real funcionando do começo ao fim.</p>
+      </section>
+
+      <section class="recipe">
+        <h3>Cenário 2 — Gateway parece vivo, mas mensagens do canal não chegam</h3>
+        <ol class="steps">
+          <li>confirme se o gateway responde normalmente</li>
+          <li>use <code>openclaw channels status --probe</code> para separar falha de canal da falha do núcleo</li>
+          <li>leia logs imediatamente após um evento de teste</li>
+          <li>se o canal estiver saudável, investigue roteamento, sessão e políticas</li>
+        </ol>
+        <p><strong>Heurística útil:</strong> se o status do gateway está bom, mas o canal falha, o problema provavelmente não está no processo principal e sim na borda: credenciais, webhook, conexão do canal ou fluxo específico.</p>
+      </section>
+
+      <section class="recipe">
+        <h3>Cenário 3 — Operação remota em VPS ou home server</h3>
+        <ol class="steps">
+          <li>rode como serviço persistente</li>
+          <li>mantenha bind e acesso remoto coerentes com o nível de risco aceitável</li>
+          <li>teste restart controlado e confirme recuperação sem intervenção manual</li>
+          <li>documente um checklist simples de “máquina saudável” para não depender de memória humana</li>
+        </ol>
+        <p><strong>Boa prática:</strong> valide periodicamente se o gateway sobe após reboot da máquina. Um serviço que só funciona quando você lembra a sequência exata de comandos ainda não está operacionalmente maduro.</p>
+      </section>
+
+      <h2>Checklist de operação saudável</h2>
+      <ol class="steps">
+        <li>o processo responde em <code>openclaw gateway status</code></li>
+        <li>porta e bind estão coerentes com a exposição desejada</li>
+        <li>logs iniciais não mostram erro repetitivo de auth, config ou porta</li>
+        <li>um teste real de tráfego funciona: UI, canal, sessão ou automação</li>
+        <li>se houver canais ou nodes, o probe deles também passa</li>
+      </ol>
+
+      <h2>Playbook de diagnóstico: do sintoma até a hipótese</h2>
+      <p>Em vez de pular direto para restart, siga uma escada curta e repetível:</p>
+      <pre><code>openclaw gateway status --deep
 openclaw logs --follow
 openclaw channels status --probe
-openclaw health</code></pre><p>Se o gateway sobe mas o comportamento está estranho, tente isolar a camada do problema: primeiro runtime/bind/auth, depois canais e por fim políticas de roteamento.</p><div class="exercise"><strong>Exercício operacional:</strong> escreva qual seria sua ordem de checagem se o gateway respondeu ao status, mas o canal parou de entregar mensagens.</div><h2>Exercício</h2><div class="exercise"><strong>Desafio:</strong> descreva um checklist de 4 itens para saber se o seu gateway está saudável.</div><section class="troubleshoot"><h3>Playbook de restart seguro</h3><ol class="steps"><li>capture o estado atual com <code>openclaw gateway status</code> e <code>openclaw status</code></li><li>confirme se a mudança é local ao gateway ou se envolve canal, auth e rede</li><li>reinicie de forma explícita e acompanhe logs logo em seguida</li><li>depois do restart, valide RPC probe, portas e um caso real de tráfego</li></ol></section><div class="refs"><h3>Referências oficiais</h3><ul><li><a href="https://docs.openclaw.ai/gateway" target="_blank" rel="noopener noreferrer">Gateway runbook</a></li><li><a href="https://docs.openclaw.ai/gateway/configuration" target="_blank" rel="noopener noreferrer">Configuration</a></li></ul></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="02-arquitetura.html">← 2. Arquitetura</a></div><div class="card"><a href="../reading-paths.html">Trilhas de leitura</a></div><div class="card"><a href="04-cli.html">4. CLI →</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="02-arquitetura.html">← Capítulo 2: Arquitetura</a><a class="pager-link pager-center" href="../reading-paths.html">Trilhas de leitura</a><a class="pager-link" href="04-cli.html">Capítulo 4: CLI →</a></nav><div class="footer">Continue em <a href="04-cli.html">CLI</a>.</div></main></div></body></html>
+openclaw health
+openclaw status</code></pre>
+
+      <div class="tableish">
+        <div><strong>Sintoma</strong></div><div><strong>Hipótese provável</strong></div><div><strong>Primeira checagem</strong></div>
+        <div>gateway não sobe</div><div>porta em uso, config inválida, serviço quebrado</div><div><code>openclaw gateway status</code> + logs</div>
+        <div>gateway sobe, mas nada responde</div><div>camada HTTP/UI ou estado interno degradado</div><div><code>openclaw gateway status --deep</code></div>
+        <div>UI funciona, canal não entrega</div><div>integração de canal ou auth do canal</div><div><code>openclaw channels status --probe</code></div>
+        <div>tudo parece normal, mas respostas travam</div><div>sessão, tool failure, modelo ou dependência externa</div><div><code>openclaw status</code> + logs do fluxo</div>
+        <div>falha intermitente após restart</div><div>corrida de inicialização, rede, credencial volátil</div><div>logs logo após subir</div>
+      </div>
+
+      <h2>Erros comuns e o que significam</h2>
+      <ul>
+        <li><strong>EADDRINUSE:</strong> a porta já está ocupada por outro processo. Antes de trocar a porta, confirme se você não tem outra instância do próprio gateway rodando.</li>
+        <li><strong>unauthorized:</strong> geralmente aponta para credencial incorreta, token inválido ou discrepância entre cliente e gateway.</li>
+        <li><strong>bind inseguro ou acesso remoto mal configurado:</strong> o sistema pode até subir, mas com risco alto ou comportamento inconsistente.</li>
+        <li><strong>status ok, tráfego ruim:</strong> indica que o processo principal vive, mas a borda do sistema está falhando — canal, node, modelo, ferramenta ou policy.</li>
+      </ul>
+
+      <section class="troubleshoot">
+        <h3>Restart seguro sem apagar evidências</h3>
+        <ol class="steps">
+          <li>capture o estado com <code>openclaw gateway status</code> e <code>openclaw status</code></li>
+          <li>registre mentalmente — ou no runbook — qual foi o sintoma observado</li>
+          <li>acompanhe logs imediatamente antes e depois do restart</li>
+          <li>rode um teste real após subir, não só o status</li>
+        </ol>
+      </section>
+
+      <h2>Exemplo de runbook enxuto para o próprio workspace</h2>
+      <p>Uma equipe pequena pode manter um runbook simples no workspace para reduzir improviso durante incidentes:</p>
+      <pre><code># gateway-runbook.md
+## Saúde mínima
+- gateway status responde
+- logs sem erro repetitivo
+- canal principal entrega uma mensagem de teste
+
+## Se parar de responder
+1. checar gateway status --deep
+2. seguir logs
+3. testar channels status --probe
+4. só então decidir restart
+
+## Depois do restart
+- validar UI
+- validar canal principal
+- validar uma sessão real</code></pre>
+
+      <div class="callout"><strong>Boa engenharia operacional:</strong> o objetivo não é “reiniciar rápido”. É <em>restaurar serviço com compreensão suficiente para não repetir o mesmo incidente amanhã</em>.</div>
+
+      <h2>FAQ rápido</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Preciso reiniciar sempre que algo parecer estranho?</h3>
+          <p>Não. Muitas falhas estão fora do processo principal: canal, credencial, rede, ferramenta externa ou sessão específica.</p>
+        </div>
+        <div class="card">
+          <h3>Quando rodar em foreground?</h3>
+          <p>Durante setup, tuning de config e investigação de comportamento logo após mudanças.</p>
+        </div>
+        <div class="card">
+          <h3>Qual é o erro operacional mais comum?</h3>
+          <p>Confundir “gateway ativo” com “sistema saudável”. Status é necessário, mas não suficiente.</p>
+        </div>
+      </div>
+
+      <h2>Exercícios</h2>
+      <div class="exercise"><strong>Exercício 1:</strong> escreva sua ordem de checagem para o caso “gateway responde ao status, mas o canal principal parou de entregar mensagens”.</div>
+      <div class="exercise"><strong>Exercício 2:</strong> crie um checklist de quatro itens que você rodaria depois de qualquer restart em produção caseira.</div>
+
+      <div class="refs">
+        <h3>Referências oficiais</h3>
+        <ul>
+          <li><a href="https://docs.openclaw.ai/gateway" target="_blank" rel="noopener noreferrer">Gateway runbook</a></li>
+          <li><a href="https://docs.openclaw.ai/gateway/configuration" target="_blank" rel="noopener noreferrer">Gateway configuration</a></li>
+          <li><a href="https://docs.openclaw.ai/cli" target="_blank" rel="noopener noreferrer">CLI reference</a></li>
+        </ul>
+      </div>
+
+      <div class="diagram">
+        <h3>Navegação rápida</h3>
+        <div class="grid">
+          <div class="card"><a href="02-arquitetura.html">← 2. Arquitetura</a></div>
+          <div class="card"><a href="../reading-paths.html">Trilhas de leitura</a></div>
+          <div class="card"><a href="04-cli.html">4. CLI →</a></div>
+        </div>
+      </div>
+
+      <nav class="chapter-pager" aria-label="Navegação entre capítulos">
+        <a class="pager-link" href="02-arquitetura.html">← Capítulo 2: Arquitetura</a>
+        <a class="pager-link pager-center" href="../reading-paths.html">Trilhas de leitura</a>
+        <a class="pager-link" href="04-cli.html">Capítulo 4: CLI →</a>
+      </nav>
+
+      <div class="footer">Continue em <a href="04-cli.html">CLI</a>.</div>
+    </main>
+  </div>
+</body>
+</html>
