@@ -215,6 +215,11 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - distribuição de skills
 - composição de capacidades
 - skills como playbooks operacionais
+- lifecycle de skills (rascunho, beta operacional, stable, deprecated)
+- versionamento prático e promoção de mudanças por risco
+- revisão de permissões e blast radius composto
+- critérios de distribuição segura entre workspace, local e pública
+- heurísticas de composição sem dívida operacional
 
 ### 22. LLMs, plataformas, orquestração e OpenClaw ↔ OpenClaw
 - melhores LLMs por perfil de uso
