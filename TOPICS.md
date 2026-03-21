@@ -61,6 +61,11 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - workspace como território operacional
 - contexto persistente
 - gestão de contexto e compressão
+- convenções de organização de workspace por função (`docs/`, `runbooks/`, `projects/`, `scratch/`)
+- política prática de escrita e curadoria de memória
+- workflow de recuperação com `memory_search` + `memory_get`
+- padrões de RAG leve usando apenas o workspace
+- troubleshooting de workspaces caóticos e bases de memória degradadas
 
 ### 6. Canais e operação
 - Telegram
