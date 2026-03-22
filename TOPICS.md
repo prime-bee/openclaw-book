@@ -331,6 +331,11 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - privacidade de áudio, retenção e minimização
 - observabilidade por estágio e troubleshooting de ASR/TTS
 - confirmações para ações sensíveis
+- playbooks de UX falada por tipo de tarefa
+- orçamentos de latência por fluxo (casual, operacional e sensível)
+- escada de confirmação por classe de risco
+- evento mínimo de observabilidade por turno de voz
+- troubleshooting de ambientes reais (carro, escritório, casa e rede móvel)
 
 ### 33. Custos em produção e planejamento
 - tiering de modelos
