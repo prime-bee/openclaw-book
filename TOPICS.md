@@ -228,6 +228,10 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - contratos entre agentes
 - dinâmica de dois OpenClaw conversando
 - riscos de loop e acoplamento
+- envelopes de confiança e blast radius entre instâncias
+- handoffs estruturados e ownership do resultado final
+- TTL, max_hops e estados explícitos para prevenção de loops
+- troubleshooting de coordenação entre instâncias
 
 ### 23. Personalidade de agentes
 - identidade e papel do agente
