@@ -1,6 +1,6 @@
 # STATUS
 
-- Rodada: 2026-03-21 18:10 America/New_York
-- O que foi feito: expansão profunda do capítulo 21 sobre skills e composição de capacidades, adicionando lifecycle de skills, versionamento prático, revisão de permissões por blast radius composto, critérios de distribuição segura, heurísticas de composição sem dívida operacional, troubleshooting e FAQ; também corrigi a navegação lateral do capítulo para refletir os 35 capítulos atuais.
-- Arquivos alterados: `chapters/21-skills-e-composicao-de-capacidades.html`, `TOPICS.md`, `STATUS.md`
-- Próximo passo sugerido: expandir o capítulo 25 com contratos de ferramentas, permission envelopes, taxonomia de falhas e padrões de idempotência/reexecução que se conectem diretamente à governança de skills do capítulo 21.
+- Rodada: 2026-03-22 00:02 America/New_York
+- O que foi feito: expansão profunda do capítulo 25 sobre design de ferramentas para agentes, adicionando permission envelopes, taxonomia de falhas, padrões de retry/backoff/compensação, idempotência prática, exemplos comparativos de contracts e execução em duas etapas; também corrigi a navegação lateral e a contagem do capítulo para refletir os 35 capítulos atuais.
+- Arquivos alterados: `chapters/25-design-de-ferramentas-para-agentes.html`, `TOPICS.md`, `STATUS.md`
+- Próximo passo sugerido: expandir o capítulo 22 com contratos entre agentes OpenClaw↔OpenClaw, handoffs, prevenção de loops, envelopes de confiança e padrões de coordenação entre instâncias.
