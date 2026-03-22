@@ -315,6 +315,10 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - ownership entre times
 - handoff e fronteiras entre squads
 - playbooks corporativos de intake, escalonamento e pós-incidente
+- intake por canal (DM, squad, incidente, fila assíncrona)
+- template curto de escalonamento com contexto, estado e owner esperado
+- exemplos concretos de fronteiras entre produto, plataforma, finops, suporte e segurança
+- anti-padrões de colaboração entre squads
 - RACI mínimo para adoção saudável
 
 ### 32. Agentes com voz e multimodalidade

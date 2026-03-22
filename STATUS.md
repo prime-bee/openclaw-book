@@ -1,6 +1,6 @@
 # STATUS
 
-- Rodada: 2026-03-22 06:02 America/New_York
-- O que foi feito: expansão profunda do capítulo 22 sobre LLMs, plataformas, orquestração e OpenClaw ↔ OpenClaw, adicionando contratos operacionais entre instâncias, handoffs bons vs ruins, envelopes de confiança, prevenção de loops com TTL/max_hops/ownership, padrões práticos de coordenação, troubleshooting e FAQ; também corrigi a navegação lateral do capítulo para incluir o capítulo 35 e ajustei o contador para refletir os 35 capítulos atuais.
-- Arquivos alterados: `chapters/22-llms-plataformas-orquestracao-e-openclaw-para-openclaw.html`, `TOPICS.md`, `STATUS.md`
-- Próximo passo sugerido: expandir o capítulo 31 com playbooks concretos de colaboração entre times, intake/escalonamento por canal e exemplos de fronteiras de ownership entre squads usando OpenClaw.
+- Rodada: 2026-03-22 12:02 America/New_York
+- O que foi feito: expansão do capítulo 31 com playbooks mais concretos para colaboração em times, incluindo intake por canal (DM, canal de squad, incidente e fila assíncrona), template curto de escalonamento, exemplos de fronteiras de ownership entre produto/plataforma/suporte/segurança/finops, anti-padrões de colaboração entre squads e correção da navegação local para refletir os 35 capítulos atuais.
+- Arquivos alterados: `chapters/31-openclaw-para-times-e-colaboracao.html`, `TOPICS.md`, `STATUS.md`
+- Próximo passo sugerido: expandir o capítulo 32 com playbooks de UX falada, ASR/TTS, latência ponta a ponta, confirmações para ações sensíveis e troubleshooting de voz em ambientes reais.
