@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Capítulo 25 — Design de ferramentas para agentes — openclaw-book</title>
-  <meta name="description" content="Como desenhar ferramentas para agentes com contratos claros, bom UX operacional, segurança, idempotência, observabilidade e integração disciplinada com o modelo no ecossistema OpenClaw.">
+  <meta name="description" content="Como desenhar ferramentas para agentes com contratos claros, permission envelopes, taxonomia de falhas, idempotência, observabilidade e integração disciplinada com o modelo no ecossistema OpenClaw.">
   <meta name="theme-color" content="#0f1115">
   <meta name="author" content="Prime">
   <meta name="application-name" content="OpenClaw Book">
@@ -13,19 +13,44 @@
   <link rel="canonical" href="https://prime-bee.github.io/openclaw-book/chapters/25-design-de-ferramentas-para-agentes.html">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:title" content="Capítulo 25 — Design de ferramentas para agentes — openclaw-book">
-  <meta property="og:description" content="Como desenhar ferramentas para agentes com contratos claros, bom UX operacional, segurança, idempotência, observabilidade e integração disciplinada com o modelo no ecossistema OpenClaw.">
+  <meta property="og:description" content="Como desenhar ferramentas para agentes com contratos claros, permission envelopes, taxonomia de falhas, idempotência, observabilidade e integração disciplinada com o modelo no ecossistema OpenClaw.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://prime-bee.github.io/openclaw-book/chapters/25-design-de-ferramentas-para-agentes.html">
   <meta property="og:site_name" content="openclaw-book">
   <meta property="og:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Capítulo 25 — Design de ferramentas para agentes — openclaw-book">
-  <meta name="twitter:description" content="Como desenhar ferramentas para agentes com contratos claros, bom UX operacional, segurança, idempotência, observabilidade e integração disciplinada com o modelo no ecossistema OpenClaw.">
+  <meta name="twitter:description" content="Como desenhar ferramentas para agentes com contratos claros, permission envelopes, taxonomia de falhas, idempotência, observabilidade e integração disciplinada com o modelo no ecossistema OpenClaw.">
   <meta name="twitter:image" content="https://prime-bee.github.io/openclaw-book/assets/openclaw-logo-text.png">
   <link rel="manifest" href="../site.webmanifest">
   <link rel="stylesheet" href="../styles.css">
-  <script defer src="../app.js"></script><script defer src="../search.js"></script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Capítulo 25 — Design de ferramentas para agentes — openclaw-book","name":"Capítulo 25 — Design de ferramentas para agentes — openclaw-book","description":"Como desenhar ferramentas para agentes com contratos claros, bom UX operacional, segurança, idempotência, observabilidade e integração disciplinada com o modelo no ecossistema OpenClaw.","inLanguage":"pt-BR","url":"https://prime-bee.github.io/openclaw-book/chapters/25-design-de-ferramentas-para-agentes.html","author":{"@type":"Person","name":"Prime"},"publisher":{"@type":"Organization","name":"Prime Bee","url":"https://github.com/prime-bee/openclaw-book"},"isPartOf":{"@type":"Book","name":"OpenClaw Book","url":"https://prime-bee.github.io/openclaw-book/"}}</script>
+  <script defer src="../app.js"></script>
+  <script defer src="../search.js"></script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Capítulo 25 — Design de ferramentas para agentes — openclaw-book",
+      "name": "Capítulo 25 — Design de ferramentas para agentes — openclaw-book",
+      "description": "Como desenhar ferramentas para agentes com contratos claros, permission envelopes, taxonomia de falhas, idempotência, observabilidade e integração disciplinada com o modelo no ecossistema OpenClaw.",
+      "inLanguage": "pt-BR",
+      "url": "https://prime-bee.github.io/openclaw-book/chapters/25-design-de-ferramentas-para-agentes.html",
+      "author": {
+        "@type": "Person",
+        "name": "Prime"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Prime Bee",
+        "url": "https://github.com/prime-bee/openclaw-book"
+      },
+      "isPartOf": {
+        "@type": "Book",
+        "name": "OpenClaw Book",
+        "url": "https://prime-bee.github.io/openclaw-book/"
+      }
+    }
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
@@ -36,7 +61,48 @@
         <h1>Capítulo 25</h1>
         <p>Design de ferramentas</p>
       </div>
-      <nav class="nav"><a href="../index.html">← Início</a><a href="01-visao-geral.html">1. Visão geral</a><a href="02-arquitetura.html">2. Arquitetura</a><a href="03-gateway.html">3. Gateway</a><a href="04-cli.html">4. CLI</a><a href="05-memoria-e-workspace.html">5. Memória e workspace</a><a href="06-canais-e-rotina.html">6. Canais e operação</a><a href="07-modelos-e-provedores.html">7. Modelos e provedores</a><a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento</a><a href="09-automacoes-cron-e-heartbeat.html">9. Automação</a><a href="10-sandbox-e-seguranca-pratica.html">10. Sandbox e segurança</a><a href="11-browser-e-controle-remoto.html">11. Browser e controle remoto</a><a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo</a><a href="13-troubleshooting-e-diagnostico.html">13. Troubleshooting</a><a href="14-referencias-oficiais.html">14. Referências oficiais</a><a href="15-roadmap-e-proximos-passos.html">15. Roadmap</a><a href="16-agentes-ia-fluxos-e-delegacao.html">16. Agentes IA e fluxos</a><a href="17-missoes-e-desafios.html">17. Missões e desafios</a><a href="18-engenharia-de-prompts.html">18. Engenharia de prompts</a><a href="19-observabilidade-e-monitoramento.html">19. Observabilidade</a><a href="20-hitl-e-governanca.html">20. HITL e Governança</a><a href="21-skills-e-composicao-de-capacidades.html">21. Skills e capacidades</a><a href="22-llms-plataformas-orquestracao-e-openclaw-para-openclaw.html">22. LLMs e orquestração</a><a href="23-personalidade-de-agentes-como-projetar-e-o-que-melhora.html">23. Personalidade de agentes</a><a href="24-rag-e-retrieval-para-agentes.html">24. RAG e retrieval</a><a class="active" href="25-design-de-ferramentas-para-agentes.html">25. Design de ferramentas</a><a href="26-multiplos-openclaw-na-mesma-maquina.html">26. Múltiplos OpenClaw no host</a><a href="27-migrando-de-um-para-multiplos-gateways-com-seguranca.html">27. Migrando com segurança</a><a href="28-arquiteturas-de-producao-para-openclaw.html">28. Arquiteturas de produção</a><a href="29-evals-e-benchmarking-de-agentes.html">29. Evals e benchmarking</a><a href="30-ux-para-conversar-com-agentes.html">30. UX para conversar com agentes</a><a href="31-openclaw-para-times-e-colaboracao.html">31. OpenClaw para times</a><a href="32-agentes-com-voz-e-multimodalidade.html">32. Voz e multimodalidade</a><a href="33-custos-em-producao-e-planejamento.html">33. Custos em produção</a><a href="34-comparando-frameworks-e-stacks-agenticas.html">34. Frameworks e stacks</a><div class="nav-section-label">Explorar</div><a href="../reading-paths.html">Trilhas de leitura</a><a href="../glossario.html">Glossário</a><a href="../about.html">Sobre</a></nav>
+      <nav class="nav">
+        <a href="../index.html">← Início</a>
+        <a href="01-visao-geral.html">1. Visão geral</a>
+        <a href="02-arquitetura.html">2. Arquitetura</a>
+        <a href="03-gateway.html">3. Gateway</a>
+        <a href="04-cli.html">4. CLI</a>
+        <a href="05-memoria-e-workspace.html">5. Memória e workspace</a>
+        <a href="06-canais-e-rotina.html">6. Canais e operação</a>
+        <a href="07-modelos-e-provedores.html">7. Modelos e provedores</a>
+        <a href="08-multi-agent-e-roteamento.html">8. Multi-agent e roteamento</a>
+        <a href="09-automacoes-cron-e-heartbeat.html">9. Automação</a>
+        <a href="10-sandbox-e-seguranca-pratica.html">10. Sandbox e segurança</a>
+        <a href="11-browser-e-controle-remoto.html">11. Browser e controle remoto</a>
+        <a href="12-receitas-passo-a-passo.html">12. Receitas passo a passo</a>
+        <a href="13-troubleshooting-e-diagnostico.html">13. Troubleshooting</a>
+        <a href="14-referencias-oficiais.html">14. Referências oficiais</a>
+        <a href="15-roadmap-e-proximos-passos.html">15. Roadmap</a>
+        <a href="16-agentes-ia-fluxos-e-delegacao.html">16. Agentes IA e fluxos</a>
+        <a href="17-missoes-e-desafios.html">17. Missões e desafios</a>
+        <a href="18-engenharia-de-prompts.html">18. Engenharia de prompts</a>
+        <a href="19-observabilidade-e-monitoramento.html">19. Observabilidade</a>
+        <a href="20-hitl-e-governanca.html">20. HITL e Governança</a>
+        <a href="21-skills-e-composicao-de-capacidades.html">21. Skills e capacidades</a>
+        <a href="22-llms-plataformas-orquestracao-e-openclaw-para-openclaw.html">22. LLMs e orquestração</a>
+        <a href="23-personalidade-de-agentes-como-projetar-e-o-que-melhora.html">23. Personalidade de agentes</a>
+        <a href="24-rag-e-retrieval-para-agentes.html">24. RAG e retrieval</a>
+        <a class="active" href="25-design-de-ferramentas-para-agentes.html">25. Design de ferramentas</a>
+        <a href="26-multiplos-openclaw-na-mesma-maquina.html">26. Múltiplos OpenClaw no host</a>
+        <a href="27-migrando-de-um-para-multiplos-gateways-com-seguranca.html">27. Migrando com segurança</a>
+        <a href="28-arquiteturas-de-producao-para-openclaw.html">28. Arquiteturas de produção</a>
+        <a href="29-evals-e-benchmarking-de-agentes.html">29. Evals e benchmarking</a>
+        <a href="30-ux-para-conversar-com-agentes.html">30. UX para conversar com agentes</a>
+        <a href="31-openclaw-para-times-e-colaboracao.html">31. OpenClaw para times</a>
+        <a href="32-agentes-com-voz-e-multimodalidade.html">32. Voz e multimodalidade</a>
+        <a href="33-custos-em-producao-e-planejamento.html">33. Custos em produção</a>
+        <a href="34-comparando-frameworks-e-stacks-agenticas.html">34. Frameworks e stacks</a>
+        <a href="35-estudos-de-caso-corporativos-multiagente.html">35. Estudos de caso corporativos</a>
+        <div class="nav-section-label">Explorar</div>
+        <a href="../reading-paths.html">Trilhas de leitura</a>
+        <a href="../glossario.html">Glossário</a>
+        <a href="../about.html">Sobre</a>
+      </nav>
     </aside>
     <main id="conteudo" class="content chapter">
       <nav class="breadcrumbs" aria-label="Breadcrumb">
@@ -48,25 +114,25 @@
       </nav>
 
       <div class="chapter-intro">
-        <p class="lede">Ferramenta boa para agente não é só "uma API exposta ao modelo". É uma interface desenhada para reduzir ambiguidade, limitar risco e transformar intenção em ação observável.</p>
+        <p class="lede">Ferramenta boa para agente não é só “uma API exposta ao modelo”. É uma interface desenhada para reduzir ambiguidade, conter risco, guiar retries e transformar intenção em ação observável.</p>
         <div class="kpi-row">
-          <span class="kpi">Capítulo 25 de 34</span>
+          <span class="kpi">Capítulo 25 de 35</span>
           <span class="kpi">Avançado</span>
-          <span class="kpi">Tools · Contratos · Segurança · Observabilidade</span>
+          <span class="kpi">Tools · Contratos · Permission Envelopes · Idempotência</span>
         </div>
       </div>
 
-      <h1>Design de ferramentas para agentes: contratos, ergonomia e blast radius</h1>
-      <p>Quando um agente usa uma ferramenta, ele cruza uma fronteira importante: sai do mundo da linguagem e entra no mundo da <strong>ação</strong>. A qualidade dessa transição depende do desenho da ferramenta. Se a interface é vaga, o agente improvisa mal. Se a ferramenta aceita tudo, o risco sobe. Se o retorno é confuso, o modelo não sabe o que aconteceu. E se não há observabilidade, ninguém consegue depurar quando algo dá errado.</p>
-      <div class="callout"><strong>Tese do capítulo:</strong> ferramenta boa é a que torna o caminho certo mais fácil do que o caminho perigoso.</div>
+      <h1>Design de ferramentas para agentes: contratos, permission envelopes e recuperação segura</h1>
+      <p>Quando um agente usa uma ferramenta, ele cruza uma fronteira importante: sai do mundo da linguagem e entra no mundo da <strong>ação</strong>. A qualidade dessa transição depende menos de “inteligência bruta” e mais do desenho da interface. Se a ferramenta é vaga, o agente improvisa mal. Se aceita entradas frouxas, o risco sobe. Se devolve um retorno confuso, o modelo não sabe o que aconteceu. E se não existe trilha de recuperação, o retry vira loteria.</p>
+      <div class="callout"><strong>Tese do capítulo:</strong> ferramenta boa é a que torna o caminho certo mais fácil que o caminho perigoso — e torna o caminho de recuperação mais claro que o retry cego.</div>
 
       <h2>O que uma ferramenta faz de verdade</h2>
-      <p>No ecossistema OpenClaw, ferramentas de primeira classe não existem só para "dar mais poder" ao modelo. Elas existem para <strong>estruturar interação com o ambiente</strong>: sistema de arquivos, runtime, sessões, memória, browser, cron, web e integrações externas.</p>
+      <p>No ecossistema OpenClaw, ferramentas de primeira classe não existem só para “dar mais poder” ao modelo. Elas existem para <strong>estruturar a interação com o ambiente</strong>: sistema de arquivos, runtime, sessões, memória, browser, cron, web e integrações externas.</p>
       <div class="grid">
         <div class="card"><h3>Capacidade</h3><p>A ferramenta expõe algo que o modelo sozinho não consegue fazer: ler, escrever, executar, consultar, agendar, buscar.</p></div>
         <div class="card"><h3>Contrato</h3><p>A interface define entradas, limites, defaults, formatos e erros esperados.</p></div>
         <div class="card"><h3>Controle</h3><p>Políticas de sandbox, allow/deny, perfis de tools e approvals limitam o blast radius.</p></div>
-        <div class="card"><h3>Feedback</h3><p>O retorno da ferramenta precisa ser legível o bastante para o modelo e auditável o bastante para humanos.</p></div>
+        <div class="card"><h3>Feedback</h3><p>O retorno precisa ser legível o bastante para o modelo e auditável o bastante para humanos.</p></div>
       </div>
       <p>Sem esses quatro elementos, o agente deixa de operar sobre interfaces bem projetadas e volta a depender de improviso textual.</p>
 
@@ -75,9 +141,9 @@
       <div class="tableish">
         <div><strong>Ruim</strong></div><div><strong>Melhor</strong></div>
         <div>dez parâmetros opcionais sem defaults claros</div><div>poucos parâmetros obrigatórios, defaults sensatos e exemplos</div>
-        <div>campo genérico como <code>payload</code> para tudo</div><div>campos nomeados por intenção: <code>message</code>, <code>timeoutSeconds</code>, <code>path</code></div>
+        <div>campo genérico como <code>payload</code> para tudo</div><div>campos nomeados por intenção: <code>message</code>, <code>timeoutSeconds</code>, <code>workdir</code>, <code>path</code></div>
         <div>retorno cru do backend</div><div>resposta resumida com os dados mais acionáveis</div>
-        <div>erros opacos</div><div>erros com causa provável e ação sugerida</div>
+        <div>erros opacos</div><div>erros com causa provável, escopo afetado e ação sugerida</div>
       </div>
       <p>Ferramenta bem desenhada é quase uma pequena opinião de produto: ela ensina o uso correto pela própria forma.</p>
 
@@ -92,6 +158,7 @@
           <li>coloque limites claros: tamanho, range, quantidade, timeout</li>
           <li>documente defaults de forma que o agente não precise adivinhar</li>
           <li>evite parâmetros mágicos cujo efeito só o mantenedor entende</li>
+          <li>diga explicitamente quais combinações são inválidas</li>
         </ol>
       </section>
       <pre><code>Exemplo de ferramenta mal desenhada:
@@ -119,24 +186,44 @@ Exemplo mais saudável:
         <div>Execução</div><div>exit code, trecho útil de stdout/stderr, session id quando for assíncrono</div>
         <div>Agendamento</div><div>identificador do job, schedule efetivo e destino de entrega</div>
       </div>
-      <div class="callout"><strong>Regra útil:</strong> toda resposta de ferramenta deveria ajudar o agente a responder uma destas perguntas: "deu certo?", "o que mudou?", "preciso esperar?", "preciso corrigir algo?"</div>
+      <div class="callout"><strong>Regra útil:</strong> toda resposta de ferramenta deveria ajudar o agente a responder uma destas perguntas: “deu certo?”, “o que mudou?”, “preciso esperar?”, “preciso corrigir algo?”</div>
+
+      <h2>Permission envelope: o contrato precisa carregar a política certa</h2>
+      <p>Há um erro recorrente em plataformas agentic: tratar permissão como uma camada colada por fora da ferramenta. Na prática, a ferramenta já nasce com um <strong>permission envelope</strong> — um envelope operacional que combina o que a interface permite expressar, o escopo em que ela roda e os caminhos de aprovação necessários.</p>
+      <div class="grid">
+        <div class="card"><h3>Escopo</h3><p>Onde a tool atua? Workspace atual, sessão atual, host específico, canal explícito, janela temporal delimitada.</p></div>
+        <div class="card"><h3>Poder</h3><p>Ação é só leitura? Escreve localmente? Sai da máquina? Persiste? Chama sistema autenticado?</p></div>
+        <div class="card"><h3>Gate</h3><p>Quais chamadas podem passar direto e quais exigem sandbox, tool policy, allowlist ou approval humano?</p></div>
+        <div class="card"><h3>Evidência</h3><p>O retorno mostra que a ação respeitou o envelope? Sem isso, a política existe mas não fica auditável.</p></div>
+      </div>
+      <p>Em OpenClaw, isso aparece o tempo todo: <code>read</code> e <code>edit</code> são estreitas por design; <code>exec</code> já é muito mais aberta e por isso exige mais cuidado com diretório, timeout, background, PTY, elevação e approvals.</p>
+
+      <h3>Três envelopes úteis na prática</h3>
+      <div class="tableish">
+        <div><strong>Envelope</strong></div><div><strong>Exemplo</strong></div><div><strong>Padrão de segurança</strong></div>
+        <div>Leitura orientada</div><div><code>read</code>, <code>web_fetch</code>, buscas em memória</div><div>Defaults amplos, porém com truncation, paginação e origem explícita</div>
+        <div>Mutação reversível</div><div><code>edit</code>, escrita local, jobs de build</div><div>Escopo fechado, validação local, diff rastreável e rollback simples</div>
+        <div>Ação externa ou persistente</div><div>push, deploy, webhook, mensageria, automação autenticada</div><div>Approval humano, deduplicação, identificação de destino e evidência de entrega</div>
+      </div>
+      <p>O schema não substitui a política, mas pode embutir as decisões certas: exigir destino explícito, separar dry-run de execução real, pedir um identificador de contexto e bloquear combinações ambíguas.</p>
 
       <h2>Ferramenta síncrona, assíncrona ou em duas etapas?</h2>
       <p>Nem toda operação cabe no mesmo envelope. Algumas ações são rápidas e devolvem resultado imediatamente. Outras exigem processo em background, polling eventual e recuperação posterior. Misturar tudo em uma interface só tende a produzir confusão.</p>
       <div class="grid">
         <div class="card"><h3>Síncrona</h3><p>Boa para leitura curta, edição pontual, consultas simples e respostas imediatas.</p></div>
         <div class="card"><h3>Assíncrona</h3><p>Boa para jobs demorados, processos de longa duração, execução com log incremental e automações persistentes.</p></div>
-        <div class="card"><h3>Duas etapas</h3><p>Boa quando faz sentido separar "disparar" de "acompanhar", como <code>exec</code> + <code>process</code>.</p></div>
+        <div class="card"><h3>Duas etapas</h3><p>Boa quando faz sentido separar “disparar” de “acompanhar”, como <code>exec</code> + <code>process</code>.</p></div>
       </div>
       <p>O OpenClaw ilustra bem isso: <code>exec</code> não precisa fingir que tudo acaba no mesmo turno. Ele pode devolver uma sessão e deixar a inspeção incremental para <code>process</code>. Isso reduz timeout artificial e evita respostas gigantes.</p>
 
       <h2>Ergonomia para o modelo: menos liberdade caótica, mais liberdade útil</h2>
-      <p>Há uma tentação comum em sistemas agentic: achar que "quanto mais flexível a ferramenta, melhor". Na prática, ferramentas abertas demais empurram decisão demais para o modelo e geram uso inconsistente.</p>
+      <p>Há uma tentação comum em sistemas agentic: achar que “quanto mais flexível a ferramenta, melhor”. Na prática, ferramentas abertas demais empurram decisão demais para o modelo e geram uso inconsistente.</p>
       <ul>
         <li><strong>Defaults bons</strong> reduzem token gasto explicando parâmetros triviais.</li>
         <li><strong>Campos opcionais poucos e claros</strong> reduzem combinações nonsense.</li>
         <li><strong>Comandos separados por responsabilidade</strong> ajudam mais do que uma mega-tool faz-tudo.</li>
         <li><strong>Nomes previsíveis</strong> ajudam o agente a generalizar entre ferramentas semelhantes.</li>
+        <li><strong>Campos de escopo</strong> como <code>sessionKey</code>, <code>workdir</code> e <code>channel</code> evitam “agir no lugar errado”.</li>
       </ul>
       <p>Um bom desenho de ferramentas tem algo de UX conversacional: você está desenhando uma interface para um usuário probabilístico.</p>
 
@@ -144,22 +231,64 @@ Exemplo mais saudável:
       <p>Mega-tools parecem elegantes no papel porque centralizam tudo. Mas, para agentes, elas criam contratos enormes, respostas inconsistentes e espaço demais para o modelo escolher o ramo errado. Ferramentas menores, com escopo bem definido, costumam performar melhor.</p>
       <div class="tableish">
         <div><strong>Padrão</strong></div><div><strong>Efeito típico</strong></div>
-        <div>uma ferramenta para "fazer qualquer request arbitrária"</div><div>alto poder, baixa previsibilidade, risco grande</div>
+        <div>uma ferramenta para “fazer qualquer request arbitrária”</div><div>alto poder, baixa previsibilidade, risco grande</div>
         <div>ferramentas específicas por domínio</div><div>melhor direcionamento, schemas menores, auditoria mais simples</div>
         <div>uma ação genérica com dezenas de submodos</div><div>o modelo frequentemente escolhe mal</div>
         <div>operações separadas por ciclo de trabalho</div><div>intenção mais explícita e troubleshooting melhor</div>
       </div>
       <p>Isso não significa explodir tudo em cinquenta tools minúsculas. Significa achar o ponto em que <strong>cada ferramenta representa uma unidade real de trabalho</strong>.</p>
 
+      <h2>Taxonomia de falhas: nem todo erro pede o mesmo retry</h2>
+      <p>Ferramentas robustas ajudam o agente a distinguir <strong>o tipo de falha</strong>, não só o fato de que algo falhou. Sem essa taxonomia, o modelo tende a repetir a chamada, mudar um campo aleatório ou tentar outra ferramenta sem aprender nada.</p>
+      <div class="tableish">
+        <div><strong>Classe de falha</strong></div><div><strong>Exemplo</strong></div><div><strong>Recuperação preferida</strong></div>
+        <div>Validação</div><div>campo ausente, enum inválido, path malformado</div><div>corrigir entrada e reexecutar</div>
+        <div>Escopo</div><div>sessão inexistente, workdir incorreto, alvo ambíguo</div><div>reconfirmar destino e reduzir ambiguidade</div>
+        <div>Política</div><div>approval pendente, allowlist negou, sandbox bloqueou</div><div>pedir aprovação ou usar caminho menos privilegiado</div>
+        <div>Temporal</div><div>timeout, processo em background, recurso ainda não pronto</div><div>esperar, poll controlado, retomar depois</div>
+        <div>Conflito</div><div>arquivo mudou, push rejeitado, job duplicado</div><div>recarregar estado, resolver conflito, usar deduplicação</div>
+        <div>Backend</div><div>API caiu, 5xx, processo crashou</div><div>retry com backoff ou fallback deliberado</div>
+      </div>
+      <div class="callout warning"><strong>Heurística de ouro:</strong> a saída da tool deveria deixar claro se o problema é <em>corrigível pelo agente sozinho</em>, <em>dependente de espera</em> ou <em>dependente de intervenção humana</em>.</div>
+
+      <h3>Por que isso importa para prompts e skills</h3>
+      <p>Se o texto da ferramenta já classifica o erro, a skill consegue ensinar respostas melhores: quando insistir, quando trocar de fluxo e quando parar. É assim que ferramentas bem desenhadas elevam a qualidade do agente sem precisar de “prompting heroico”.</p>
+
       <h2>Idempotência e reexecução: pense no agente que erra e tenta de novo</h2>
       <p>Agentes tentam novamente. Às vezes porque a resposta foi truncada; às vezes porque o modelo entendeu que precisava confirmar; às vezes porque uma cadeia de raciocínio levou a repetir o mesmo passo. Se a ferramenta não for pensada para isso, uma repetição inocente pode virar efeito colateral grave.</p>
       <ul>
         <li>operações de escrita devem idealmente ser <strong>idempotentes</strong> ou detectar duplicação</li>
         <li>ações externas sensíveis pedem identificadores de deduplicação ou chaves idempotentes</li>
-        <li>em updates, vale retornar o estado final em vez de "ok" genérico</li>
+        <li>em updates, vale retornar o estado final em vez de “ok” genérico</li>
         <li>quando reexecutar for perigoso, a ferramenta deve dizer isso claramente</li>
       </ul>
-      <div class="callout warning"><strong>Erro clássico:</strong> criar uma tool de envio externo que não distingue "criar", "atualizar" e "reenviar". Para um modelo, isso é pedir duplicidade.</div>
+      <div class="callout warning"><strong>Erro clássico:</strong> criar uma tool de envio externo que não distingue “criar”, “atualizar” e “reenviar”. Para um modelo, isso é pedir duplicidade.</div>
+
+      <h3>Padrões práticos de idempotência</h3>
+      <div class="grid">
+        <div class="card"><h3>Substituição exata</h3><p><code>edit</code> é forte porque exige <em>oldText</em> exato. Isso reduz mutações acidentais e torna a reexecução naturalmente mais segura.</p></div>
+        <div class="card"><h3>Chave de deduplicação</h3><p>Jobs, webhooks e notificações deveriam aceitar um identificador lógico para distinguir replay de nova intenção.</p></div>
+        <div class="card"><h3>Estado final explícito</h3><p>Respostas como “job já existia”, “arquivo já estava nesse estado” ou “nada mudou” valem muito mais do que um simples <code>ok</code>.</p></div>
+        <div class="card"><h3>Compensação</h3><p>Quando idempotência é impossível, documente a ação de compensação: cancelar, remover, reverter, registrar incidente.</p></div>
+      </div>
+
+      <h2>Retry, backoff e reexecução segura</h2>
+      <p>Um retry cego costuma esconder um design ruim. Ferramentas maduras deixam claro <strong>se</strong> vale tentar de novo, <strong>quando</strong> vale tentar e <strong>com qual mudança de contexto</strong>.</p>
+      <section class="recipe">
+        <h3>Receita de retry saudável</h3>
+        <ol class="steps">
+          <li>classifique a falha antes de repetir a chamada</li>
+          <li>só repita automaticamente erros transitórios ou temporais</li>
+          <li>use backoff progressivo em integrações externas</li>
+          <li>recarregue estado antes de resolver conflitos</li>
+          <li>não reenvie ações externas sem checar deduplicação</li>
+          <li>escalone para humano quando a ambiguidade persistir</li>
+        </ol>
+      </section>
+      <pre><code>Pergunta útil antes do retry:
+“Estou repetindo a mesma intenção no mesmo escopo,
+ou tentando compensar uma falha sem saber o estado atual?”</code></pre>
+      <p>Se a segunda opção for verdadeira, a ferramenta deveria favorecer observação primeiro e mutação depois.</p>
 
       <h2>Segurança: o schema também é uma política</h2>
       <p>Segurança em ferramentas não começa no approval final. Começa no formato da interface. Um schema bem fechado reduz superfície de abuso antes mesmo de a chamada ser avaliada por sandbox, tool policy ou permissão elevada.</p>
@@ -175,8 +304,8 @@ Exemplo mais saudável:
       <h2>Ferramentas devem ensinar escopo</h2>
       <p>Muitas falhas operacionais vêm de ambiguidade de escopo: qual workspace? qual sessão? qual canal? qual destinatário? qual janela de tempo? qual ambiente? Ferramentas maduras pedem esse escopo explicitamente ou o derivam de forma segura.</p>
       <pre><code>Pergunta útil ao desenhar uma tool:
-"Se o agente usar isso no projeto errado, conta errada ou sessão errada,
-como a interface reduz a chance de erro?"</code></pre>
+“Se o agente usar isso no projeto errado, conta errada ou sessão errada,
+como a interface reduz a chance de erro?”</code></pre>
       <p>Em memória, sessões e automações isso é especialmente importante. Identificadores claros, labels estáveis e campos de destino evitam que o modelo trate todo contexto como se fosse um único espaço homogêneo.</p>
 
       <h2>Observabilidade: se não dá para depurar, a ferramenta ainda está incompleta</h2>
@@ -189,6 +318,7 @@ como a interface reduz a chance de erro?"</code></pre>
           <li>indicação de truncamento ou paginação quando o retorno for parcial</li>
           <li>sinais de espera ou continuação quando houver processamento em background</li>
           <li>mensagem curta o bastante para o modelo usar sem se perder</li>
+          <li>evidência suficiente para o humano auditar o que aconteceu</li>
         </ol>
       </section>
       <p>Quando a ferramenta só cospe o retorno bruto do backend, o humano até talvez consiga fuçar. O agente, porém, tende a interpretar mal ou desperdiçar tokens lendo ruído.</p>
@@ -200,11 +330,12 @@ como a interface reduz a chance de erro?"</code></pre>
         <div><code>invalid request</code></div><div>qual campo falhou, valor recebido e formato esperado</div>
         <div><code>permission denied</code></div><div>se a falha veio de tool policy, sandbox, aprovação ou credencial</div>
         <div><code>timed out</code></div><div>se a operação pode continuar em background e como acompanhar</div>
+        <div><code>duplicate</code></div><div>se já existia, como localizar o item anterior e se a repetição foi bloqueada</div>
       </div>
       <p>Isso reduz retry cego, que é uma das coisas que mais degradam agentes em produção.</p>
 
       <h2>Exemplo prático: uma tool de edição de arquivo</h2>
-      <p>Pense na diferença entre uma ferramenta genérica que aceita "qualquer comando shell" e uma ferramenta específica para editar texto por substituição exata.</p>
+      <p>Pense na diferença entre uma ferramenta genérica que aceita “qualquer comando shell” e uma ferramenta específica para editar texto por substituição exata.</p>
       <div class="grid">
         <div class="card">
           <h3>Tool genérica demais</h3>
@@ -217,6 +348,31 @@ como a interface reduz a chance de erro?"</code></pre>
       </div>
       <p>Esse contraste ilustra um princípio importante: <strong>quanto mais sensível a ação, mais valiosa costuma ser uma interface estreita</strong>.</p>
 
+      <h3>Comparando dois desenhos possíveis</h3>
+      <pre><code>Opção A: shell genérico
+{
+  "command": "perl -0pi -e 's/foo/bar/g' src/app.js"
+}
+
+Opção B: edição declarativa
+{
+  "path": "src/app.js",
+  "oldText": "foo",
+  "newText": "bar"
+}</code></pre>
+      <p>A segunda opção não resolve todos os casos, mas resolve muito bem uma classe grande de mudanças com menor custo de auditoria. Quando ela falha, o próprio erro já ajuda a perceber que o contexto mudou e que talvez outra ferramenta seja mais adequada.</p>
+
+      <h2>Exemplo prático: tools de execução com duas etapas</h2>
+      <p><code>exec</code> + <code>process</code> é um ótimo padrão para mostrar como o contrato influencia o comportamento do agente.</p>
+      <div class="tableish">
+        <div><strong>Etapa</strong></div><div><strong>Papel</strong></div><div><strong>Por que isso ajuda</strong></div>
+        <div><code>exec</code></div><div>disparar comando, escolher diretório, timeout, PTY, background</div><div>mantém a intenção inicial pequena e explícita</div>
+        <div><code>process:poll</code></div><div>verificar se ainda roda</div><div>evita logs gigantes e polling agressivo</div>
+        <div><code>process:log</code></div><div>coletar output incremental</div><div>permite troubleshooting sem reiniciar o job</div>
+        <div><code>process:kill</code></div><div>encerrar com justificativa</div><div>torna a recuperação operacional explícita</div>
+      </div>
+      <p>Se tudo isso virasse uma única mega-tool de “rodar comando e me manter atualizado para sempre”, o modelo teria mais dificuldade de escolher o modo certo e o operador perderia clareza sobre o estado da execução.</p>
+
       <h2>Quando uma ferramenta deve se recusar a agir</h2>
       <p>Boa parte da segurança operacional vem da recusa correta. Uma tool madura deve falhar cedo quando:</p>
       <ul>
@@ -226,14 +382,16 @@ como a interface reduz a chance de erro?"</code></pre>
         <li>a política do ambiente nega a ação</li>
         <li>a repetição da ação pode causar dano e não há deduplicação</li>
       </ul>
-      <p>Ferramenta que sempre tenta "ser útil" acaba virando vetor de erro. Às vezes a melhor resposta é um "não" bem explicado.</p>
+      <p>Ferramenta que sempre tenta “ser útil” acaba virando vetor de erro. Às vezes a melhor resposta é um “não” bem explicado.</p>
 
       <h2>Receita de desenho para novas tools</h2>
       <ol class="steps">
         <li><strong>Defina a unidade de trabalho:</strong> qual tarefa concreta essa tool resolve?</li>
         <li><strong>Mapeie o risco:</strong> leitura, escrita, rede, execução, persistência, envio externo?</li>
+        <li><strong>Desenhe o permission envelope:</strong> qual escopo padrão, qual poder máximo e onde entram approvals?</li>
         <li><strong>Feche o schema:</strong> entradas mínimas, enums, limites, defaults.</li>
         <li><strong>Modele a saída:</strong> o que o agente precisa saber para seguir?</li>
+        <li><strong>Classifique falhas:</strong> validação, política, espera, conflito, backend.</li>
         <li><strong>Pense no retry:</strong> o que acontece se o agente repetir a chamada?</li>
         <li><strong>Pense na observabilidade:</strong> que IDs, logs ou status ajudam na depuração?</li>
         <li><strong>Teste com prompts ruins:</strong> um modelo mediano consegue usar certo sem muita sorte?</li>
@@ -244,20 +402,23 @@ como a interface reduz a chance de erro?"</code></pre>
         <ul>
           <li>Essa interface reduz erro ou só expõe um backend cru ao LLM?</li>
           <li>O nome dos campos revela intenção humana?</li>
+          <li>O permission envelope está visível ou escondido em documentação externa?</li>
           <li>Se o agente escolher o alvo errado, a tool ajuda a perceber?</li>
           <li>Se a chamada repetir, o efeito colateral explode?</li>
           <li>O retorno mostra claramente sucesso, falha parcial, continuação ou bloqueio?</li>
           <li>Há um caminho de menor privilégio antes de exigir ação mais poderosa?</li>
+          <li>O erro explica se devo corrigir entrada, esperar, pedir aprovação ou escalar?</li>
         </ul>
       </div>
 
       <h2>Relação com OpenClaw: por que isso importa tanto aqui</h2>
-      <p>OpenClaw se apoia fortemente em ferramentas de primeira classe. Isso é ótimo porque reduz shelling improvisado e dá contratos melhores para o agente. Mas também aumenta a responsabilidade de desenhar essas interfaces com cuidado: a qualidade do comportamento não depende só do modelo, e sim da combinação entre <strong>prompt</strong>, <strong>tooling</strong>, <strong>política</strong> e <strong>feedback</strong>.</p>
-      <p>Na prática, muitos "erros do agente" são erros de design da tool: schema frouxo, retorno mal formatado, falta de escopo, permissões confusas ou interface grande demais para o modelo usar com consistência.</p>
+      <p>OpenClaw se apoia fortemente em ferramentas de primeira classe. Isso é ótimo porque reduz shell improvisado e dá contratos melhores para o agente. Mas também aumenta a responsabilidade de desenhar essas interfaces com cuidado: a qualidade do comportamento não depende só do modelo, e sim da combinação entre <strong>prompt</strong>, <strong>tooling</strong>, <strong>política</strong> e <strong>feedback</strong>.</p>
+      <p>Na prática, muitos “erros do agente” são erros de design da tool: schema frouxo, retorno mal formatado, falta de escopo, permissões confusas, taxonomia de falhas ausente ou interface grande demais para o modelo usar com consistência.</p>
+      <div class="callout"><strong>Conexão editorial:</strong> o capítulo 21 fala de governança de skills; este capítulo mostra a camada abaixo. Skills governam <em>como usar</em> capacidades. Design de tools governa <em>o que é possível expressar com segurança</em>.</div>
 
       <h2>Conclusão prática</h2>
       <p>Ferramentas são parte do produto cognitivo do agente. Não basta que funcionem no backend; elas precisam ser <strong>usáveis por um modelo</strong>, <strong>auditáveis por humanos</strong> e <strong>seguras por padrão</strong>. Quando o contrato é bom, o agente parece mais cuidadoso, mais previsível e mais competente. Quando o contrato é ruim, até um modelo forte parece desatento.</p>
-      <p>Se você quer melhorar agentes em produção, não olhe só para prompts e modelos. Olhe com carinho brutal para as ferramentas. Quase sempre há muito ganho escondido ali.</p>
+      <p>Se você quer melhorar agentes em produção, não olhe só para prompts e modelos. Olhe com carinho brutal para as ferramentas: contratos, permission envelopes, taxonomia de falhas, idempotência, retries e observabilidade. Quase sempre há muito ganho escondido ali.</p>
 
       <div class="refs">
         <h3>Referências oficiais</h3>
@@ -267,6 +428,7 @@ como a interface reduz a chance de erro?"</code></pre>
           <li><a href="https://docs.openclaw.ai/gateway/sandbox-vs-tool-policy-vs-elevated" target="_blank" rel="noopener noreferrer">OpenClaw Docs — Sandbox vs Tool Policy vs Elevated</a></li>
           <li><a href="https://docs.openclaw.ai/gateway/background-process" target="_blank" rel="noopener noreferrer">OpenClaw Docs — Background Exec and Process Tool</a></li>
           <li><a href="https://docs.openclaw.ai/gateway/tools-invoke-http-api" target="_blank" rel="noopener noreferrer">OpenClaw Docs — Tools Invoke API</a></li>
+          <li><a href="https://martinfowler.com/articles/idempotent-rest-apis.html" target="_blank" rel="noopener noreferrer">Martin Fowler — Idempotent REST APIs</a></li>
         </ul>
       </div>
 

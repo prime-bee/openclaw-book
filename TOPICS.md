@@ -248,8 +248,11 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 ### 25. Design de ferramentas para agentes
 - design de tools e interfaces para LLMs
 - contratos de entrada e saída
+- permission envelopes e escopo operacional
+- taxonomia de falhas e recuperação guiada
 - ergonomia para modelos
 - idempotência e reexecução segura
+- padrões de retry, backoff e compensação
 - observabilidade e erros acionáveis
 - sandbox, tool policy e blast radius
 
