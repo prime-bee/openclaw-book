@@ -157,6 +157,48 @@
         <div>melhor encaixe</div><div>assistente com presença contínua e operação diária</div><div>aplicação agentic customizada</div><div>copiloto sobre base documental grande</div>
       </div>
 
+      <h2>Comparativo operacional: OpenClaw, LangGraph, n8n e AutoGen</h2>
+      <p>Quando a comparação precisa sair do nível “família de stack” e virar escolha real de plataforma, vale nomear as alternativas mais comuns. A tabela abaixo não tenta declarar vencedores universais; ela mostra <strong>qual custo operacional cada escolha normalmente puxa junto</strong>.</p>
+      <div class="tableish">
+        <div><strong>Stack</strong></div><div><strong>Melhor quando</strong></div><div><strong>Cuidado principal</strong></div><div><strong>Sinal de adoção saudável</strong></div>
+        <div>OpenClaw</div><div>o agente precisa viver em canais, sessões, rotina contínua, memória operacional e automações com presença explícita</div><div>tratar a plataforma como se fosse apenas um SDK genérico de backend e ignorar sua vocação operacional</div><div>o time mede qualidade por clareza de ownership, legibilidade operacional e utilidade contínua para humanos</div>
+        <div>LangGraph</div><div>você quer orquestração stateful de baixo nível, controle fino do grafo, execução durável e integração profunda com código próprio</div><div>subestimar o trabalho que sobra para UX, policies, convenções de estado e disciplina de observabilidade</div><div>há equipe de engenharia confortável em desenhar runtime, evals e guardrails como parte do produto</div>
+        <div>n8n</div><div>o problema dominante é automação visual, integrações SaaS, workflows acionados por eventos e entrega rápida sem inventar muita infraestrutura</div><div>deixar um fluxo visual crescer até virar backend crítico difícil de versionar, revisar e governar</div><div>os fluxos continuam pequenos, auditáveis, com ownership claro e pontos de decisão bem delimitados</div>
+        <div>AutoGen</div><div>o time quer experimentar multiagente em Python, agentes conversacionais ou arquiteturas event-driven com alto grau de programabilidade</div><div>confundir liberdade de composição com prontidão operacional; muita coisa ainda depende de arquitetura e disciplina do time</div><div>há intenção clara de construir sistema sob medida, com testes, observabilidade e runtime controlado pela engenharia</div>
+      </div>
+      <div class="callout"><strong>Leitura honesta:</strong> OpenClaw tende a reduzir trabalho de operação humana; LangGraph e AutoGen tendem a maximizar programabilidade; n8n tende a maximizar velocidade de automação. Se você tenta cobrar de uma stack a vantagem central da outra, o atrito aparece rápido.</div>
+
+      <h2>Critérios de adoção por estágio de maturidade</h2>
+      <p>Escolha de stack raramente falha por falta de features. Ela falha porque o time adota uma pilha madura demais para sua disciplina atual — ou simplista demais para a complexidade que já existe.</p>
+      <div class="tableish">
+        <div><strong>Estágio</strong></div><div><strong>Pergunta dominante</strong></div><div><strong>Stack que costuma encaixar</strong></div><div><strong>Risco de escolher errado</strong></div>
+        <div>descoberta</div><div>como provar valor com tempo curto e pouca cola?</div><div>OpenClaw para operação conversacional; n8n para automação com integrações; stack pronta de app/copilot para MVPs estreitos</div><div>começar com runtime muito flexível e gastar mais tempo montando base do que validando uso real</div>
+        <div>crescimento</div><div>como padronizar ownership, métricas e trilhas de manutenção?</div><div>OpenClaw com agentes por domínio; LangGraph ou AutoGen quando a superfície principal já é produto/backend</div><div>continuar em protótipo eterno, com fluxos grandes demais e pouca governança explícita</div>
+        <div>escala disciplinada</div><div>como separar domínios, custo, risco e responsabilidades entre squads?</div><div>composição em camadas: OpenClaw na operação, LangGraph/AutoGen no motor especializado, n8n em integrações periféricas</div><div>forçar uma única stack a carregar canais, backend, retrieval e workflows administrativos ao mesmo tempo</div>
+      </div>
+
+      <h2>Custo de coordenação e risco de lock-in</h2>
+      <p>Lock-in não é só dependência comercial. Também existe <strong>lock-in mental</strong>: quando o time passa a modelar todo problema segundo o formato favorito da stack, mesmo quando isso piora a solução.</p>
+      <div class="tableish">
+        <div><strong>Stack</strong></div><div><strong>Onde o custo de coordenação costuma aparecer</strong></div><div><strong>Risco de lock-in</strong></div><div><strong>Mitigação prática</strong></div>
+        <div>OpenClaw</div><div>na falta de fronteiras entre agentes, canais e policies, gerando rotina barulhenta e ownership difuso</div><div>médio: o risco maior costuma ser acoplar demais processo humano ao formato atual de canais e memória</div><div>documentar papéis por agente, manter tools com contratos claros e separar automações por domínio</div>
+        <div>LangGraph</div><div>na proliferação de grafos, estados e convenções de runtime que só o time original entende</div><div>médio a alto: o lock-in vem menos da marca e mais da arquitetura bespoke criada em cima dela</div><div>padronizar state schemas, tracing, evals e critérios de intervenção humana desde cedo</div>
+        <div>n8n</div><div>quando muitos fluxos visuais concentram regras críticas sem versionamento, revisão e testes proporcionais</div><div>médio: a velocidade inicial é ótima, mas workflows espaguete dificultam migração e leitura futura</div><div>limitar complexidade por fluxo, extrair lógica crítica para serviços próprios e versionar exportações importantes</div>
+        <div>AutoGen</div><div>quando múltiplos agentes e runtimes crescem sem convenções compartilhadas de mensagens, tool use e observabilidade</div><div>médio a alto: o lock-in é arquitetural, especialmente se a equipe cria muitas abstrações internas acopladas ao framework</div><div>estabelecer contratos de mensagem, taxonomia de eventos e playbooks de debug antes de escalar o número de agentes</div>
+      </div>
+      <div class="exercise"><strong>Exercício rápido:</strong> se o mantenedor principal sair de férias por duas semanas, qual stack o restante do time consegue operar sem arqueologia? Essa resposta vale mais do que uma lista longa de features.</div>
+
+      <h2>Piloto de adoção: prova curta antes da aposta grande</h2>
+      <section class="recipe">
+        <h3>Receita — piloto comparativo em 10 dias úteis</h3>
+        <ol class="steps">
+          <li><strong>Escolha um fluxo real:</strong> por exemplo triagem operacional, copiloto de conhecimento interno ou workflow de aprovação com integrações.</li>
+          <li><strong>Fixe quatro métricas:</strong> tempo até primeira entrega útil, retrabalho humano, custo por execução e clareza de ownership.</li>
+          <li><strong>Implemente o mesmo caso</strong> na stack líder e, se houver dúvida real, em uma alternativa próxima o bastante para comparação justa.</li>
+          <li><strong>Faça uma semana de uso assistido:</strong> meça onde o time perde tempo, onde surgem dúvidas e quanto esforço não planejado aparece.</li>
+          <li><strong>Decida pelo custo total de sustentação:</strong> não pelo demo day, mas pelo que o time consegue manter sem heroísmo.</li>
+        </ol>
+      </section>
       <h2>Comparando pelo perfil do time</h2>
       <p>A mesma stack parece ótima ou péssima dependendo de quem vai mantê-la.</p>
       <div class="grid">
@@ -276,6 +318,9 @@
           <li><a href="https://docs.openclaw.ai/tools/skills" target="_blank" rel="noopener noreferrer">OpenClaw Docs — Skills</a></li>
           <li><a href="https://docs.openclaw.ai/channels" target="_blank" rel="noopener noreferrer">OpenClaw Docs — Channels</a></li>
           <li><a href="https://docs.openclaw.ai/concepts/memory" target="_blank" rel="noopener noreferrer">OpenClaw Docs — Memory</a></li>
+          <li><a href="https://docs.langchain.com/oss/python/langgraph/overview" target="_blank" rel="noopener noreferrer">LangGraph Docs — Overview</a></li>
+          <li><a href="https://docs.n8n.io/advanced-ai/" target="_blank" rel="noopener noreferrer">n8n Docs — Advanced AI</a></li>
+          <li><a href="https://microsoft.github.io/autogen/stable/" target="_blank" rel="noopener noreferrer">AutoGen Docs — Overview</a></li>
         </ul>
       </div>
 
