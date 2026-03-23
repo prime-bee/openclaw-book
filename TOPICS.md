@@ -548,6 +548,14 @@ Temas que ainda podem render capítulos novos ou expansões fortes:
 
 ---
 
+## Páginas auxiliares
+
+- `reading-paths.html` — trilhas de leitura por perfil e urgência
+- `corporate-cheatsheet.html` — cheatsheet corporativo com scorecard de adoção, contrato de handoff, guardrails por domínio e métricas rápidas para revisar operações multiagente
+- `glossario.html` — definições curtas para vocabulário recorrente
+
+---
+
 ## Uso editorial recomendado
 
 Antes de criar novo conteúdo:
