@@ -101,6 +101,7 @@
 
       <h1>Estudos de caso corporativos multiagente</h1>
       <p>Depois de entender arquitetura, governança, custos e comparação de stacks, falta uma pergunta decisiva: <strong>como isso fica em uma empresa de verdade</strong>? Este capítulo fecha o bloco avançado com estudos de caso por domínio, mostrando como OpenClaw pode ser particionado para reduzir atrito operacional, tornar ownership explícito e impedir que tudo acabe dentro de um único “superagente”.</p>
+      <p>Leia este capítulo como síntese prática dos capítulos <a href="31-openclaw-para-times-e-colaboracao.html">31</a>, <a href="33-custos-em-producao-e-planejamento.html">33</a> e <a href="34-comparando-frameworks-e-stacks-agenticas.html">34</a>: o 31 define fronteiras e ownership entre squads, o 33 mostra como custo e showback devem seguir essas mesmas fronteiras, e o 34 ajuda a decidir quando OpenClaw lidera a operação ou compõe com outras stacks.</p>
       <p>Não existe topologia universal. O que existe é um conjunto de princípios estáveis: domínio claro, superfície de interação definida, ferramentas específicas, memória proporcional ao risco e handoff explícito entre agentes. Quando isso falta, o ambiente fica inteligente demais para a demo e confuso demais para a rotina.</p>
 
       <div class="callout"><strong>Ideia central:</strong> em contexto corporativo, multiagente não é multiplicar personas; é separar responsabilidades, custo, risco e ritmo operacional.</div>
@@ -227,6 +228,38 @@
       </div>
       <p>Um handoff ruim transfere texto demais e contexto útil de menos. Um handoff bom cabe em poucos campos e mantém o trabalho andando.</p>
 
+      <h2>Scorecards de adoção por caso corporativo</h2>
+      <p>Os estudos de caso ficam mais úteis quando viram decisão prática. Em vez de perguntar “multiagente parece sofisticado o bastante?”, pontue cada domínio com critérios operacionais simples. A regra é parecida com os capítulos 31 e 33: <strong>adote a topologia que melhora ownership, custo e governança ao mesmo tempo</strong>.</p>
+      <div class="tableish">
+        <div><strong>Caso corporativo</strong></div><div><strong>Quando a adoção está madura</strong></div><div><strong>Sinal de que ainda é cedo</strong></div><div><strong>Métrica de confirmação</strong></div>
+        <div>suporte interno e triagem</div><div>há categorias estáveis, owner por fila e handoff curto entre interface e domínio</div><div>o time ainda discute quem recebe o pedido depois da triagem</div><div>tempo até encaminhamento correto + retrabalho por ticket</div>
+        <div>SRE e incidentes</div><div>sentinela, investigador, executor e comunicador têm guardrails distintos</div><div>o mesmo agente investiga, executa e promete prazo para liderança</div><div>tempo até mitigação segura + incidentes causados por ação automatizada</div>
+        <div>finanças e showback</div><div>cada agente já nasce com owner funcional, centro de custo e faixa de budget</div><div>o gasto ainda sai como fatura única sem explicação por domínio</div><div>custo por fluxo útil + desvio quinzenal por squad</div>
+        <div>people ops e fluxos sensíveis</div><div>há separação explícita entre FAQ, solicitações administrativas e casos confidenciais</div><div>o time quer usar o mesmo agente e a mesma memória para tudo “porque é mais simples”</div><div>percentual de handoff humano em casos sensíveis + incidentes de exposição indevida</div>
+      </div>
+      <section class="recipe">
+        <h3>Receita — scorecard rápido por domínio</h3>
+        <ol class="steps">
+          <li>Dê nota de 1 a 5 para <strong>ownership</strong>: alguém sabe quem mantém, aprova e responde pelo fluxo?</li>
+          <li>Dê nota de 1 a 5 para <strong>custo legível</strong>: o gasto aparece por domínio, squad ou workflow útil?</li>
+          <li>Dê nota de 1 a 5 para <strong>governança</strong>: o agente tem limites claros de memória, tooling e aprovação?</li>
+          <li>Dê nota de 1 a 5 para <strong>handoff</strong>: a transferência preserva contexto sem despejar conversa crua?</li>
+          <li>Some as notas. Abaixo de 12, mantenha a topologia simples. Entre 12 e 16, piloto assistido. Acima de 16, a separação por agentes provavelmente já paga o próprio custo.</li>
+        </ol>
+      </section>
+      <div class="callout"><strong>Heurística de adoção:</strong> score alto sem ownership real costuma ser teatro organizacional. Se ninguém sabe quem mantém o fluxo, a topologia ainda está decorativa.</div>
+
+      <h2>Sinais de falha por topologia multiagente</h2>
+      <p>Nem toda falha aparece como erro técnico. Muitas surgem como <strong>atrito estrutural</strong>: custo que não fecha, fila que não anda, resposta que parece inteligente mas não move o trabalho. Cada topologia tende a quebrar de um jeito previsível.</p>
+      <div class="tableish">
+        <div><strong>Topologia</strong></div><div><strong>Sinal de falha</strong></div><div><strong>Leitura provável</strong></div><div><strong>Correção mais eficaz</strong></div>
+        <div>front-door + especialistas de domínio</div><div>triagem vira gargalo e usuários repetem dados a cada transferência</div><div>classificação ampla demais ou contrato de handoff inconsistente</div><div>reduzir taxonomia de entrada e padronizar resumo mínimo com origem, impacto e próxima ação</div>
+        <div>sentinela + investigador + executor + comunicador</div><div>o incidente anda, mas ninguém confia no status publicado</div><div>papel do comunicador foi acoplado ao investigador ou ao executor cedo demais</div><div>separar evidência confirmada de hipótese e exigir fonte da verdade explícita para cada update</div>
+        <div>analista de budget + guardião de policy + relator executivo</div><div>showback existe, mas não muda comportamento de nenhum squad</div><div>há relatório sem alavanca operacional: ninguém controla tier, memória ou workflow</div><div>ligar cada desvio de custo a um owner técnico e a uma ação quinzenal concreta</div>
+        <div>FAQ + operador administrativo + handoff humano em people ops</div><div>casos sensíveis somem em canais paralelos ou fora da trilha de auditoria</div><div>o agente virou filtro burocrático em vez de reduzir exposição com clareza</div><div>encurtar caminho para humano, registrar só metadata mínima e restringir memória compartilhada</div>
+      </div>
+      <p>Esse quadro conversa diretamente com o capítulo 34: a topologia certa não é a mais “agentic”, e sim a que falha de modo visível e corrigível. Quando a falha fica invisível, a pilha inteira começa a parecer mais madura do que realmente é.</p>
+
       <h2>Checklist de desenho por domínio</h2>
       <section class="recipe">
         <h3>Checklist — antes de criar mais um agente</h3>
@@ -241,6 +274,7 @@
       </section>
 
       <h2>Métricas que mostram se a topologia está boa</h2>
+      <p>As métricas abaixo funcionam melhor quando lidas em conjunto com o scorecard anterior: o capítulo 31 ajuda a interpretar ownership e handoff, e o capítulo 33 ajuda a não confundir volume com eficiência financeira.</p>
       <div class="tableish">
         <div><strong>Métrica</strong></div><div><strong>Leitura útil</strong></div>
         <div>tempo até encaminhamento correto</div><div>mede se a porta de entrada classifica bem e coleta contexto suficiente</div>
