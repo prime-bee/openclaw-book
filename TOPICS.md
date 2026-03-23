@@ -373,6 +373,8 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - separação entre investigador, executor e comunicador em incidentes
 - finanças, showback e ownership por domínio
 - people ops, fluxos sensíveis e retenção mínima
+- scorecards de adoção por caso corporativo
+- sinais de falha por topologia multiagente
 - métricas para validar a topologia multiagente
 - critérios para não fragmentar demais
 
