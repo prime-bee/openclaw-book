@@ -356,10 +356,14 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - comparação por forma de operação
 - OpenClaw vs stacks centradas em código
 - OpenClaw vs stacks centradas em RAG
+- comparativo operacional nominal entre OpenClaw, LangGraph, n8n e AutoGen
+- critérios de adoção por estágio de maturidade
 - encaixe por perfil de time
 - governança, ownership e custo de coordenação
+- risco de lock-in comercial e lock-in arquitetural
 - custo previsível por domínio ao comparar stacks
 - scorecard pragmático de decisão
+- piloto comparativo de 10 dias úteis
 - composição em camadas
 
 ### 35. Estudos de caso corporativos multiagente
