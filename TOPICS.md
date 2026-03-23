@@ -347,6 +347,10 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - portfólio de agentes por domínio
 - ownership financeiro e budget por fluxo
 - SLOs de custo e review quinzenal
+- baseline quantitativo por fluxo e por 100 interações
+- exemplo prático de showback → chargeback com retrabalho humano
+- guardrails de custo por fluxo (triagem, troubleshooting, reporting, incidentes)
+- cenários de revisão mensal em produção com classificação de desvios
 
 ### 34. Comparando frameworks e stacks agentic
 - comparação por forma de operação
