@@ -315,10 +315,110 @@ Custo esperado: baixo a médio</code></pre>
         <li><strong>Escalada para humano disparou:</strong> transforme isso em benchmark de autonomia segura.</li>
       </ul>
 
+      <h3>Transformando anomalias reais em casos versionados de eval</h3>
+      <p>O salto de maturidade acontece quando a anomalia deixa de ser comentário solto no postmortem e vira artefato versionado. Em vez de registrar apenas “ontem o agente ficou caro e lento”, capture o caso como uma unidade que pode ser reexecutada antes de todo merge, deploy ou troca de modelo.</p>
+      <p>Esse processo fica melhor quando cada caso carrega quatro campos obrigatórios: <strong>severidade</strong>, <strong>owner</strong>, <strong>origem operacional</strong> e <strong>critério explícito de aprovação</strong>. Sem isso, a suite cresce, mas continua ambígua: ninguém sabe o que bloquear, quem corrige, nem o que significa “passar”.</p>
+
+      <div class="tableish">
+        <div><strong>Campo</strong></div>
+        <div><strong>Função no caso</strong></div>
+        <div><strong>Exemplo prático</strong></div>
+
+        <div>severity</div>
+        <div>define peso operacional e se o caso bloqueia promoção</div>
+        <div>sev1 para ação indevida; sev3 para verbosidade excessiva</div>
+
+        <div>owner</div>
+        <div>define quem responde quando o caso volta a falhar</div>
+        <div>plataforma, automação, suporte, segurança</div>
+
+        <div>source</div>
+        <div>liga o eval ao incidente, alerta ou trace real que originou o caso</div>
+        <div>alerta de P95, ticket interno, trace caro, incidente semanal</div>
+
+        <div>approval</div>
+        <div>transforma “pareceu bom” em regra objetiva de promoção</div>
+        <div>passa se resumir em 6 bullets, sem tool extra, P95 &lt; 12s</div>
+      </div>
+
+      <section class="recipe">
+        <h3>Receita — pipeline para promover anomalia de produção a regressão permanente</h3>
+        <ol class="steps">
+          <li><strong>Recorte o incidente.</strong> Extraia a menor combinação de input, contexto e sinais que reproduz a falha sem carregar ruído irrelevante.</li>
+          <li><strong>Anonimize e congele o caso.</strong> Remova dados sensíveis, estabilize nomes e preserve só o contexto necessário para repetir o comportamento.</li>
+          <li><strong>Classifique a severidade.</strong> Pergunte se a falha afeta segurança, custo, SLA, governança ou apenas ergonomia.</li>
+          <li><strong>Atribua ownership.</strong> Cada caso precisa de owner explícito para evitar suite órfã.</li>
+          <li><strong>Defina o gate de aprovação.</strong> Escreva exatamente o que o candidato precisa fazer para o caso ser considerado aceitável.</li>
+          <li><strong>Versione junto da suite.</strong> O caso deve entrar no mesmo fluxo de revisão, baseline e comparação do restante dos evals.</li>
+        </ol>
+      </section>
+
+      <h3>Exemplo concreto de caso versionado</h3>
+      <pre><code>id: eval-prod-triagem-gateway-timeout-007
+version: 1
+severity: sev2
+owner: plataforma-openclaw
+source:
+  type: trace-anomaly
+  ref: trace_2026_03_18_gateway_timeout_spike
+  symptom: P95 de triagem subiu de 8s para 23s com retries extras
+input:
+  channel: telegram
+  task_type: triagem-suporte
+  prompt: |
+    Recebi timeout intermitente ao parear node no app iOS.
+    Logs do gateway mostram retries e bootstrap token expirado.
+expected:
+  must_include:
+    - hipótese principal sobre bootstrap token expirado ou inválido
+    - comando válido ou passo de confirmação compatível com OpenClaw
+    - pedido de dado faltante apenas se realmente necessário
+  must_not:
+    - inventar comando inexistente
+    - sugerir reset destrutivo como primeiro passo
+budget:
+  max_tool_calls: 2
+  max_latency_s: 12
+  max_cost_usd: 0.03
+approval:
+  rule: bloqueia promoção se falhar
+  pass_if:
+    - resposta identifica a hipótese dominante
+    - resposta propõe próximo passo acionável
+    - resposta fica dentro do orçamento operacional</code></pre>
+      <p>Esse formato reduz discussão subjetiva porque conecta linguagem humana a limite operacional. O caso não diz apenas “resposta boa”; ele diz <em>o que precisa aparecer</em>, <em>o que não pode acontecer</em> e <em>qual orçamento operacional continua aceitável</em>.</p>
+
+      <div class="callout">
+        <strong>Heurística útil:</strong> incidentes de <em>sev1</em> e <em>sev2</em> quase sempre deveriam virar casos <em>must-pass</em>. Incidentes de <em>sev3</em> podem entrar como importantes ou exploratórios, dependendo do impacto em custo, UX ou retrabalho humano.</div>
+
+      <h3>Como ligar severidade à decisão de promoção</h3>
+      <div class="tableish">
+        <div><strong>Severidade do caso</strong></div>
+        <div><strong>Leitura operacional</strong></div>
+        <div><strong>Tratamento recomendado</strong></div>
+
+        <div>sev1</div>
+        <div>risco de segurança, governança ou ação indevida grave</div>
+        <div>must-pass; qualquer falha bloqueia merge e deploy</div>
+
+        <div>sev2</div>
+        <div>impacto relevante em SLA, custo ou autonomia segura</div>
+        <div>must-pass em fluxos críticos; pode exigir canary obrigatório</div>
+
+        <div>sev3</div>
+        <div>degradação moderada com retrabalho administrável</div>
+        <div>pesa contra promoção, mas pode permitir rollout seletivo</div>
+
+        <div>sev4</div>
+        <div>ergonomia, estilo, excesso de verbosidade ou pequenos desperdícios</div>
+        <div>não bloqueia sozinho; serve para priorizar refino</div>
+      </div>
+
       <div class="diagram">
         <h3>ASCII — produção alimentando evals</h3>
         <pre><code>produção -> métricas/traces -> hipótese de regressão
-         -> novo caso de eval -> correção -> benchmark -> deploy</code></pre>
+         -> novo caso versionado -> baseline vs candidato -> decisão
+         -> deploy/canary -> observabilidade -> suite mais forte</code></pre>
       </div>
 
       <h2>Playbook de evals contínuos</h2>
