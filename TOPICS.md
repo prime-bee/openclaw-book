@@ -192,6 +192,9 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - taxonomia de spans e atributos críticos para incidentes
 - scorecards operacionais diários e reviews semanais
 - integração entre telemetria de produção e loop de evals
+- FinOps observável com custo por trace, task type e burn rate
+- alertas compostos ligando custo, latência, retries e quality flags
+- troubleshooting de sessões caras com foco em contexto, tools e delegação
 
 ### 20. HITL e governança
 - human-in-the-loop
