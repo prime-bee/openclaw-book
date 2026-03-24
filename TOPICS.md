@@ -310,6 +310,11 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - aprovações legíveis
 - confiança operacional
 - anti-padrões de conversa
+- modelo operacional de estados visíveis na conversa
+- comunicação de canary com escopo, métricas e gatilhos explícitos
+- comunicação de rollback com baseline, sinal disparador e hipótese separada de fato
+- matriz de linguagem por nível de risco
+- troubleshooting de confiança e atrito em updates, aprovações e incidentes
 
 ### 31. OpenClaw para times e colaboração
 - assistente de squad
