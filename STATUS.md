@@ -1,6 +1,6 @@
 # STATUS
 
-- Rodada: 2026-03-24 00:02 America/New_York
-- O que foi feito: expansão do capítulo `33-custos-em-producao-e-planejamento.html` com exemplos quantitativos de showback/chargeback por squad, budget base por domínio, percentual premium, custo ajustado por tarefa e uma tabela diagnóstica para diferenciar subalocação, excesso de contexto e budgets mal calibrados.
-- Arquivos alterados: `chapters/33-custos-em-producao-e-planejamento.html`, `TOPICS.md`, `STATUS.md`
-- Próximo passo sugerido: aprofundar o capítulo 19 com uma seção de FinOps observável ligando métricas de custo, traces e alertas operacionais para fechar melhor o ciclo observabilidade → evals → custos.
+- Rodada: 2026-03-24 06:02 America/New_York
+- O que foi feito: expansão do capítulo `19-observabilidade-e-monitoramento.html` com uma seção nova de FinOps observável, cobrindo custo por trace/sessão, sinais compostos entre custo e latência, burn rate operacional, alerta composto acionável, playbook para triagem de sessões caras e troubleshooting de custo inflado com telemetria.
+- Arquivos alterados: `chapters/19-observabilidade-e-monitoramento.html`, `TOPICS.md`, `STATUS.md`
+- Próximo passo sugerido: aprofundar o capítulo 29 com um bloco prático mostrando como transformar anomalias reais de produção em casos de eval versionados com severidade, owner e critério explícito de aprovação.

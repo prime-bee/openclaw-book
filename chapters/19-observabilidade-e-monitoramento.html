@@ -318,6 +318,121 @@ Ação recomendada: revisar sessions longas com tool.exec + contexto acima de 8k
 
 <div class="callout"><strong>Sinal maduro de operação:</strong> suas piores sessões não morrem no log. Elas reaparecem como benchmark, alerta, checklist de rollout ou ajuste explícito de política.</div>
 
+<h2>FinOps observável: custo rastreável por trace, fila e squad</h2>
+
+<p>O capítulo 33 aprofunda orçamento, showback e planejamento. Aqui o foco é outro: <strong>como fazer o custo aparecer no mesmo mapa operacional em que você já enxerga latência, retries e falhas</strong>. Se o operador precisa abrir três sistemas diferentes para responder por que uma automação ficou cara, sua observabilidade ainda não fechou o ciclo.</p>
+
+<div class="callout"><strong>Princípio útil:</strong> custo vira sinal operacional quando ele pode ser explicado por <em>trace</em>, por tipo de tarefa e por mudança recente. Sem essa correlação, gasto só aparece como surpresa contábil no fim do dia.</div>
+
+<h3>O que medir em cada sessão para explicar custo de verdade</h3>
+
+<div class="tableish">
+  <div><strong>Camada</strong></div><div><strong>Campo sugerido</strong></div><div><strong>Uso operacional</strong></div><div><strong>Pergunta que responde</strong></div>
+  <div>Sessão</div><div><code>cost.usd_total</code>, <code>tokens.total</code>, <code>task.type</code></div><div>baseline por fluxo</div><div>quanto custa concluir uma triagem, pesquisa ou automação?</div>
+  <div>Modelo</div><div><code>model.name</code>, <code>cost.usd_input</code>, <code>cost.usd_output</code></div><div>comparar modelo caro vs barato</div><div>o aumento veio do LLM ou do restante do fluxo?</div>
+  <div>Ferramenta</div><div><code>tool.name</code>, <code>tool.retry_count</code>, <code>tool.duration_ms</code></div><div>detectar desperdício indireto</div><div>foi a tool lenta que empurrou mais contexto e mais custo?</div>
+  <div>Delegação</div><div><code>child_sessions</code>, <code>fanout.count</code></div><div>medir explosão de subagentes</div><div>o coordenador abriu trabalho demais para resolver uma tarefa simples?</div>
+  <div>Governança</div><div><code>approval.wait_ms</code>, <code>policy.block_count</code></div><div>separar custo útil de custo travado</div><div>estamos gastando para trabalhar ou para esperar aprovação?</div>
+</div>
+
+<p>Na prática, isso significa enriquecer o span raiz da sessão e os spans de <code>llm.generate</code> com custo estimado por chamada. Mesmo que seu provedor não devolva custo pronto, você ainda consegue estimar a partir de tokens e da tabela de preços vigente do modelo.</p>
+
+<pre><code>{
+  "trace_id": "trace_finops_2041",
+  "session_id": "sess_2041",
+  "task.type": "triagem_inbox",
+  "model.name": "gpt-5.4",
+  "tokens.input": 8420,
+  "tokens.output": 1160,
+  "cost.usd_input": 0.0210,
+  "cost.usd_output": 0.0104,
+  "cost.usd_tools": 0.0000,
+  "cost.usd_total": 0.0314,
+  "tool.retry_count": 2,
+  "context.tokens_estimate": 9100,
+  "status": "ok"
+}</code></pre>
+
+<p>Esse tipo de evento permite responder algo muito mais útil do que "gastamos mais ontem": você passa a responder <strong>qual fluxo encareceu, em que ponto do trace e com qual sintoma associado</strong>.</p>
+
+<h3>Sinais compostos: quando custo alto é sintoma, não causa</h3>
+
+<p>Um erro frequente de FinOps em agentes é tratar custo como variável isolada. Quase sempre ele é <em>efeito</em> de alguma outra degradação operacional. O padrão mais valioso é correlacionar custo com os outros sinais do capítulo:</p>
+
+<div class="tableish">
+  <div><strong>Sinal composto</strong></div><div><strong>Leitura provável</strong></div><div><strong>Ação recomendada</strong></div>
+  <div>custo ↑ + latência ↑ + contexto ↑</div><div>prompt inchado, memória excessiva ou recuperação ruim</div><div>enxugar contexto, revisar retrieval e resumir histórico antes de trocar de modelo</div>
+  <div>custo ↑ + retries ↑ + tool errors ↑</div><div>ferramenta frágil forçando reexecuções e chamadas extras ao LLM</div><div>corrigir tool, backoff e mensagens de erro antes de mexer em policy</div>
+  <div>custo ↑ + handoff ↑ + quality flags ↑</div><div>modelo não está resolvendo bem a tarefa e ainda gera retrabalho humano</div><div>revisar routing, prompt e golden set; comparar com fallback mais adequado</div>
+  <div>custo ↑ + approvals ↑ + throughput ↓</div><div>guardrail correto, mas desenhado de forma cara ou frequente demais</div><div>refinar tier de risco e thresholds para aprovação</div>
+  <div>custo estável + latência ↑ + erro estável</div><div>gargalo provavelmente está fora do modelo, como gateway, rede ou tool externa</div><div>investigar spans de ferramenta e fila, não o preço do LLM</div>
+</div>
+
+<div class="diagram"><h3>ASCII — custo como consequência observável</h3><pre><code>contexto ruim / tool lenta / delegação excessiva
+  -> mais tokens ou mais passos
+  -> latência cresce
+  -> custo por sessão útil sobe
+  -> scorecard aponta desvio
+  -> trace explica a causa</code></pre></div>
+
+<h3>Budget burn rate para operadores, não só para finanças</h3>
+
+<p>Times maduros não esperam o fechamento do dia para descobrir que algo saiu da curva. Um <strong>budget burn rate</strong> simples já ajuda a separar variação normal de incidente caro:</p>
+
+<div class="tableish">
+  <div><strong>Janela</strong></div><div><strong>Indicador</strong></div><div><strong>Exemplo</strong></div><div><strong>Interpretação</strong></div>
+  <div>1 hora</div><div>custo real / custo esperado</div><div>1,9x</div><div>pico recente; pode ser deploy ruim, fila atípica ou incidente localizado</div>
+  <div>6 horas</div><div>custo real / custo esperado</div><div>1,4x</div><div>desvio persistente; já merece investigação com traces e scorecard</div>
+  <div>24 horas</div><div>custo real / orçamento diário</div><div>82%</div><div>faixa de alerta; vale apertar routing e revisar tarefas premium</div>
+  <div>7 dias</div><div>custo real / baseline semanal</div><div>1,2x</div><div>mudança estrutural; atualizar baseline ou corrigir regressão sustentada</div>
+</div>
+
+<p>O operador não precisa de um sistema financeiro completo. Precisa de <strong>uma resposta rápida para saber se gasta mais porque entrega mais valor ou porque o sistema começou a se debater</strong>.</p>
+
+<h3>Exemplo de alerta composto para custo anômalo</h3>
+
+<pre><code>ALERTA: custo anômalo em triagem_inbox
+Janela: últimas 6h
+Burn rate: 1,7x do esperado
+Latência P95: +38%
+Retries de tool.web_fetch: +240%
+Contexto &gt; 8k tokens em 41% das sessões
+Hipótese inicial: recuperação excessiva + timeouts de fetch
+Ação imediata: revisar traces com tool.web_fetch e sessões acima de US$0.05</code></pre>
+
+<p>Repare que o alerta útil não diz só "custos subiram". Ele já traz <strong>o fluxo afetado, o sinal acompanhante e a primeira hipótese operacional</strong>. É isso que torna um alerta acionável.</p>
+
+<h3>Playbook rápido: triando sessão cara sem perder tempo</h3>
+
+<ol class="steps">
+  <li><strong>Filtre as top sessões por custo</strong> nas últimas 24 horas e agrupe por <code>task.type</code>.</li>
+  <li><strong>Separe custo útil de custo desperdiçado</strong>: sessão concluída com sucesso, sessão retrabalhada e sessão abortada não entram na mesma análise.</li>
+  <li><strong>Abra o trace completo</strong> da sessão mais cara de cada grupo.</li>
+  <li><strong>Procure o multiplicador principal</strong>: contexto inchado, delegação excessiva, retry em loop ou modelo premium em tarefa simples.</li>
+  <li><strong>Converta a descoberta em regra</strong>: routing melhor, limite de fan-out, resumo automático, fallback mais barato ou novo eval.</li>
+</ol>
+
+<div class="recipe">
+<h3>Checklist de FinOps observável</h3>
+<ol class="steps">
+  <li>Registrar custo estimado por sessão e por chamada de modelo.</li>
+  <li>Exibir custo ao lado de latência, retries e sucesso no mesmo scorecard.</li>
+  <li>Comparar sempre por <code>task.type</code>, nunca apenas pelo agregado diário.</li>
+  <li>Alertar por <em>burn rate</em> e não só por orçamento total consumido.</li>
+  <li>Promover para eval qualquer padrão caro que também piore qualidade ou confiabilidade.</li>
+</ol>
+</div>
+
+<h3>Troubleshooting de custo inflado com telemetria</h3>
+
+<div class="tableish">
+  <div><strong>Sintoma</strong></div><div><strong>Onde olhar primeiro</strong></div><div><strong>Causa comum</strong></div><div><strong>Correção típica</strong></div>
+  <div>sessões ficaram 2x mais caras sem mais volume</div><div>spans de <code>llm.generate</code></div><div>mudança de modelo ou prompt com contexto maior</div><div>comparar rollout, restaurar baseline ou criar tiering melhor</div>
+  <div>custo cresce só em tarefas com browser/web</div><div>spans <code>tool.web_fetch</code> e <code>tool.browser</code></div><div>retries, waits ruins ou páginas longas demais</div><div>ajustar timeout, seletor, cache e resumo intermediário</div>
+  <div>custo explode em sessões delegadas</div><div><code>agent.delegate</code> + <code>fanout.count</code></div><div>subagentes demais para tarefas pequenas</div><div>limitar delegação e endurecer critérios de spawn</div>
+  <div>orçamento diário estoura mesmo com erro alto</div><div>sessões abortadas e retries</div><div>o sistema está gastando para falhar</div><div>consertar confiabilidade antes de ampliar throughput</div>
+</div>
+
 <h3>Armazenando traces no workspace para auditoria</h3>
 
 <p>Uma abordagem leve e sem infraestrutura adicional: armazene traces como arquivos JSON no workspace.</p>
@@ -460,4 +575,4 @@ Atenção: [itens que merecem revisão]</code></pre></li>
 
 <div class="exercise"><strong>Exercício 4 — Auditoria de incidente:</strong> Simule um incidente: force um erro em uma ferramenta, deixe o agente tentar resolver, e então use apenas os logs produzidos para reconstruir o que aconteceu. Consegue responder: quando começou? quantas tentativas? como terminou? Essa capacidade é o objetivo final da observabilidade.</div>
 
-<div class="refs"><h3>Referências</h3><ul><li><a href="https://docs.openclaw.ai/gateway/troubleshooting" target="_blank" rel="noopener noreferrer">Gateway troubleshooting</a></li><li><a href="https://opentelemetry.io/docs/" target="_blank" rel="noopener noreferrer">OpenTelemetry Documentation</a></li><li><a href="https://docs.anthropic.com/en/docs/build-with-claude/agents" target="_blank" rel="noopener noreferrer">Anthropic: Building Agents</a></li></ul><p class="muted">Ver também: Capítulo 7 (quotas e consumo de tokens), Capítulo 8 (multi-agent e rastreabilidade), Capítulo 10 (segurança e auditoria), Capítulo 13 (troubleshooting e diagnóstico).</p></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="18-engenharia-de-prompts.html">← 18. Engenharia de prompts</a></div><div class="card"><a href="../reading-paths.html">Trilhas de leitura</a></div><div class="card"><a href="20-hitl-e-governanca.html">20. HITL e Governança →</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="18-engenharia-de-prompts.html">← Capítulo 18: Engenharia de prompts</a><a class="pager-link pager-center" href="../reading-paths.html">Trilhas de leitura</a><a class="pager-link" href="20-hitl-e-governanca.html">Capítulo 20: HITL e Governança →</a></nav><div class="footer">Continue em <a href="20-hitl-e-governanca.html">HITL e Governança</a>.</div></main></div></body></html>
+<div class="refs"><h3>Referências</h3><ul><li><a href="https://docs.openclaw.ai/gateway/troubleshooting" target="_blank" rel="noopener noreferrer">Gateway troubleshooting</a></li><li><a href="https://opentelemetry.io/docs/" target="_blank" rel="noopener noreferrer">OpenTelemetry Documentation</a></li><li><a href="https://opentelemetry.io/docs/specs/semconv/gen-ai/" target="_blank" rel="noopener noreferrer">OpenTelemetry Semantic Conventions for Generative AI</a></li><li><a href="https://docs.anthropic.com/en/docs/build-with-claude/agents" target="_blank" rel="noopener noreferrer">Anthropic: Building Agents</a></li></ul><p class="muted">Ver também: Capítulo 7 (quotas e consumo de tokens), Capítulo 8 (multi-agent e rastreabilidade), Capítulo 10 (segurança e auditoria), Capítulo 13 (troubleshooting e diagnóstico), Capítulo 29 (evals e benchmarking) e Capítulo 33 (custos em produção e planejamento).</p></div><div class="diagram"><h3>Navegação rápida</h3><div class="grid"><div class="card"><a href="18-engenharia-de-prompts.html">← 18. Engenharia de prompts</a></div><div class="card"><a href="../reading-paths.html">Trilhas de leitura</a></div><div class="card"><a href="20-hitl-e-governanca.html">20. HITL e Governança →</a></div></div></div><nav class="chapter-pager" aria-label="Navegação entre capítulos"><a class="pager-link" href="18-engenharia-de-prompts.html">← Capítulo 18: Engenharia de prompts</a><a class="pager-link pager-center" href="../reading-paths.html">Trilhas de leitura</a><a class="pager-link" href="20-hitl-e-governanca.html">Capítulo 20: HITL e Governança →</a></nav><div class="footer">Continue em <a href="20-hitl-e-governanca.html">HITL e Governança</a>.</div></main></div></body></html>
