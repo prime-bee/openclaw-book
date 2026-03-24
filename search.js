@@ -9,7 +9,7 @@ const SEARCH_INDEX = [
   { title: '3. Gateway', path: 'chapters/03-gateway.html', text: 'gateway status logs service auth bind porta restart doctor' },
   { title: '4. CLI', path: 'chapters/04-cli.html', text: 'cli comandos status health logs gateway channels models sessions agent memory' },
   { title: '5. Memória e workspace', path: 'chapters/05-memoria-e-workspace.html', text: 'memory workspace markdown MEMORY md diário long term search get arquivos bootstrap' },
-  { title: '6. Canais e operação', path: 'chapters/06-canais-e-rotina.html', text: 'telegram whatsapp discord slack signal channels groups rotina uso mention allowlist' },
+  { title: '6. Canais e rotina', path: 'chapters/06-canais-e-rotina.html', text: 'telegram whatsapp discord slack signal channels groups rotina uso mention allowlist' },
   { title: '7. Modelos e provedores', path: 'chapters/07-modelos-e-provedores.html', text: 'models providers fallbacks image model allowlist model status selection auth' },
   { title: '8. Multi-agent e roteamento', path: 'chapters/08-multi-agent-e-roteamento.html', text: 'multi-agent bindings routing workspace agentdir auth sessions isolation' },
   { title: '9. Automação', path: 'chapters/09-automacoes-cron-e-heartbeat.html', text: 'cron heartbeat scheduler reminder isolated session wake delivery' },
