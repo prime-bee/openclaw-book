@@ -298,6 +298,8 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - playbook de evals contínuos (pré-merge, pré-deploy, canary, revisão semanal e mensal)
 - desenho de golden set por tipo de tarefa
 - critérios explícitos de aprovação, promoção parcial e rollback
+- transformação de anomalias reais em casos versionados com severity, owner e gate de aprovação
+- heurística para ligar severidade do incidente à decisão de merge, canary ou rollback
 - vanity metrics e como evitá-las
 - estrutura simples de workspace para suites de eval
 - troubleshooting de benchmarks
