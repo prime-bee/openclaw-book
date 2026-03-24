@@ -348,6 +348,8 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - ownership financeiro e budget por fluxo
 - SLOs de custo e review quinzenal
 - baseline quantitativo por fluxo e por 100 interações
+- exemplo quantitativo com custo por tarefa, percentual premium e alocação mensal por squad
+- sinais diagnósticos para distinguir subalocação, excesso de contexto e budgets mal calibrados
 - exemplo prático de showback → chargeback com retrabalho humano
 - guardrails de custo por fluxo (triagem, troubleshooting, reporting, incidentes)
 - cenários de revisão mensal em produção com classificação de desvios
