@@ -346,7 +346,13 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - confirmações para ações sensíveis
 - playbooks de UX falada por tipo de tarefa
 - orçamentos de latência por fluxo (casual, operacional e sensível)
+- budgets por ambiente (carro, escritório aberto, casa e rede móvel)
+- playbooks concretos por ambiente com objetivo, formato, budget e canal de confirmação
+- matriz rápida do que falar agora, mandar em texto e bloquear em voz
 - escada de confirmação por classe de risco
+- exemplos curtos de confirmação por classes 0, 1, 2 e 3
+- playbook de fallback por causa raiz (ASR, privacidade, conectividade e densidade)
+- frases de fallback para migração natural entre voz e texto
 - evento mínimo de observabilidade por turno de voz
 - troubleshooting de ambientes reais (carro, escritório, casa e rede móvel)
 
