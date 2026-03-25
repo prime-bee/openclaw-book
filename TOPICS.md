@@ -327,6 +327,9 @@ Sempre que um capítulo novo for criado, renomeado ou expandido de forma relevan
 - playbooks corporativos de intake, escalonamento e pós-incidente
 - intake por canal (DM, squad, incidente, fila assíncrona)
 - template curto de escalonamento com contexto, estado e owner esperado
+- exemplos curtos de mensagens por canal para DM, squad, incidente e ticket
+- contrato mínimo de handoff entre times com campos essenciais para transferência
+- matriz rápida de ownership por decisão (prompt, tools, modelo, memória e autonomia)
 - exemplos concretos de fronteiras entre produto, plataforma, finops, suporte e segurança
 - anti-padrões de colaboração entre squads
 - RACI mínimo para adoção saudável
